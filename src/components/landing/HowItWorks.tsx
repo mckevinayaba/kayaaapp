@@ -1,24 +1,24 @@
 const CARDS = [
   {
+    n: "01",
     icon: "📍",
-    label: "DISCOVER",
     title: "Find what's happening nearby",
     body:
       "See which local places are open, busy, or hosting something today. Real places. Real people. Your area.",
   },
   {
+    n: "02",
     icon: "✅",
-    label: "CHECK IN",
     title: "Check in where you belong",
     body:
-      "Walk in. Tap check in. Build your regulars identity over time. No payment needed. No booking required.",
+      "Walk in. Tap check in. No booking, no payment, no friction. Just you and the place.",
   },
   {
+    n: "03",
     icon: "🏡",
-    label: "BELONG",
-    title: "Become a neighbourhood regular",
+    title: "Become a regular",
     body:
-      "The more you check in, the more your local places know you. Earn your Regular status. Unlock regulars-only posts.",
+      "The more you check in, the more your places know you. Earn your status. Unlock what's only for regulars.",
   },
 ];
 
@@ -26,108 +26,105 @@ export function HowItWorks() {
   return (
     <section
       style={{
-        background: "var(--card-kayaa)",
-        borderTop: "1px solid var(--border-kayaa)",
-        borderBottom: "1px solid var(--border-kayaa)",
-        padding: "100px 24px",
+        background: "#0D1117",
+        padding: "100px 6%",
+        textAlign: "center",
       }}
     >
       <style>{`
+        .kayaa-hiw-card { transition: all 0.2s ease; }
+        .kayaa-hiw-card:hover {
+          border-color: #39D98A !important;
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
         .kayaa-hiw-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 20px;
+          max-width: 900px;
+          margin: 0 auto;
         }
         @media (max-width: 768px) {
           .kayaa-hiw-grid { grid-template-columns: 1fr; }
         }
-        .kayaa-hiw-card { transition: all 0.2s ease; }
-        .kayaa-hiw-card:hover {
-          border-color: var(--green) !important;
-          box-shadow: 0 0 30px rgba(57,217,138,0.08);
-          transform: translateY(-4px);
-        }
       `}</style>
-      <div style={{ maxWidth: 960, margin: "0 auto" }}>
-        <div style={{ textAlign: "center" }}>
-          <div
-            className="reveal"
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 11,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--green)",
-              marginBottom: 16,
-            }}
-          >
-            HOW IT WORKS
-          </div>
-          <h2
-            className="reveal"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "clamp(28px, 3.5vw, 44px)",
-              color: "#FFFFFF",
-              marginBottom: 64,
-            }}
-          >
-            Three things. That's it.
-          </h2>
-        </div>
 
-        <div className="kayaa-hiw-grid">
-          {CARDS.map((c, i) => (
+      <p
+        className="reveal"
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 11,
+          color: "#39D98A",
+          textTransform: "uppercase",
+          letterSpacing: "0.14em",
+          margin: "0 0 16px",
+        }}
+      >
+        How kayaa works
+      </p>
+      <h2
+        className="reveal"
+        style={{
+          fontFamily: "var(--font-display)",
+          fontWeight: 700,
+          fontSize: "clamp(28px, 3.5vw, 44px)",
+          color: "#FFFFFF",
+          margin: "0 0 64px",
+        }}
+      >
+        Three things. That's it.
+      </h2>
+
+      <div className="kayaa-hiw-grid">
+        {CARDS.map((c, i) => (
+          <div
+            key={c.n}
+            className={`kayaa-hiw-card reveal reveal-delay-${i + 1}`}
+            style={{
+              background: "#161B22",
+              border: "1px solid #21262D",
+              borderRadius: 12,
+              padding: "36px 28px",
+              textAlign: "left",
+            }}
+          >
             <div
-              key={c.label}
-              className="kayaa-hiw-card reveal"
               style={{
-                background: "var(--midnight)",
-                border: "1px solid var(--border-kayaa)",
-                borderRadius: 12,
-                padding: "32px 28px",
-                transitionDelay: `${i * 0.1}s`,
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                color: "#39D98A",
+                marginBottom: 20,
+                letterSpacing: "0.14em",
               }}
             >
-              <div style={{ fontSize: 40, marginBottom: 20 }}>{c.icon}</div>
-              <div
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: 11,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "var(--green)",
-                  marginBottom: 8,
-                }}
-              >
-                {c.label}
-              </div>
-              <div
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 700,
-                  fontSize: 20,
-                  color: "#FFFFFF",
-                  marginBottom: 12,
-                }}
-              >
-                {c.title}
-              </div>
-              <p
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontWeight: 400,
-                  fontSize: 15,
-                  color: "var(--muted-kayaa)",
-                  lineHeight: 1.6,
-                }}
-              >
-                {c.body}
-              </p>
+              {c.n}
             </div>
-          ))}
-        </div>
+            <div style={{ fontSize: 40, lineHeight: 1 }}>{c.icon}</div>
+            <h3
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                fontSize: 20,
+                color: "#FFFFFF",
+                margin: "12px 0 10px",
+              }}
+            >
+              {c.title}
+            </h3>
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: 15,
+                color: "#6B7280",
+                lineHeight: 1.6,
+                margin: 0,
+              }}
+            >
+              {c.body}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, type CSSProperties } from "react";
+import { useEffect, useState, useCallback, useRef, type CSSProperties } from "react";
 import { useNavigate } from "@tanstack/react-router";
 
 type Slide = {
@@ -458,28 +458,41 @@ export function HeroCarousel() {
             zIndex: 10,
           }}
         >
-          <p style={{ ...labelStyle, marginBottom: 22 }}>
-            Your neighbourhood is next
-          </p>
-          <h2 style={headlineStyle({ maxWidth: 1000 })}>
-            Find your local places.
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 800,
+              fontSize: "clamp(44px, 7vw, 88px)",
+              lineHeight: 1.05,
+              color: "#FFFFFF",
+              margin: 0,
+              maxWidth: 1100,
+            }}
+          >
+            Every place that
             <br />
-            <span style={{ color: "#39D98A" }}>Become a regular.</span>
+            makes a neighbourhood.
+            <br />
+            <span style={{ color: "#39D98A" }}>One network.</span>
           </h2>
           <p
-            style={supportStyle({
-              marginTop: 26,
-              maxWidth: 560,
-            })}
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: 18,
+              color: "rgba(255,255,255,0.6)",
+              maxWidth: 500,
+              margin: "24px auto 0",
+              lineHeight: 1.6,
+            }}
           >
-            Or add your place and let your community find you. Built in
-            South Africa, for every neighbourhood.
+            Find your local places. Check in. Or add your place and let your
+            community find you.
           </p>
           <div
             style={{
               display: "flex",
-              gap: 14,
-              marginTop: 36,
+              gap: 16,
+              marginTop: 44,
               flexWrap: "wrap",
               justifyContent: "center",
             }}
@@ -491,10 +504,10 @@ export function HeroCarousel() {
                 background: "#39D98A",
                 color: "#0D1117",
                 fontFamily: "var(--font-body)",
-                fontWeight: 600,
-                fontSize: 15,
-                padding: "14px 30px",
-                borderRadius: 999,
+                fontWeight: 700,
+                fontSize: 16,
+                padding: "16px 36px",
+                borderRadius: 8,
                 border: "none",
                 cursor: "pointer",
                 boxShadow: "0 0 60px rgba(57,217,138,0.3)",
@@ -512,9 +525,9 @@ export function HeroCarousel() {
                 border: "1px solid rgba(255,255,255,0.3)",
                 fontFamily: "var(--font-body)",
                 fontWeight: 500,
-                fontSize: 15,
-                padding: "14px 30px",
-                borderRadius: 999,
+                fontSize: 16,
+                padding: "16px 36px",
+                borderRadius: 8,
                 cursor: "pointer",
                 transition: "all 0.2s ease",
               }}
@@ -522,6 +535,17 @@ export function HeroCarousel() {
               Add your place — free
             </button>
           </div>
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 10,
+              color: "rgba(255,255,255,0.3)",
+              letterSpacing: "0.18em",
+              marginTop: 20,
+            }}
+          >
+            JOHANNESBURG · SOUTH AFRICA
+          </p>
         </div>
       ),
     },
@@ -545,16 +569,37 @@ export function HeroCarousel() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") next();
       if (e.key === "ArrowLeft") prev();
+      if (e.code === "Space") {
+        e.preventDefault();
+        setPaused((p) => !p);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [next, prev]);
+
+  // touch / swipe
+  const touchStartX = useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 50) {
+      if (delta < 0) next();
+      else prev();
+    }
+    touchStartX.current = null;
+  };
 
   return (
     <section
       aria-label="kayaa story"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
       style={{
         width: "100vw",
         height: "100dvh",
@@ -566,9 +611,41 @@ export function HeroCarousel() {
       <style>{`
         .kayaa-cta-explore:hover { filter: brightness(1.1); transform: scale(1.02); }
         .kayaa-cta-add:hover { background: rgba(255,255,255,0.08) !important; border-color: #FFFFFF !important; }
-        .kayaa-arrow:hover { background: rgba(57,217,138,0.15) !important; border-color: #39D98A !important; color: #39D98A !important; }
+        .kayaa-arrow:hover { background: rgba(13,17,23,0.9) !important; border-color: rgba(57,217,138,0.5) !important; }
         .kayaa-dot { transition: all 0.3s ease; }
+        .kayaa-progress-fill { animation: kayaaProgress 5s linear forwards; }
+        .kayaa-progress-fill.kayaa-paused { animation-play-state: paused; }
+        @keyframes kayaaProgress {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
+        @media (max-width: 768px) {
+          .kayaa-arrow { display: none !important; }
+        }
       `}</style>
+
+      {/* Progress bar */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 2,
+          background: "rgba(255,255,255,0.1)",
+          zIndex: 50,
+        }}
+      >
+        <div
+          key={`${active}-${paused ? "p" : "r"}`}
+          className={`kayaa-progress-fill ${paused ? "kayaa-paused" : ""}`}
+          style={{
+            height: "100%",
+            background: "#39D98A",
+            width: 0,
+          }}
+        />
+      </div>
 
       {slides.map((s, i) => (
         <div
@@ -666,8 +743,8 @@ export function HeroCarousel() {
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
-          gap: 10,
-          zIndex: 20,
+          gap: 8,
+          zIndex: 50,
         }}
       >
         {slides.map((_, i) => (
@@ -677,13 +754,13 @@ export function HeroCarousel() {
             onClick={() => setActive(i)}
             className="kayaa-dot"
             style={{
-              width: i === active ? 28 : 8,
-              height: 8,
-              borderRadius: 999,
+              width: i === active ? 24 : 6,
+              height: 6,
+              borderRadius: i === active ? 999 : "50%",
               border: "none",
               cursor: "pointer",
               background:
-                i === active ? "#39D98A" : "rgba(255,255,255,0.3)",
+                i === active ? "#39D98A" : "rgba(255,255,255,0.25)",
               padding: 0,
             }}
           />
