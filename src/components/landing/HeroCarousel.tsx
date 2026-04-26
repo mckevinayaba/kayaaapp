@@ -98,8 +98,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "/landing/02-koses-general-dealer.jpg",
-      alt: "KOSES General Dealer, corner spaza shop in Alexandra",
+        "/landing/09-township-barbershop.jpg",
+      alt: "Bhuti's Barber — township barbershop in Alexandra",
       brightness: 0.7,
       contrast: 1.1,
       overlay:
