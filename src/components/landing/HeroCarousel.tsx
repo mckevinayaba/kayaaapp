@@ -622,6 +622,20 @@ export function HeroCarousel() {
         @media (max-width: 768px) {
           .kayaa-arrow { display: none !important; }
         }
+        /* Short-viewport safety: shrink hero typography & hide secondary copy
+           so progress bar (top), dots (bottom) and slide-number never collide. */
+        @media (max-height: 760px) {
+          .kayaa-hero h1, .kayaa-hero h2 {
+            font-size: clamp(28px, 4.2vw, 52px) !important;
+            line-height: 1.05 !important;
+          }
+          .kayaa-hero p[data-secondary="true"] { display: none !important; }
+        }
+        @media (max-height: 620px) {
+          .kayaa-hero h1, .kayaa-hero h2 {
+            font-size: clamp(24px, 3.8vw, 40px) !important;
+          }
+        }
       `}</style>
 
       {/* Progress bar */}
