@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 export function Nav() {
   const navigate = useNavigate();
@@ -34,8 +34,9 @@ export function Nav() {
         kayaa
       </a>
       <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-        <a
-          href="/auth"
+        <Link
+          to="/auth"
+          search={{ redirect: "/feed" } as never}
           className="kayaa-signin"
           style={{
             fontFamily: "var(--font-body)",
@@ -46,9 +47,9 @@ export function Nav() {
           }}
         >
           Sign in
-        </a>
+        </Link>
         <button
-          onClick={() => navigate({ to: "/add-place" as string as "/" })}
+          onClick={() => navigate({ to: "/auth", search: { redirect: "/feed" } as never })}
           className="kayaa-add-btn"
           style={{
             fontFamily: "var(--font-body)",
@@ -63,7 +64,7 @@ export function Nav() {
             transition: "all 0.2s",
           }}
         >
-          Add your place →
+          Check in →
         </button>
       </div>
       <style>{`

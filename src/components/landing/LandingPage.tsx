@@ -12,6 +12,7 @@ import { EditorialPhotoBreak } from "./EditorialPhotoBreak";
 import { PlacesGallery } from "./PlacesGallery";
 import { ValueStack } from "./ValueStack";
 import { SocialProof } from "./SocialProof";
+import { CheckInCTA } from "./CheckInCTA";
 
 export function LandingPage() {
   useScrollReveal();
@@ -19,6 +20,7 @@ export function LandingPage() {
     <div style={{ background: "#0D1117", minHeight: "100dvh", color: "#F0F6FC" }}>
       <Nav />
       <HeroCarousel />
+      <CheckInCTA />
       <TruthSection />
       <EditorialPhotoBreak />
       <HowItWorks />
