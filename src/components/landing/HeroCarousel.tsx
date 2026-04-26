@@ -498,7 +498,7 @@ export function HeroCarousel() {
             }}
           >
             <button
-              onClick={() => navigate({ to: "/feed" as string as "/" })}
+              onClick={() => navigate({ to: "/auth", search: { redirect: "/feed" } as never })}
               className="kayaa-cta-explore"
               style={{
                 background: "#39D98A",
@@ -514,7 +514,7 @@ export function HeroCarousel() {
                 transition: "all 0.2s ease",
               }}
             >
-              Find places near me →
+              Check in nearby →
             </button>
             <button
               onClick={() => navigate({ to: "/add-place" as string as "/" })}
