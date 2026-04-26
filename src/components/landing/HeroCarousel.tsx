@@ -61,8 +61,8 @@ export function HeroCarousel() {
   const slides: Slide[] = [
     {
       photo:
-        "https://images.unsplash.com/photo-1580048915913-4f8f5cb481c4?w=1920&q=80",
-      alt: "Township street life at dusk",
+        "https://images.unsplash.com/photo-1612825173281-9a193378527e?w=1920&q=80",
+      alt: "Soweto street life at dusk",
       brightness: 0.65,
       contrast: 1.2,
       overlay:
@@ -98,8 +98,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1920&q=80",
-      alt: "Barber working with clippers",
+        "https://images.unsplash.com/photo-1559762705-2123aa9b62cb?w=1920&q=80",
+      alt: "Township barbershop in Soweto",
       brightness: 0.6,
       contrast: 1.25,
       overlay:
@@ -148,8 +148,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&q=80",
-      alt: "Smoke from a braai grill",
+        "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=1920&q=80",
+      alt: "South African braai with friends",
       brightness: 0.55,
       contrast: 1.3,
       overlay:
@@ -221,8 +221,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80",
-      alt: "Car wash worker smiling",
+        "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=1920&q=80",
+      alt: "Township car wash on a Saturday",
       brightness: 0.65,
       contrast: 1.2,
       overlay:
@@ -289,8 +289,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=1920&q=80",
-      alt: "Inside a small corner shop",
+        "https://images.unsplash.com/photo-1604348849899-7c4f0c66c5f9?w=1920&q=80",
+      alt: "Inside a township corner spaza shop",
       brightness: 0.6,
       contrast: 1.15,
       overlay:
@@ -374,8 +374,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&q=80",
-      alt: "Hands braiding hair",
+        "https://images.unsplash.com/photo-1535086181678-5a5c4d23aa7c?w=1920&q=80",
+      alt: "Salon owner braiding a customer's hair",
       brightness: 0.65,
       contrast: 1.2,
       overlay:
@@ -439,8 +439,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1920&q=80",
-      alt: "People gathered outside a local shop",
+        "https://images.unsplash.com/photo-1524638431109-93d95c968f03?w=1920&q=80",
+      alt: "Township community gathered outside",
       brightness: 0.5,
       contrast: 1.1,
       overlay: "rgba(13,17,23,0.82)",
