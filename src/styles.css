@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -130,6 +131,40 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+/* ===== kayaa design system ===== */
+:root {
+  --midnight: #0D1117;
+  --card-kayaa: #161B22;
+  --border-kayaa: #21262D;
+  --green: #39D98A;
+  --green-glow: rgba(57, 217, 138, 0.12);
+  --warm-white: #F0F6FC;
+  --muted-kayaa: #6B7280;
+  --amber: #F59E0B;
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0px); }
+}
+@keyframes floatCard {
+  0%   { transform: translateY(0px) rotate(var(--rotate, 0deg)); }
+  50%  { transform: translateY(-16px) rotate(var(--rotate, 0deg)); }
+  100% { transform: translateY(0px) rotate(var(--rotate, 0deg)); }
+}
+@keyframes kayaaBounce {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
 }
 
 @layer base {
