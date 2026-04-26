@@ -44,6 +44,36 @@ export type Database = {
         }
         Relationships: []
       }
+      country_waitlist: {
+        Row: {
+          area: string
+          contact: string
+          contact_type: string | null
+          country_code: string | null
+          created_at: string
+          id: string
+          source: string | null
+        }
+        Insert: {
+          area: string
+          contact: string
+          contact_type?: string | null
+          country_code?: string | null
+          created_at?: string
+          id?: string
+          source?: string | null
+        }
+        Update: {
+          area?: string
+          contact?: string
+          contact_type?: string | null
+          country_code?: string | null
+          created_at?: string
+          id?: string
+          source?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
