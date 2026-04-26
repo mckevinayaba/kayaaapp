@@ -14,7 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      community_stories: {
+        Row: {
+          contact: string | null
+          created_at: string
+          id: string
+          place_name: string
+          place_type: string | null
+          source: string | null
+          story: string | null
+        }
+        Insert: {
+          contact?: string | null
+          created_at?: string
+          id?: string
+          place_name: string
+          place_type?: string | null
+          source?: string | null
+          story?: string | null
+        }
+        Update: {
+          contact?: string | null
+          created_at?: string
+          id?: string
+          place_name?: string
+          place_type?: string | null
+          source?: string | null
+          story?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
