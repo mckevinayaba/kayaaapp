@@ -458,28 +458,41 @@ export function HeroCarousel() {
             zIndex: 10,
           }}
         >
-          <p style={{ ...labelStyle, marginBottom: 22 }}>
-            Your neighbourhood is next
-          </p>
-          <h2 style={headlineStyle({ maxWidth: 1000 })}>
-            Find your local places.
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 800,
+              fontSize: "clamp(44px, 7vw, 88px)",
+              lineHeight: 1.05,
+              color: "#FFFFFF",
+              margin: 0,
+              maxWidth: 1100,
+            }}
+          >
+            Every place that
             <br />
-            <span style={{ color: "#39D98A" }}>Become a regular.</span>
+            makes a neighbourhood.
+            <br />
+            <span style={{ color: "#39D98A" }}>One network.</span>
           </h2>
           <p
-            style={supportStyle({
-              marginTop: 26,
-              maxWidth: 560,
-            })}
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: 18,
+              color: "rgba(255,255,255,0.6)",
+              maxWidth: 500,
+              margin: "24px auto 0",
+              lineHeight: 1.6,
+            }}
           >
-            Or add your place and let your community find you. Built in
-            South Africa, for every neighbourhood.
+            Find your local places. Check in. Or add your place and let your
+            community find you.
           </p>
           <div
             style={{
               display: "flex",
-              gap: 14,
-              marginTop: 36,
+              gap: 16,
+              marginTop: 44,
               flexWrap: "wrap",
               justifyContent: "center",
             }}
@@ -491,10 +504,10 @@ export function HeroCarousel() {
                 background: "#39D98A",
                 color: "#0D1117",
                 fontFamily: "var(--font-body)",
-                fontWeight: 600,
-                fontSize: 15,
-                padding: "14px 30px",
-                borderRadius: 999,
+                fontWeight: 700,
+                fontSize: 16,
+                padding: "16px 36px",
+                borderRadius: 8,
                 border: "none",
                 cursor: "pointer",
                 boxShadow: "0 0 60px rgba(57,217,138,0.3)",
@@ -512,9 +525,9 @@ export function HeroCarousel() {
                 border: "1px solid rgba(255,255,255,0.3)",
                 fontFamily: "var(--font-body)",
                 fontWeight: 500,
-                fontSize: 15,
-                padding: "14px 30px",
-                borderRadius: 999,
+                fontSize: 16,
+                padding: "16px 36px",
+                borderRadius: 8,
                 cursor: "pointer",
                 transition: "all 0.2s ease",
               }}
@@ -522,6 +535,17 @@ export function HeroCarousel() {
               Add your place — free
             </button>
           </div>
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 10,
+              color: "rgba(255,255,255,0.3)",
+              letterSpacing: "0.18em",
+              marginTop: 20,
+            }}
+          >
+            JOHANNESBURG · SOUTH AFRICA
+          </p>
         </div>
       ),
     },
