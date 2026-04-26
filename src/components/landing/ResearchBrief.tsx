@@ -2,95 +2,86 @@ import { useState } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 
-const storySchema = z.object({
-  place_name: z.string().trim().min(1, "Place name is required").max(200),
-  place_type: z.string().trim().max(200).optional().or(z.literal("")),
-  story: z.string().trim().max(4000).optional().or(z.literal("")),
-  contact: z.string().trim().max(200).optional().or(z.literal("")),
+const schema = z.object({
+  place_name: z.string().min(2, "Tell us the name").max(120),
+  place_type: z.string().max(80).optional(),
+  story: z.string().max(800).optional(),
+  contact: z.string().max(160).optional(),
 });
 
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  background: "var(--card-kayaa)",
-  border: "1px solid var(--border-kayaa)",
-  borderRadius: 8,
-  padding: "13px 16px",
-  color: "var(--warm-white)",
-  fontFamily: "var(--font-body)",
-  fontSize: 14,
-  outline: "none",
-  transition: "border-color 0.2s, box-shadow 0.2s",
-};
-
 export function ResearchBrief() {
-  const [form, setForm] = useState({ place_name: "", place_type: "", story: "", contact: "" });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
-  };
-
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrorMsg("");
-    const parsed = storySchema.safeParse(form);
+    setError(null);
+    const fd = new FormData(e.currentTarget);
+    const parsed = schema.safeParse({
+      place_name: String(fd.get("place_name") || ""),
+      place_type: String(fd.get("place_type") || ""),
+      story: String(fd.get("story") || ""),
+      contact: String(fd.get("contact") || ""),
+    });
     if (!parsed.success) {
-      setErrorMsg(parsed.error.issues[0]?.message ?? "Please check the form.");
-      setStatus("error");
+      setError(parsed.error.issues[0]?.message ?? "Please check the form");
       return;
     }
-    setStatus("loading");
-    const { error } = await supabase.from("community_stories").insert({
+    setSubmitting(true);
+    const { error: dbError } = await supabase.from("community_stories").insert({
       place_name: parsed.data.place_name,
       place_type: parsed.data.place_type || null,
       story: parsed.data.story || null,
       contact: parsed.data.contact || null,
       source: "landing_page",
     });
-    if (error) {
-      setErrorMsg("Something went wrong. Please try again.");
-      setStatus("error");
+    setSubmitting(false);
+    if (dbError) {
+      setError("Couldn't send right now. Try again.");
       return;
     }
-    setStatus("success");
+    setDone(true);
   };
 
   return (
     <section
-      className="kayaa-brief"
+      className="kayaa-story"
       style={{
-        background: "var(--midnight)",
+        background: "#0D1117",
+        padding: "100px 6%",
         position: "relative",
-        padding: "120px 24px",
         overflow: "hidden",
       }}
     >
       <style>{`
-        .kayaa-brief::before {
+        .kayaa-story::before {
           content: '';
           position: absolute;
           inset: 0;
+          background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+          background-size: 28px 28px;
           pointer-events: none;
           z-index: 0;
-          background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
-          background-size: 28px 28px;
         }
-        .kayaa-brief input:focus,
-        .kayaa-brief textarea:focus {
-          border-color: var(--green) !important;
-          box-shadow: 0 0 0 3px rgba(57,217,138,0.1);
+        .kayaa-story-input {
+          width: 100%;
+          background: #161B22;
+          border: 1px solid #21262D;
+          border-radius: 8px;
+          padding: 14px 16px;
+          font-family: var(--font-body);
+          font-size: 15px;
+          color: #F0F6FC;
+          outline: none;
+          transition: border-color 0.2s;
         }
-        .kayaa-brief input::placeholder,
-        .kayaa-brief textarea::placeholder {
-          color: var(--muted-kayaa);
-        }
-        .kayaa-brief-submit { transition: all 0.2s ease; }
-        .kayaa-brief-submit:not(:disabled):hover {
-          filter: brightness(1.08);
-          box-shadow: 0 0 44px rgba(57,217,138,0.28);
-          transform: translateY(-1px);
+        .kayaa-story-input:focus { border-color: #39D98A; }
+        .kayaa-story-input::placeholder { color: #4B5563; }
+        .kayaa-story-submit { transition: all 0.2s ease; }
+        .kayaa-story-submit:hover:not(:disabled) {
+          filter: brightness(1.1);
+          transform: scale(1.01);
         }
       `}</style>
 
@@ -103,39 +94,19 @@ export function ResearchBrief() {
           textAlign: "center",
         }}
       >
-        <div
+        <p
           className="reveal"
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-            marginBottom: 24,
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            color: "#39D98A",
+            textTransform: "uppercase",
+            letterSpacing: "0.14em",
+            margin: "0 0 24px",
           }}
         >
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "var(--green)",
-              boxShadow: "0 0 6px rgba(57,217,138,0.5)",
-              display: "inline-block",
-            }}
-          />
-          <span
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 10,
-              textTransform: "uppercase",
-              letterSpacing: "0.12em",
-              color: "var(--muted-kayaa)",
-            }}
-          >
-            kayaa · Community Research Brief 001
-          </span>
-        </div>
-
+          Your turn
+        </p>
         <h2
           className="reveal"
           style={{
@@ -144,228 +115,180 @@ export function ResearchBrief() {
             fontSize: "clamp(28px, 4vw, 50px)",
             color: "#FFFFFF",
             lineHeight: 1.15,
-            marginBottom: 24,
-            transitionDelay: "0.1s",
+            margin: "0 0 20px",
           }}
         >
-          What is that place in your area?
+          What is that place
+          <br />
+          in your area?
         </h2>
-
-        <div
+        <p
           className="reveal"
           style={{
             fontFamily: "var(--font-body)",
             fontSize: 17,
-            color: "var(--muted-kayaa)",
-            lineHeight: 1.9,
-            marginBottom: 52,
-            transitionDelay: "0.2s",
+            color: "#6B7280",
+            lineHeight: 1.7,
+            margin: "0 0 48px",
           }}
         >
-          <div>The one that keeps pulling people back.</div>
-          <div>The one that would hurt if it closed.</div>
-          <div>The one whose story deserves to be told.</div>
-        </div>
+          The one that keeps pulling people back. The one that would hurt if it
+          closed. Tell us. It deserves to be seen.
+        </p>
 
+        {/* Example card */}
         <div
-          className="reveal"
+          className="reveal reveal-delay-1"
           style={{
             textAlign: "left",
-            background: "var(--card-kayaa)",
-            border: "1px solid var(--border-kayaa)",
-            borderLeft: "3px solid var(--green)",
+            background: "#161B22",
+            border: "1px solid #21262D",
+            borderLeft: "3px solid #39D98A",
             borderRadius: 10,
             padding: "20px 24px",
-            marginBottom: 52,
-            transitionDelay: "0.3s",
+            marginBottom: 48,
           }}
         >
-          <div
+          <p
             style={{
               fontFamily: "var(--font-mono)",
               fontWeight: 700,
               fontSize: 11,
+              color: "#39D98A",
               textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              color: "var(--warm-white)",
+              letterSpacing: "0.14em",
+              margin: "0 0 10px",
             }}
           >
-            🚗 KWAMAHLANGU CAR WASH · Car wash · Alexandra
-          </div>
-          <div style={{ borderTop: "1px solid var(--border-kayaa)", margin: "12px 0" }} />
-          <div
+            Example · Tembisa
+          </p>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 700,
+              fontSize: 18,
+              color: "#FFFFFF",
+              margin: "0 0 6px",
+            }}
+          >
+            Sizwe Shisanyama
+          </p>
+          <p
             style={{
               fontFamily: "var(--font-body)",
               fontStyle: "italic",
               fontSize: 14,
-              color: "var(--muted-kayaa)",
-              lineHeight: 1.65,
+              color: "rgba(240,246,252,0.75)",
+              lineHeight: 1.6,
+              margin: 0,
             }}
           >
-            "Even now, people come for more than the wash. They come for the conversations, the connections, and the feeling of being part of something."
-          </div>
+            "Every celebration somehow ends there. Birthdays, payday Fridays,
+            funerals. The braai never stops."
+          </p>
         </div>
 
-        {status === "success" ? (
+        {done ? (
           <div
+            className="reveal reveal-delay-2"
             style={{
-              animation: "fadeInUp 0.4s ease",
+              background: "rgba(57,217,138,0.08)",
+              border: "1px solid rgba(57,217,138,0.3)",
+              borderRadius: 12,
+              padding: "32px 24px",
+              textAlign: "center",
             }}
           >
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                borderRadius: "50%",
-                background: "rgba(57,217,138,0.1)",
-                border: "1px solid rgba(57,217,138,0.3)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 22,
-                color: "var(--green)",
-                margin: "0 auto 20px",
-              }}
-            >
-              ✓
-            </div>
-            <h3
+            <div style={{ fontSize: 36, marginBottom: 12 }}>🙏</div>
+            <p
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
-                fontSize: 22,
+                fontSize: 20,
                 color: "#FFFFFF",
-                textAlign: "center",
-                marginBottom: 10,
+                margin: "0 0 8px",
               }}
             >
               Thank you.
-            </h3>
-            <p
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: 15,
-                color: "var(--muted-kayaa)",
-                textAlign: "center",
-                lineHeight: 1.6,
-              }}
-            >
-              This place is now part of the kayaa community archive.
             </p>
             <p
               style={{
                 fontFamily: "var(--font-body)",
-                fontSize: 12,
-                color: "var(--muted-kayaa)",
-                textAlign: "center",
-                marginTop: 8,
-                opacity: 0.7,
+                fontSize: 14,
+                color: "#6B7280",
+                margin: 0,
               }}
             >
-              These stories help us build kayaa for the places that matter most.
+              We'll add it to the brief. Every place counts.
             </p>
           </div>
         ) : (
-          <>
-            <div
-              className="reveal"
-              style={{
-                textAlign: "left",
-                fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                fontSize: 12,
-                color: "var(--warm-white)",
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: 14,
-                transitionDelay: "0.4s",
-              }}
-            >
-              Tell us yours:
-            </div>
-            <form
-              onSubmit={onSubmit}
-              className="reveal"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 12,
-                textAlign: "left",
-                transitionDelay: "0.5s",
-              }}
-            >
-              <input
-                type="text"
-                name="place_name"
-                placeholder="Place name"
-                required
-                maxLength={200}
-                value={form.place_name}
-                onChange={onChange}
-                style={inputStyle}
-              />
-              <input
-                type="text"
-                name="place_type"
-                placeholder="What kind of place is it? (barbershop, café, shisanyama...)"
-                maxLength={200}
-                value={form.place_type}
-                onChange={onChange}
-                style={inputStyle}
-              />
-              <textarea
-                name="story"
-                rows={4}
-                placeholder="One thing that makes it matter — a story, a memory, a detail you'd want people to know."
-                maxLength={4000}
-                value={form.story}
-                onChange={onChange}
-                style={{ ...inputStyle, resize: "vertical" }}
-              />
-              <input
-                type="text"
-                name="contact"
-                placeholder="Your WhatsApp or email (optional)"
-                maxLength={200}
-                value={form.contact}
-                onChange={onChange}
-                style={inputStyle}
-              />
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="kayaa-brief-submit"
+          <form
+            className="reveal reveal-delay-2"
+            onSubmit={onSubmit}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+              textAlign: "left",
+            }}
+          >
+            <input
+              name="place_name"
+              required
+              placeholder="Place name (e.g. Mama Zulu's Tuckshop)"
+              className="kayaa-story-input"
+            />
+            <input
+              name="place_type"
+              placeholder="What kind of place? (Tuckshop, Salon, Car wash...)"
+              className="kayaa-story-input"
+            />
+            <textarea
+              name="story"
+              rows={4}
+              placeholder="Why does it matter? What would the neighbourhood lose without it?"
+              className="kayaa-story-input"
+              style={{ resize: "vertical", fontFamily: "var(--font-body)" }}
+            />
+            <input
+              name="contact"
+              placeholder="Your name or contact (optional)"
+              className="kayaa-story-input"
+            />
+            {error && (
+              <p
                 style={{
-                  width: "100%",
-                  background: "var(--green)",
-                  color: "var(--midnight)",
                   fontFamily: "var(--font-body)",
-                  fontWeight: 600,
-                  fontSize: 15,
-                  padding: "14px 20px",
-                  borderRadius: 8,
-                  border: "none",
-                  cursor: status === "loading" ? "not-allowed" : "pointer",
-                  boxShadow: "0 0 30px rgba(57,217,138,0.15)",
-                  opacity: status === "loading" ? 0.7 : 1,
+                  fontSize: 13,
+                  color: "#F59E0B",
+                  margin: 0,
                 }}
               >
-                {status === "loading" ? "Sharing..." : "Share this place →"}
-              </button>
-              {status === "error" && errorMsg && (
-                <div
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: 12,
-                    color: "#EF4444",
-                    marginTop: 8,
-                  }}
-                >
-                  {errorMsg}
-                </div>
-              )}
-            </form>
-          </>
+                {error}
+              </p>
+            )}
+            <button
+              type="submit"
+              disabled={submitting}
+              className="kayaa-story-submit"
+              style={{
+                marginTop: 8,
+                background: "#39D98A",
+                color: "#0D1117",
+                fontFamily: "var(--font-body)",
+                fontWeight: 600,
+                fontSize: 15,
+                padding: "14px 28px",
+                borderRadius: 8,
+                border: "none",
+                cursor: submitting ? "wait" : "pointer",
+                opacity: submitting ? 0.7 : 1,
+              }}
+            >
+              {submitting ? "Sending..." : "Submit your place →"}
+            </button>
+          </form>
         )}
       </div>
     </section>
