@@ -9,60 +9,68 @@ const FEATURES = [
   "Get discovered by people nearby",
 ];
 
-const TILES = [
-  { n: "12", label: "Today", color: "var(--green)" },
-  { n: "47", label: "This Week", color: "var(--warm-white)" },
-  { n: "3", label: "Lapsed", color: "var(--amber)" },
-  { n: "2", label: "New Faces", color: "var(--green)" },
+const STATS = [
+  { n: "12", color: "#39D98A", label: "Today" },
+  { n: "47", color: "#F0F6FC", label: "This Week" },
+  { n: "3", color: "#F59E0B", label: "Lapsed" },
+  { n: "2", color: "#39D98A", label: "New Faces" },
 ];
 
-const VISITORS = [
-  { name: "Thabo", badge: "Regular", badgeBg: "rgba(57,217,138,0.12)", badgeColor: "var(--green)", visit: "Visit #11" },
-  { name: "Sipho", badge: "Loyal", badgeBg: "rgba(57,217,138,0.18)", badgeColor: "var(--green)", visit: "Visit #18" },
-  { name: "Lerato", badge: "Newcomer", badgeBg: "rgba(107,114,128,0.2)", badgeColor: "var(--muted-kayaa)", visit: "Visit #1" },
-];
+const ROWS = [
+  { name: "Thabo", badge: "Regular", visit: "Visit #11", strong: false },
+  { name: "Sipho", badge: "Loyal", visit: "Visit #18", strong: true },
+  { name: "Lerato", badge: "Newcomer", visit: "Visit #1", muted: true },
+] as { name: string; badge: string; visit: string; strong?: boolean; muted?: boolean }[];
 
 export function ForOwners() {
   const navigate = useNavigate();
   return (
     <section
       style={{
-        background: "var(--midnight)",
-        padding: "100px 24px",
+        background: "#161B22",
+        borderTop: "1px solid #21262D",
+        borderBottom: "1px solid #21262D",
+        padding: "100px 6%",
       }}
     >
       <style>{`
         .kayaa-owners-grid {
           display: grid;
-          grid-template-columns: 6fr 4fr;
-          gap: 60px;
+          grid-template-columns: 1fr 1fr;
+          gap: 80px;
           max-width: 1000px;
           margin: 0 auto;
           align-items: center;
         }
-        @media (max-width: 880px) {
-          .kayaa-owners-grid { grid-template-columns: 1fr; }
+        @media (max-width: 900px) {
+          .kayaa-owners-grid {
+            grid-template-columns: 1fr;
+            gap: 60px;
+          }
+        }
+        @keyframes kayaaPulse {
+          0%,100% { box-shadow: 0 0 0 0 rgba(57,217,138,0.4); }
+          50% { box-shadow: 0 0 0 6px rgba(57,217,138,0); }
         }
         .kayaa-owners-cta { transition: all 0.2s ease; }
-        .kayaa-owners-cta:hover {
-          filter: brightness(1.1);
-          transform: scale(1.02);
-        }
+        .kayaa-owners-cta:hover { filter: brightness(1.08); transform: scale(1.01); }
       `}</style>
+
       <div className="kayaa-owners-grid">
+        {/* LEFT */}
         <div className="reveal">
-          <div
+          <p
             style={{
-              fontFamily: "var(--font-body)",
+              fontFamily: "var(--font-mono)",
               fontSize: 11,
-              letterSpacing: "0.14em",
+              color: "#39D98A",
               textTransform: "uppercase",
-              color: "var(--green)",
-              marginBottom: 16,
+              letterSpacing: "0.14em",
+              margin: "0 0 16px",
             }}
           >
-            FOR PLACE OWNERS
-          </div>
+            For place owners
+          </p>
           <h2
             style={{
               fontFamily: "var(--font-display)",
@@ -70,75 +78,72 @@ export function ForOwners() {
               fontSize: "clamp(28px, 3.5vw, 44px)",
               color: "#FFFFFF",
               lineHeight: 1.15,
-              marginBottom: 24,
+              margin: "0 0 24px",
             }}
           >
-            Your community is real.
+            Your community
             <br />
-            Now make it visible.
+            is real.
+            <br />
+            Now make it
+            <br />
+            visible.
           </h2>
           <p
             style={{
               fontFamily: "var(--font-body)",
               fontSize: 16,
-              color: "var(--muted-kayaa)",
+              color: "#6B7280",
               lineHeight: 1.7,
-              marginBottom: 16,
+              margin: "0 0 36px",
+              whiteSpace: "pre-line",
             }}
           >
-            You already know your regulars by face. You know who comes every Saturday. You know who disappeared three weeks ago.
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 16,
-              color: "var(--muted-kayaa)",
-              lineHeight: 1.7,
-              marginBottom: 36,
-            }}
-          >
-            kayaa gives that knowledge a record. So you can reach them when it's quiet. So you can prove your community exists to a bank, a brand, or a partner.
+            {`You already know your regulars by face. You know who comes every Saturday. You know who disappeared three weeks ago.
+
+kayaa gives that knowledge a record — so you can reach them when it's quiet, and prove your community exists to anyone who needs to see it.`}
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 40 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {FEATURES.map((f) => (
-              <div key={f} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                <div
+              <div key={f} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                <span
                   style={{
                     width: 20,
                     height: 20,
-                    background: "rgba(57,217,138,0.12)",
+                    background: "rgba(57,217,138,0.1)",
                     border: "1px solid rgba(57,217,138,0.3)",
                     borderRadius: 4,
+                    color: "#39D98A",
+                    flexShrink: 0,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "var(--green)",
-                    fontSize: 12,
-                    flexShrink: 0,
+                    fontSize: 11,
                   }}
                 >
                   ✓
-                </div>
-                <div
+                </span>
+                <span
                   style={{
                     fontFamily: "var(--font-body)",
                     fontSize: 15,
-                    color: "var(--warm-white)",
+                    color: "#F0F6FC",
                   }}
                 >
                   {f}
-                </div>
+                </span>
               </div>
             ))}
           </div>
 
           <button
-            className="kayaa-owners-cta"
             onClick={() => navigate({ to: "/add-place" as string as "/" })}
+            className="kayaa-owners-cta"
             style={{
-              background: "var(--green)",
-              color: "var(--midnight)",
+              marginTop: 36,
+              background: "#39D98A",
+              color: "#0D1117",
               fontFamily: "var(--font-body)",
               fontWeight: 600,
               fontSize: 15,
@@ -146,225 +151,233 @@ export function ForOwners() {
               borderRadius: 8,
               border: "none",
               cursor: "pointer",
-              display: "inline-flex",
-              boxShadow: "0 0 30px rgba(57,217,138,0.2)",
             }}
           >
             Add your place — it's free →
           </button>
         </div>
 
-        <div
-          className="reveal"
-          style={{
-            background: "#0A0E14",
-            border: "1px solid var(--border-kayaa)",
-            borderRadius: 16,
-            padding: 20,
-            maxWidth: 320,
-            boxShadow: "0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(57,217,138,0.08)",
-            margin: "0 auto",
-            width: "100%",
-          }}
-        >
+        {/* RIGHT — phone mockup */}
+        <div className="reveal reveal-delay-2">
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: 16,
+              maxWidth: 300,
+              margin: "0 auto",
+              background: "#0A0E14",
+              border: "1px solid #21262D",
+              borderRadius: 24,
+              padding: 20,
+              boxShadow:
+                "0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(57,217,138,0.06), inset 0 1px 0 rgba(255,255,255,0.05)",
             }}
           >
-            <span
+            {/* Top bar */}
+            <div
               style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 700,
-                fontSize: 14,
-                color: "var(--green)",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 20,
               }}
             >
-              kayaa
-            </span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
               <span
                 style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background: "var(--green)",
-                  boxShadow: "0 0 8px rgba(57,217,138,0.6)",
-                  display: "inline-block",
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "#39D98A",
                 }}
-              />
-              <span style={{ fontFamily: "var(--font-body)", fontSize: 10, color: "var(--green)" }}>
-                Live
+              >
+                kayaa
               </span>
-            </span>
-          </div>
-
-          <div
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: 12,
-              color: "var(--warm-white)",
-              marginBottom: 16,
-            }}
-          >
-            Good morning, Sbu's Cuts ☀️
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 8,
-              marginBottom: 16,
-            }}
-          >
-            {TILES.map((t) => (
-              <div
-                key={t.label}
-                style={{
-                  background: "var(--card-kayaa)",
-                  border: "1px solid var(--border-kayaa)",
-                  borderRadius: 8,
-                  padding: "10px 12px",
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 700,
-                    fontSize: 22,
-                    color: t.color,
-                  }}
-                >
-                  {t.n}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: 9,
-                    color: "var(--muted-kayaa)",
-                    marginTop: 2,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.1em",
-                  }}
-                >
-                  {t.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 9,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              color: "var(--muted-kayaa)",
-              marginBottom: 10,
-            }}
-          >
-            TODAY'S VISITORS
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {VISITORS.map((v) => (
-              <div
-                key={v.name}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "8px 10px",
-                  background: "rgba(255,255,255,0.02)",
-                  borderRadius: 6,
-                  border: "1px solid var(--border-kayaa)",
-                }}
-              >
+              <span style={{ display: "flex", gap: 6, alignItems: "center" }}>
                 <span
                   style={{
-                    width: 6,
-                    height: 6,
+                    width: 7,
+                    height: 7,
                     borderRadius: "50%",
-                    background: "var(--green)",
-                    flexShrink: 0,
+                    background: "#39D98A",
+                    animation: "kayaaPulse 2s infinite",
                     display: "inline-block",
                   }}
                 />
                 <span
                   style={{
                     fontFamily: "var(--font-body)",
-                    fontWeight: 600,
-                    fontSize: 12,
-                    color: "var(--warm-white)",
+                    fontSize: 10,
+                    color: "#39D98A",
                   }}
                 >
-                  {v.name}
+                  Live
                 </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: 9,
-                    borderRadius: 999,
-                    padding: "2px 8px",
-                    background: v.badgeBg,
-                    color: v.badgeColor,
-                    flexShrink: 0,
-                  }}
-                >
-                  {v.badge}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: 9,
-                    color: "var(--muted-kayaa)",
-                    marginLeft: "auto",
-                  }}
-                >
-                  {v.visit}
-                </span>
-              </div>
-            ))}
-          </div>
+              </span>
+            </div>
 
-          <div
-            style={{
-              marginTop: 14,
-              borderTop: "1px solid var(--border-kayaa)",
-              paddingTop: 10,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <span
+            <div
               style={{
-                fontFamily: "var(--font-body)",
-                fontSize: 9,
-                color: "var(--muted-kayaa)",
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                fontSize: 12,
+                color: "#F0F6FC",
+                marginBottom: 16,
               }}
             >
-              3 lapsed this week
-            </span>
-            <button
+              Good morning, Sbu's Cuts ☀️
+            </div>
+
+            {/* Stat tiles */}
+            <div
               style={{
-                fontFamily: "var(--font-body)",
-                fontSize: 9,
-                color: "var(--green)",
-                border: "1px solid rgba(57,217,138,0.3)",
-                borderRadius: 4,
-                padding: "4px 10px",
-                background: "transparent",
-                cursor: "pointer",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 8,
+                marginBottom: 16,
               }}
             >
-              Nudge →
-            </button>
+              {STATS.map((s) => (
+                <div
+                  key={s.label}
+                  style={{
+                    background: "#161B22",
+                    border: "1px solid #21262D",
+                    borderRadius: 8,
+                    padding: "10px 12px",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 700,
+                      fontSize: 22,
+                      color: s.color,
+                      lineHeight: 1.1,
+                    }}
+                  >
+                    {s.n}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: 9,
+                      color: "#6B7280",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      marginTop: 2,
+                    }}
+                  >
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: 9,
+                color: "#6B7280",
+                textTransform: "uppercase",
+                marginBottom: 10,
+                letterSpacing: "0.12em",
+              }}
+            >
+              Today's visitors
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {ROWS.map((r) => {
+                const badgeBg = r.muted
+                  ? "rgba(107,114,128,0.15)"
+                  : r.strong
+                    ? "rgba(57,217,138,0.2)"
+                    : "rgba(57,217,138,0.12)";
+                const badgeColor = r.muted ? "#6B7280" : "#39D98A";
+                return (
+                  <div
+                    key={r.name}
+                    style={{
+                      background: "rgba(255,255,255,0.02)",
+                      border: "1px solid #21262D",
+                      borderRadius: 6,
+                      padding: "8px 10px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: "50%",
+                        background: "#39D98A",
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontFamily: "var(--font-body)",
+                        fontWeight: 600,
+                        fontSize: 11,
+                        color: "#F0F6FC",
+                      }}
+                    >
+                      {r.name}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-body)",
+                        fontSize: 9,
+                        background: badgeBg,
+                        color: badgeColor,
+                        borderRadius: 999,
+                        padding: "2px 7px",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {r.badge}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-body)",
+                        fontSize: 9,
+                        color: "#6B7280",
+                        marginLeft: "auto",
+                      }}
+                    >
+                      {r.visit}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div
+              style={{
+                borderTop: "1px solid #21262D",
+                marginTop: 14,
+                paddingTop: 10,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ fontFamily: "var(--font-body)", fontSize: 9, color: "#6B7280" }}>
+                3 lapsed this week
+              </span>
+              <span
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: 9,
+                  color: "#39D98A",
+                  border: "1px solid rgba(57,217,138,0.3)",
+                  borderRadius: 4,
+                  padding: "3px 8px",
+                }}
+              >
+                Nudge →
+              </span>
+            </div>
           </div>
         </div>
       </div>
