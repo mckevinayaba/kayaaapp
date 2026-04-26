@@ -11,7 +11,7 @@ type Slide = {
 };
 
 const photoFilter = (b: number, c: number) =>
-  `grayscale(100%) contrast(${c}) brightness(${b})`;
+  `contrast(${c}) brightness(${b})`;
 
 const labelStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
@@ -61,10 +61,10 @@ export function HeroCarousel() {
   const slides: Slide[] = [
     {
       photo:
-        "https://images.unsplash.com/photo-1612825173281-9a193378527e?w=1920&q=80",
-      alt: "Soweto street life at dusk",
-      brightness: 0.65,
-      contrast: 1.2,
+        "/landing/01-made-in-soweto.jpg",
+      alt: "Made in Soweto — township street life",
+      brightness: 0.75,
+      contrast: 1.1,
       overlay:
         "linear-gradient(135deg, rgba(13,17,23,0.88) 0%, rgba(13,17,23,0.5) 50%, rgba(13,17,23,0.2) 100%)",
       render: () => (
@@ -98,10 +98,10 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1559762705-2123aa9b62cb?w=1920&q=80",
-      alt: "Township barbershop in Soweto",
-      brightness: 0.6,
-      contrast: 1.25,
+        "/landing/02-koses-general-dealer.jpg",
+      alt: "KOSES General Dealer, corner spaza shop in Alexandra",
+      brightness: 0.7,
+      contrast: 1.1,
       overlay:
         "linear-gradient(to right, rgba(13,17,23,0) 0%, rgba(13,17,23,0) 30%, rgba(13,17,23,0.95) 100%)",
       render: () => (
@@ -148,10 +148,10 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=1920&q=80",
-      alt: "South African braai with friends",
-      brightness: 0.55,
-      contrast: 1.3,
+        "/landing/04-shisanyama-evening.jpg",
+      alt: "Mzansi Meat shisanyama braai in Soweto at dusk",
+      brightness: 0.7,
+      contrast: 1.1,
       overlay:
         "linear-gradient(to top, rgba(13,17,23,0.97) 0%, rgba(13,17,23,0.6) 40%, rgba(13,17,23,0.1) 100%)",
       render: () => (
@@ -221,10 +221,10 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=1920&q=80",
-      alt: "Township car wash on a Saturday",
-      brightness: 0.65,
-      contrast: 1.2,
+        "/landing/03-kwamahlangu-carwash.jpg",
+      alt: "KwaMahlangu Car Wash in Tembisa",
+      brightness: 0.75,
+      contrast: 1.1,
       overlay:
         "linear-gradient(to bottom right, rgba(13,17,23,0.9) 0%, rgba(13,17,23,0.3) 60%, rgba(13,17,23,0) 100%)",
       render: () => (
@@ -289,10 +289,10 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1604348849899-7c4f0c66c5f9?w=1920&q=80",
-      alt: "Inside a township corner spaza shop",
-      brightness: 0.6,
-      contrast: 1.15,
+        "/landing/06-tuckshop-window.jpg",
+      alt: "Township tuckshop window with school kids buying chips",
+      brightness: 0.7,
+      contrast: 1.05,
       overlay:
         "radial-gradient(ellipse at 70% 50%, rgba(13,17,23,0) 0%, rgba(13,17,23,0.8) 60%, rgba(13,17,23,0.97) 100%)",
       render: () => (
@@ -374,10 +374,10 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1535086181678-5a5c4d23aa7c?w=1920&q=80",
-      alt: "Salon owner braiding a customer's hair",
-      brightness: 0.65,
-      contrast: 1.2,
+        "/landing/05-salon-container.jpg",
+      alt: "Sisi's Hair & Nails container salon in Khayelitsha",
+      brightness: 0.75,
+      contrast: 1.1,
       overlay:
         "linear-gradient(to top left, rgba(13,17,23,0.95) 0%, rgba(13,17,23,0.5) 50%, rgba(13,17,23,0.1) 100%)",
       render: () => (
@@ -439,10 +439,10 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1524638431109-93d95c968f03?w=1920&q=80",
-      alt: "Township community gathered outside",
-      brightness: 0.5,
-      contrast: 1.1,
+        "/landing/07-taxi-rank-morning.jpg",
+      alt: "Minibus taxi rank in the morning, commuters and marshal",
+      brightness: 0.55,
+      contrast: 1.05,
       overlay: "rgba(13,17,23,0.82)",
       render: () => (
         <div
