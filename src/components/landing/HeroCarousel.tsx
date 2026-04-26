@@ -25,8 +25,8 @@ const labelStyle: CSSProperties = {
 const headlineStyle = (extra: CSSProperties = {}): CSSProperties => ({
   fontFamily: "var(--font-display)",
   fontWeight: 800,
-  fontSize: "clamp(42px, 7vw, 90px)",
-  lineHeight: 1.0,
+  fontSize: "clamp(34px, 5.2vw, 68px)",
+  lineHeight: 1.05,
   color: "#FFFFFF",
   margin: 0,
   ...extra,
@@ -44,7 +44,7 @@ const supportStyle = (extra: CSSProperties = {}): CSSProperties => ({
 
 const slideNumberStyle: CSSProperties = {
   position: "absolute",
-  bottom: 32,
+  top: 24,
   right: 32,
   fontFamily: "var(--font-mono)",
   fontSize: 10,
