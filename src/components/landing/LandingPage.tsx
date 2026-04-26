@@ -1,5 +1,5 @@
 import { Nav } from "./Nav";
-import { Hero } from "./Hero";
+import { HeroCarousel } from "./HeroCarousel";
 import { TruthSection } from "./TruthSection";
 import { SignWall } from "./SignWall";
 import { HowItWorks } from "./HowItWorks";
@@ -14,7 +14,7 @@ export function LandingPage() {
   return (
     <div style={{ background: "var(--midnight)", minHeight: "100dvh", color: "var(--warm-white)" }}>
       <Nav />
-      <Hero />
+      <HeroCarousel />
       <TruthSection />
       <SignWall />
       <HowItWorks />
