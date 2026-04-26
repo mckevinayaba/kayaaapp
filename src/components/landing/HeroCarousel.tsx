@@ -743,8 +743,8 @@ export function HeroCarousel() {
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
-          gap: 10,
-          zIndex: 20,
+          gap: 8,
+          zIndex: 50,
         }}
       >
         {slides.map((_, i) => (
@@ -754,13 +754,13 @@ export function HeroCarousel() {
             onClick={() => setActive(i)}
             className="kayaa-dot"
             style={{
-              width: i === active ? 28 : 8,
-              height: 8,
-              borderRadius: 999,
+              width: i === active ? 24 : 6,
+              height: 6,
+              borderRadius: i === active ? 999 : "50%",
               border: "none",
               cursor: "pointer",
               background:
-                i === active ? "#39D98A" : "rgba(255,255,255,0.3)",
+                i === active ? "#39D98A" : "rgba(255,255,255,0.25)",
               padding: 0,
             }}
           />
