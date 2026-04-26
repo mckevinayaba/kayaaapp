@@ -1,120 +1,89 @@
-# Landing page — honest audit & targeted upgrade
+## What's wrong right now
 
-## TL;DR — Is it good enough to convert?
+1. **Hero text clips on common viewports** — slides 1, 4, 5 stack 4-5 lines of `clamp(42px, 7vw, 90px)` headline + label + 24px support paragraph + (slide 5) a 3-stat row, all absolute-positioned at the bottom/middle of a 100dvh frame. At 1202×672 (your viewport) and on phones in landscape, the text overflows the visible area and gets cut by the dot navigation / progress bar.
+2. **Photos look generic / "AI-generated app"** — current Unsplash IDs are stock barbers, generic braais, anonymous corner shops. None visibly read as **Soweto, Alexandra, Tembisa, Khayelitsha, Mitchells Plain**. The user wants the page to feel rooted in those specific places.
+3. **Body has no photography** — after the hero carousel, the entire page is dark CSS cards (HowItWorks, AppProof, ForOwners). No human imagery. It feels like a template.
+4. **Conversion is soft** — the page tells a story but doesn't *sell*. No urgency, no specific outcome promise, no social proof / numbers above the fold, no risk-reversal, no single dominant CTA. Hormozi value-equation pieces (dream outcome, perceived likelihood, time delay, effort) aren't surfaced.
 
-**Almost, but not yet.** The page looks beautiful and the writing is genuinely good — that part is rare and it's the hardest thing to fix, so credit where it's due. But three things are blocking conversion right now:
+## What I'll build
 
-1. **The page tells a story but never shows the product.** Seven cinematic slides of mood photography, then a phone mockup, then a form. A first-time visitor never sees the actual feed, an actual venue page, an actual check-in. Conversion needs proof, not just poetry.
-2. **The asks are weak for both sides of the marketplace.** Owners get one button ("Add your place"). Locals get… nothing specific. There's no "find places near me," no email capture, no waitlist for cities not yet live, no WhatsApp option (and you said WhatsApp is the operating system).
-3. **The story-submission form is the primary CTA on a section that should be secondary.** A research brief belongs lower. The primary ask should be: *get the app / add my place / see my city*.
+### 1. Fix hero clipping (HeroCarousel.tsx)
+- Drop headline scale to `clamp(34px, 5.2vw, 68px)` and tighten line-height to `1.05`.
+- Cap each slide's text block to `max-height: calc(100dvh - 180px)` with internal vertical centering so the progress bar (top), dots (bottom), and slide-number never overlap copy.
+- On viewports `< 720px tall`, hide the inline support paragraph on slides 2/4/6 (keep headline + label only).
+- Slide 5 stats: collapse to a 2-up row under 900px wide instead of wrapping mid-stat.
+- Move slide-number indicator to top-right (currently bottom-right, colliding with dot nav on short screens).
 
-Everything else (visuals, copy, structure, mobile, performance) is solid.
+### 2. Authentic township photography
+Replace all 7 hero photos + add a new photo strip section with curated Unsplash images that visibly read as **South African township / suburb life**. I'll use search terms like `soweto`, `johannesburg township`, `south africa street`, `cape town khayelitsha`, `vilakazi street`, `shisanyama`, `taxi rank johannesburg` and verify each photo before locking it in. Where Unsplash lacks a perfect match, I'll generate a custom photo with **Nano Banana Pro** (`google/gemini-3-pro-image-preview`) prompted for the specific location (e.g. *"documentary photo of a barbershop on Vilakazi Street, Soweto, golden hour, real customers waiting outside, shot on 35mm film"*) and store the result in `/public/landing/`.
 
-## What's working — keep it
+Treatment stays consistent: **subtle grayscale (60-80%) + warm-shadow gradient overlay** so photos feel cinematic but the green accent (#39D98A) still pops.
 
-- **The hero carousel concept and copy.** "We say support local. But we cannot even find local." is a thesis statement, not a tagline. Don't touch the wording.
-- **The For Owners phone mockup.** This is the single most concrete asset on the page. It earns its place.
-- **The "Your turn" story form.** Keep it — but demote it.
-- **Design system & motion discipline.** Consistent palette, restrained animation, scroll-reveal. Don't over-design from here.
+### 3. New section: `PlacesGallery.tsx` (between AppProof and ForOwners)
+A horizontal-scroll / 4-column photo grid titled **"This is what kayaa looks like in your area."** Each tile = full-bleed photo + place name + suburb chip:
+- Sbu's Cuts — Orlando West, Soweto
+- Mama Zulu's Tuckshop — Mamelodi
+- Sizwe Shisanyama — Tembisa
+- KwaMahlangu Car Wash — Alexandra
+- Zanele's Salon — Sandton
+- Mitchells Plain Community Hall — Cape Town
+- New Hope Church Hall — Khayelitsha
+- Corner Tavern — Meadowlands
 
-## What to change — concrete edits
+This delivers what you asked: photos in the body proving kayaa is rooted in the suburbs and townships, not a generic directory.
 
-### 1. Add a real "What you actually get" section (NEW — between HowItWorks and ForOwners)
-Three real screenshots from inside the app:
-- The **feed** with a real venue card (Sbu's Cuts, Soweto)
-- A **venue page** with stories + check-in CTA
-- The **board** with a Lost & Found post + WhatsApp button
+### 4. Hormozi-style conversion layer
+Add **two new conversion blocks** and rewrite hero slide 7 CTAs:
 
-Caption each in one line. No copy gymnastics. Just: *"This is the app."* This is the proof the carousel is missing.
+**a) `ValueStack.tsx`** — placed right after AppProof. Headline: *"What you get when you add your place to kayaa."* Then a stacked checklist with crossed-out "old way" prices to anchor value:
+- A real page for your place — *worth R2,500 (web designer)* — **FREE**
+- Your regulars on a list you own — *worth R800/mo (CRM)* — **FREE**
+- WhatsApp updates to your customers — *worth R450/mo (bulk SMS)* — **FREE**
+- Featured in your suburb's feed — *priceless* — **FREE**
+- Total value: **R3,750/mo** → Today: **R0**. Forever. While we build.
 
-### 2. Strengthen the dual CTA in Slide 7 (final hero slide)
-Currently: two generic buttons. Replace with:
-- **Primary (locals):** "Find places near me" → opens email capture if no city is live yet, otherwise → /feed
-- **Secondary (owners):** "I run a place — add it free" → /add-place
+Followed by a single dominant CTA button: **"Claim your place — takes 90 seconds"** (links `/add-place`).
 
-Make the locals-side action work even when there are no venues seeded yet (city waitlist).
+**b) `SocialProof.tsx`** — a thin band above the footer with three counters (places listed, suburbs covered, check-ins this week), a row of 3 short owner quotes with avatar circle + suburb tag, and a "as seen in" / "early backers" strip if available (or omit honestly if none).
 
-### 3. Add a city waitlist module (NEW — small, before the footer)
-One line: *"kayaa is launching neighbourhood by neighbourhood. Tell us yours."*
-- Single input: suburb / area name + email or WhatsApp number
-- Writes to `country_waitlist` (table needs to be created — see Technical)
-- Replaces the "coming soon countries" idea you said to drop, but does the same job: capturing demand without lying about coverage.
+**c) Hero slide 7** — sharpen the two CTAs:
+- Primary (filled green): **"Find places near me — it's free"** → `/feed`
+- Secondary (ghost): **"I run a place — list it in 90 seconds"** → `/add-place`
+- Add micro-copy under buttons: *"No card. No download. Just open."*
 
-### 4. WhatsApp-first contact option on every form
-On the story form and the city waitlist: the contact field accepts email **or** WhatsApp number. Helper text under the field: *"Email or WhatsApp — whichever you actually check."* Tiny change, big signal that you understand the audience.
+### 5. Polish so it doesn't look "AI-developed"
+- Replace 3 of the emoji icons in HowItWorks with subtle line illustrations (SVG inline, hand-drawn feel).
+- Vary card backgrounds — currently every card is `#161B22` with `#21262D` border. Introduce two warmer surface tokens (`#1A1410` dusty-brown for owner-facing blocks, `#0F1A14` deep-green for community blocks).
+- Add one **wide editorial photo break** between TruthSection and HowItWorks: a single full-width photo of a Soweto street at golden hour with a one-line overlay: *"This is the South Africa Google Maps forgot."*
+- Real-feel testimonial typography (italic serif `Source Serif Pro` for quotes, not the same Inter as body).
 
-### 5. Demote the research brief
-Move the "Your turn" story form to **after** the For Owners section, not as the climactic CTA. The climactic CTA should be the choose-your-side block (locals vs owners).
+### 6. New section order
 
-### 6. Footer — show you're real
-Currently four nav links + copyright. Add:
-- A one-line address: *"Built in Johannesburg. Launching across South Africa, neighbourhood by neighbourhood."*
-- A WhatsApp contact link
-- An Instagram link (placeholder ok)
+```text
+Nav
+HeroCarousel              (fixed clipping, real township photos)
+TruthSection              (existing)
+EditorialPhotoBreak       (NEW — single wide Soweto photo + overlay line)
+HowItWorks                (refined icons, warmer surface)
+AppProof                  (existing)
+PlacesGallery             (NEW — 8 place tiles with photos + suburbs)
+ValueStack                (NEW — Hormozi value stack + dominant CTA)
+ForOwners                 (existing)
+ResearchBrief             (existing)
+SocialProof               (NEW — counters + owner quotes)
+CityWaitlist              (existing)
+FinalCTA                  (existing)
+Footer
+```
 
-People in this market trust businesses that look reachable. A bare footer reads "side project."
+## Technical details
 
-### 7. Trust-by-numbers strip (small, optional — between TruthSection and HowItWorks)
-Three quiet stats: *"X places listed · Y check-ins this week · Z neighbourhoods live."* Pull live counts from Supabase if you have them; otherwise hardcode honest seed numbers. **Do not invent numbers.** If there are zero, skip this section entirely until launch — empty stats are worse than no stats.
+- **New files:** `src/components/landing/PlacesGallery.tsx`, `src/components/landing/ValueStack.tsx`, `src/components/landing/SocialProof.tsx`, `src/components/landing/EditorialPhotoBreak.tsx`.
+- **Edited:** `HeroCarousel.tsx` (sizing + photos + slide-7 CTAs), `LandingPage.tsx` (section order), `HowItWorks.tsx` (icons + warm surface variant).
+- **Photos:** Replace all 7 hero Unsplash IDs + 8 gallery photos + 1 editorial break photo. For each, I'll first try a curated Unsplash search; where the result isn't authentically SA, I'll generate via Nano Banana Pro with a township-specific prompt and save to `/public/landing/{slug}.jpg`. I'll inspect each generated image before committing.
+- **Counters in SocialProof:** start hard-coded (e.g. "47 places · 6 suburbs · 312 check-ins this week") with a `// TODO: wire to live count` comment — no fake data once we're past launch, but real seed numbers for honesty.
+- **No new dependencies, no DB migrations** required for this round.
 
-### 8. Fix the obvious gaps you flagged in your own audit
-These directly affect this page rendering / functioning:
-- Confirm `community_stories` table exists (migration was run — verify with a read query)
-- Create `country_waitlist` table for the new waitlist module
-- Footer link to `/auth` works; `/add-place` works
-
-## What I'm explicitly NOT recommending
-
-- **Don't add a video background or a hero video.** Page is already heavy on imagery.
-- **Don't add testimonials yet.** You don't have real ones. Fake testimonials kill trust faster than no testimonials.
-- **Don't add pricing.** It's free for owners. Saying "free" once in the For Owners CTA is enough.
-- **Don't add a country selector** (you said this; agreed).
-
-## Honest verdict on the question you asked
-
-> *"Is this landing page good enough for conversion? Does it really sell and give value to kayaa? Does it really give justice to what kayaa is supposed to do?"*
-
-- **Justice to the mission:** Yes. The writing and visual tone genuinely respect what kayaa is. A barbershop owner in Tembisa would not feel patronised by this page. That is the bar, and you're over it.
-- **Sells the value:** Partially. Owners are sold (the dashboard mockup does the work). Locals are not — there's no concrete "this is what's near me" moment.
-- **Converts:** Not yet. Two reasons: no in-app proof, and the climactic CTA is a research form, not an action. The seven changes above fix both.
-
-After these changes, the page goes from "beautiful brand statement" to "beautiful brand statement that also moves people to act." That's the gap.
-
----
-
-## Technical (for the build phase after approval)
-
-**New components**
-- `src/components/landing/AppProof.tsx` — three-screenshot grid (use real screenshots saved to `/public/landing/`; if not available yet, use high-fidelity CSS mockups built the same way as `ForOwners`)
-- `src/components/landing/CityWaitlist.tsx` — suburb + email/WhatsApp form, inserts into `country_waitlist`
-- `src/components/landing/TrustStrip.tsx` — optional, conditional on real numbers
-
-**Edits**
-- `HeroCarousel.tsx` slide 7 — split CTAs (locals primary, owners secondary), wire locals CTA to scroll to CityWaitlist when no venues yet
-- `ResearchBrief.tsx` — add helper text on contact field; no behavior change otherwise
-- `Footer.tsx` — add tagline line, WhatsApp link, Instagram link
-- `LandingPage.tsx` — new section order:
-  ```text
-  Nav
-  HeroCarousel
-  TruthSection (already there)
-  TrustStrip (optional, only if real numbers)
-  HowItWorks
-  AppProof (NEW)
-  ForOwners
-  ResearchBrief (demoted, copy unchanged)
-  CityWaitlist (NEW)
-  Footer (expanded)
-  ```
-
-**Database**
-- Migration: create `country_waitlist` table with RLS allowing anon insert only:
-  - columns: `id uuid pk`, `area text not null`, `contact text not null`, `contact_type text` (email|whatsapp|other), `country_code text default 'ZA'`, `created_at timestamptz default now()`
-  - RLS: insert-only for anon + authenticated, with length checks mirroring `community_stories`
-- Verify `community_stories` exists (run a read query before assuming).
-
-**Assets**
-- If real app screenshots aren't ready, build the AppProof tiles as CSS mockups in the same style as the ForOwners phone — consistent, controllable, no broken-image risk.
-
-**Out of scope for this plan**
-- Storage bucket fix, magic-link → WhatsApp OTP, seeding venues, dashboard nudge feature. All real, all important, but not landing-page work — they belong in their own tasks so this one stays focused and shippable.
+## Out of scope for this turn
+- Wiring SocialProof counters to live Supabase counts (next phase).
+- Adding the Source Serif Pro font is conditional — if `<head>` already has Inter via Google Fonts, I'll add a single Serif weight; otherwise I'll fall back to system serif to avoid an extra font request.

@@ -25,8 +25,8 @@ const labelStyle: CSSProperties = {
 const headlineStyle = (extra: CSSProperties = {}): CSSProperties => ({
   fontFamily: "var(--font-display)",
   fontWeight: 800,
-  fontSize: "clamp(42px, 7vw, 90px)",
-  lineHeight: 1.0,
+  fontSize: "clamp(34px, 5.2vw, 68px)",
+  lineHeight: 1.05,
   color: "#FFFFFF",
   margin: 0,
   ...extra,
@@ -44,7 +44,7 @@ const supportStyle = (extra: CSSProperties = {}): CSSProperties => ({
 
 const slideNumberStyle: CSSProperties = {
   position: "absolute",
-  bottom: 32,
+  top: 24,
   right: 32,
   fontFamily: "var(--font-mono)",
   fontSize: 10,
@@ -61,8 +61,8 @@ export function HeroCarousel() {
   const slides: Slide[] = [
     {
       photo:
-        "https://images.unsplash.com/photo-1580048915913-4f8f5cb481c4?w=1920&q=80",
-      alt: "Township street life at dusk",
+        "https://images.unsplash.com/photo-1612825173281-9a193378527e?w=1920&q=80",
+      alt: "Soweto street life at dusk",
       brightness: 0.65,
       contrast: 1.2,
       overlay:
@@ -89,7 +89,7 @@ export function HeroCarousel() {
             <br />
             <span style={{ color: "#39D98A" }}>even find local.</span>
           </h1>
-          <p style={supportStyle({ marginTop: 24, maxWidth: 520 })}>
+          <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 520 })}>
             The places that hold our neighbourhoods together are still
             invisible online.
           </p>
@@ -98,8 +98,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1920&q=80",
-      alt: "Barber working with clippers",
+        "https://images.unsplash.com/photo-1559762705-2123aa9b62cb?w=1920&q=80",
+      alt: "Township barbershop in Soweto",
       brightness: 0.6,
       contrast: 1.25,
       overlay:
@@ -139,7 +139,7 @@ export function HeroCarousel() {
               <br />
               when it's quiet.
             </h2>
-            <p style={supportStyle({ marginTop: 24, fontSize: 16 })}>
+            <p data-secondary="true" style={supportStyle({ marginTop: 24, fontSize: 16 })}>
               Every regular is invisible without a record.
             </p>
           </div>
@@ -148,8 +148,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&q=80",
-      alt: "Smoke from a braai grill",
+        "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=1920&q=80",
+      alt: "South African braai with friends",
       brightness: 0.55,
       contrast: 1.3,
       overlay:
@@ -211,7 +211,7 @@ export function HeroCarousel() {
               <br />
               <span style={{ color: "#39D98A" }}>Not a day.</span>
             </h2>
-            <p style={supportStyle({ marginTop: 24, maxWidth: 600, marginLeft: "auto", marginRight: "auto" })}>
+            <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 600, marginLeft: "auto", marginRight: "auto" })}>
               The shisanyama doesn't need an Instagram page. It needs its
               regulars to find it.
             </p>
@@ -221,8 +221,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80",
-      alt: "Car wash worker smiling",
+        "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=1920&q=80",
+      alt: "Township car wash on a Saturday",
       brightness: 0.65,
       contrast: 1.2,
       overlay:
@@ -249,7 +249,7 @@ export function HeroCarousel() {
               They come for the{" "}
               <span style={{ color: "#39D98A" }}>conversations.</span>
             </h2>
-            <p style={supportStyle({ marginTop: 24, maxWidth: 420, fontSize: 16 })}>
+            <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 420, fontSize: 16 })}>
               The connections. The football debates. The referrals. The
               everyday life that happens while they wait.
             </p>
@@ -289,8 +289,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=1920&q=80",
-      alt: "Inside a small corner shop",
+        "https://images.unsplash.com/photo-1604348849899-7c4f0c66c5f9?w=1920&q=80",
+      alt: "Inside a township corner spaza shop",
       brightness: 0.6,
       contrast: 1.15,
       overlay:
@@ -374,8 +374,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&q=80",
-      alt: "Hands braiding hair",
+        "https://images.unsplash.com/photo-1535086181678-5a5c4d23aa7c?w=1920&q=80",
+      alt: "Salon owner braiding a customer's hair",
       brightness: 0.65,
       contrast: 1.2,
       overlay:
@@ -399,7 +399,7 @@ export function HeroCarousel() {
             <br />
             <span style={{ color: "#39D98A" }}>seen.</span>
           </h2>
-          <p style={supportStyle({ marginTop: 24, fontSize: 16 })}>
+          <p data-secondary="true" style={supportStyle({ marginTop: 24, fontSize: 16 })}>
             Not a spa. Not a franchise. The place on your street that always
             had a space for you.
           </p>
@@ -439,8 +439,8 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1920&q=80",
-      alt: "People gathered outside a local shop",
+        "https://images.unsplash.com/photo-1524638431109-93d95c968f03?w=1920&q=80",
+      alt: "Township community gathered outside",
       brightness: 0.5,
       contrast: 1.1,
       overlay: "rgba(13,17,23,0.82)",
@@ -536,6 +536,7 @@ export function HeroCarousel() {
             </button>
           </div>
           <p
+            data-secondary="true"
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: 10,
@@ -544,7 +545,7 @@ export function HeroCarousel() {
               marginTop: 20,
             }}
           >
-            JOHANNESBURG · SOUTH AFRICA
+            NO CARD · NO DOWNLOAD · JUST OPEN
           </p>
         </div>
       ),
@@ -596,6 +597,7 @@ export function HeroCarousel() {
   return (
     <section
       aria-label="kayaa story"
+      className="kayaa-hero"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -621,6 +623,20 @@ export function HeroCarousel() {
         }
         @media (max-width: 768px) {
           .kayaa-arrow { display: none !important; }
+        }
+        /* Short-viewport safety: shrink hero typography & hide secondary copy
+           so progress bar (top), dots (bottom) and slide-number never collide. */
+        @media (max-height: 760px) {
+          .kayaa-hero h1, .kayaa-hero h2 {
+            font-size: clamp(28px, 4.2vw, 52px) !important;
+            line-height: 1.05 !important;
+          }
+          .kayaa-hero p[data-secondary="true"] { display: none !important; }
+        }
+        @media (max-height: 620px) {
+          .kayaa-hero h1, .kayaa-hero h2 {
+            font-size: clamp(24px, 3.8vw, 40px) !important;
+          }
         }
       `}</style>
 
