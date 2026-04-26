@@ -14,7 +14,7 @@ export function Footer() {
       style={{
         background: "var(--card-kayaa)",
         borderTop: "1px solid var(--border-kayaa)",
-        padding: "28px 24px",
+        padding: "40px 24px 32px",
       }}
     >
       <style>{`
@@ -24,34 +24,60 @@ export function Footer() {
           justify-content: space-between;
           flex-wrap: wrap;
           gap: 16px;
-          max-width: 1000px;
+          max-width: 1100px;
           margin: 0 auto;
         }
         .kayaa-footer-link { transition: color 0.2s; }
         .kayaa-footer-link:hover { color: var(--warm-white) !important; }
+        .kayaa-footer-tag {
+          font-family: var(--font-body);
+          font-size: 13px;
+          color: var(--muted-kayaa);
+          max-width: 420px;
+          line-height: 1.55;
+        }
+        .kayaa-footer-social {
+          display: flex; gap: 14px; align-items: center;
+        }
+        .kayaa-footer-social a {
+          font-family: var(--font-body);
+          font-size: 13px;
+          color: var(--muted-kayaa);
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+        .kayaa-footer-social a:hover { color: var(--green); }
         @media (max-width: 600px) {
           .kayaa-footer-inner {
             flex-direction: column;
             text-align: center;
           }
+          .kayaa-footer-tag { text-align: center; }
         }
       `}</style>
       <div className="kayaa-footer-inner">
-        <button
-          onClick={() => navigate({ to: "/" })}
-          style={{
-            background: "transparent",
-            border: "none",
-            cursor: "pointer",
-            padding: 0,
-            fontFamily: "var(--font-display)",
-            fontWeight: 700,
-            fontSize: 18,
-            color: "var(--green)",
-          }}
-        >
-          kayaa
-        </button>
+        <div>
+          <button
+            onClick={() => navigate({ to: "/" })}
+            style={{
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              fontFamily: "var(--font-display)",
+              fontWeight: 700,
+              fontSize: 18,
+              color: "var(--green)",
+              marginBottom: 8,
+            }}
+          >
+            kayaa
+          </button>
+          <p className="kayaa-footer-tag" style={{ margin: 0 }}>
+            Built in Johannesburg. Launching across South Africa,
+            neighbourhood by neighbourhood.
+          </p>
+        </div>
 
         <div
           style={{
@@ -86,14 +112,35 @@ export function Footer() {
           ))}
         </div>
 
-        <div
-          style={{
-            fontFamily: "var(--font-body)",
-            fontSize: 12,
-            color: "var(--muted-kayaa)",
-          }}
-        >
-          © 2026 kayaa
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
+          <div className="kayaa-footer-social">
+            <a
+              href="https://wa.me/27000000000"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="WhatsApp"
+            >
+              WhatsApp
+            </a>
+            <a
+              href="https://instagram.com/kayaa.app"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+            >
+              Instagram
+            </a>
+            <a href="mailto:hello@kayaa.co.za">Email</a>
+          </div>
+          <div
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: 12,
+              color: "var(--muted-kayaa)",
+            }}
+          >
+            © 2026 kayaa
+          </div>
         </div>
       </div>
     </footer>
