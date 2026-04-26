@@ -1,51 +1,51 @@
 const PLACES = [
   {
-    name: "Sbu's Cuts",
-    type: "Barbershop",
-    suburb: "Orlando West, Soweto",
-    photo: "https://images.unsplash.com/photo-1559762705-2123aa9b62cb?w=900&q=80",
+    name: "KOSES General Dealer",
+    type: "Spaza Shop",
+    suburb: "Alexandra, Joburg",
+    photo: "/landing/02-koses-general-dealer.jpg",
   },
   {
-    name: "Mama Zulu's Tuckshop",
+    name: "Mama's Tuckshop",
     type: "Tuckshop",
-    suburb: "Mamelodi, Pretoria",
-    photo: "https://images.unsplash.com/photo-1604348849899-7c4f0c66c5f9?w=900&q=80",
+    suburb: "Orlando East, Soweto",
+    photo: "/landing/06-tuckshop-window.jpg",
   },
   {
-    name: "Sizwe Shisanyama",
+    name: "Mzansi Meat",
     type: "Shisanyama",
-    suburb: "Tembisa, Ekurhuleni",
-    photo: "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=900&q=80",
+    suburb: "Diepkloof, Soweto",
+    photo: "/landing/04-shisanyama-evening.jpg",
   },
   {
     name: "KwaMahlangu Car Wash",
     type: "Car Wash",
-    suburb: "Alexandra, Joburg",
-    photo: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=900&q=80",
+    suburb: "Tembisa, Ekurhuleni",
+    photo: "/landing/03-kwamahlangu-carwash.jpg",
   },
   {
-    name: "Zanele's Salon",
+    name: "Sisi's Hair & Nails",
     type: "Salon",
-    suburb: "Diepkloof, Soweto",
-    photo: "https://images.unsplash.com/photo-1535086181678-5a5c4d23aa7c?w=900&q=80",
-  },
-  {
-    name: "Mitchells Plain Hall",
-    type: "Community Hall",
-    suburb: "Mitchells Plain, Cape Town",
-    photo: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=900&q=80",
-  },
-  {
-    name: "New Hope Church Hall",
-    type: "Church Hall",
     suburb: "Khayelitsha, Cape Town",
-    photo: "https://images.unsplash.com/photo-1612825173281-9a193378527e?w=900&q=80",
+    photo: "/landing/05-salon-container.jpg",
   },
   {
-    name: "Corner Tavern",
-    type: "Tavern",
-    suburb: "Meadowlands, Soweto",
-    photo: "https://images.unsplash.com/photo-1524638431109-93d95c968f03?w=900&q=80",
+    name: "Sam's Tailor",
+    type: "Tailor",
+    suburb: "Mitchells Plain, Cape Town",
+    photo: "/landing/08-street-tailor.jpg",
+  },
+  {
+    name: "Bara Taxi Rank",
+    type: "Taxi Rank",
+    suburb: "Diepkloof, Soweto",
+    photo: "/landing/07-taxi-rank-morning.jpg",
+  },
+  {
+    name: "Made in Soweto",
+    type: "Street Corner",
+    suburb: "Orlando West, Soweto",
+    photo: "/landing/01-made-in-soweto.jpg",
   },
 ];
 
@@ -80,10 +80,10 @@ export function PlacesGallery() {
           position: absolute; inset: 0;
           width: 100%; height: 100%;
           object-fit: cover;
-          filter: grayscale(35%) contrast(1.05) brightness(0.85);
+          filter: contrast(1.05) brightness(0.92);
           transition: filter 0.4s ease, transform 0.6s ease;
         }
-        .kayaa-gallery-tile:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
+        .kayaa-gallery-tile:hover img { filter: contrast(1.1) brightness(1.05); transform: scale(1.05); }
         @media (max-width: 1000px) { .kayaa-gallery-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 520px) { .kayaa-gallery-grid { grid-template-columns: 1fr; } }
       `}</style>

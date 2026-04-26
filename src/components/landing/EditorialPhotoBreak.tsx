@@ -10,8 +10,8 @@ export function EditorialPhotoBreak() {
       }}
     >
       <img
-        src="https://images.unsplash.com/photo-1580610447943-1bfbef1efe92?w=1920&q=80"
-        alt="Soweto street at golden hour"
+        src="/landing/01-made-in-soweto.jpg"
+        alt="Made in Soweto — street life"
         loading="lazy"
         style={{
           position: "absolute",
@@ -19,7 +19,7 @@ export function EditorialPhotoBreak() {
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          filter: "grayscale(60%) contrast(1.15) brightness(0.7)",
+          filter: "contrast(1.1) brightness(0.75)",
         }}
       />
       <div
