@@ -9,13 +9,10 @@ export function Nav() {
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 100,
-        height: "60px",
-        padding: "0 24px",
-        background: "rgba(13, 17, 23, 0.88)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        borderBottom: "1px solid var(--border-kayaa)",
+        zIndex: 200,
+        height: "64px",
+        padding: "0 32px",
+        background: "transparent",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -29,6 +26,7 @@ export function Nav() {
           fontSize: "22px",
           color: "var(--green)",
           textDecoration: "none",
+          textShadow: "0 1px 12px rgba(0,0,0,0.55)",
         }}
       >
         kayaa
@@ -40,7 +38,7 @@ export function Nav() {
           style={{
             fontFamily: "var(--font-body)",
             fontSize: "14px",
-            color: "var(--muted-kayaa)",
+            color: "rgba(255,255,255,0.6)",
             textDecoration: "none",
             transition: "color 0.2s",
           }}
@@ -52,13 +50,13 @@ export function Nav() {
           className="kayaa-add-btn"
           style={{
             fontFamily: "var(--font-body)",
-            fontWeight: 500,
-            fontSize: "14px",
-            color: "var(--green)",
-            background: "transparent",
-            border: "1px solid rgba(57,217,138,0.4)",
-            padding: "8px 18px",
-            borderRadius: "6px",
+            fontWeight: 600,
+            fontSize: "13px",
+            color: "#0D1117",
+            background: "#39D98A",
+            border: "none",
+            padding: "9px 20px",
+            borderRadius: "999px",
             cursor: "pointer",
             transition: "all 0.2s",
           }}
@@ -67,11 +65,8 @@ export function Nav() {
         </button>
       </div>
       <style>{`
-        .kayaa-signin:hover { color: var(--warm-white) !important; }
-        .kayaa-add-btn:hover {
-          background: rgba(57,217,138,0.08) !important;
-          border-color: var(--green) !important;
-        }
+        .kayaa-signin:hover { color: #FFFFFF !important; }
+        .kayaa-add-btn:hover { filter: brightness(1.1); }
       `}</style>
     </nav>
   );
