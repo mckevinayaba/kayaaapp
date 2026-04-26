@@ -536,6 +536,7 @@ export function HeroCarousel() {
             </button>
           </div>
           <p
+            data-secondary="true"
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: 10,
@@ -544,7 +545,7 @@ export function HeroCarousel() {
               marginTop: 20,
             }}
           >
-            JOHANNESBURG · SOUTH AFRICA
+            NO CARD · NO DOWNLOAD · JUST OPEN
           </p>
         </div>
       ),
