@@ -596,6 +596,7 @@ export function HeroCarousel() {
   return (
     <section
       aria-label="kayaa story"
+      className="kayaa-hero"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
