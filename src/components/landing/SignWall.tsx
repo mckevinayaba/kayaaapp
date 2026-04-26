@@ -1,7 +1,16 @@
 import { useNavigate } from "@tanstack/react-router";
 import { SignCard } from "./SignCard";
 
-const CARDS = [
+type Card = {
+  emoji: string;
+  name: string;
+  type: string;
+  area: string;
+  featured?: boolean;
+  quote?: string;
+};
+
+const CARDS: Card[] = [
   {
     emoji: "🚗",
     name: "KWAMAHLANGU CAR WASH",
