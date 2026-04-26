@@ -3,6 +3,8 @@ import { HeroCarousel } from "./HeroCarousel";
 import { HowItWorks } from "./HowItWorks";
 import { ForOwners } from "./ForOwners";
 import { ResearchBrief } from "./ResearchBrief";
+import { AppProof } from "./AppProof";
+import { CityWaitlist } from "./CityWaitlist";
 import { Footer } from "./Footer";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
@@ -13,8 +15,10 @@ export function LandingPage() {
       <Nav />
       <HeroCarousel />
       <HowItWorks />
+      <AppProof />
       <ForOwners />
       <ResearchBrief />
+      <CityWaitlist />
       <Footer />
     </div>
   );

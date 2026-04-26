@@ -514,7 +514,7 @@ export function HeroCarousel() {
                 transition: "all 0.2s ease",
               }}
             >
-              Explore kayaa →
+              Find places near me →
             </button>
             <button
               onClick={() => navigate({ to: "/add-place" as string as "/" })}
@@ -532,7 +532,7 @@ export function HeroCarousel() {
                 transition: "all 0.2s ease",
               }}
             >
-              Add your place — free
+              I run a place — add it free
             </button>
           </div>
           <p

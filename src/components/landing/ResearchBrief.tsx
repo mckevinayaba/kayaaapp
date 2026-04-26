@@ -256,6 +256,16 @@ export function ResearchBrief() {
               placeholder="Your name or contact (optional)"
               className="kayaa-story-input"
             />
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: 12,
+                color: "#6B7280",
+                margin: 0,
+              }}
+            >
+              Email or WhatsApp — whichever you actually check.
+            </p>
             {error && (
               <p
                 style={{
