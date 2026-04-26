@@ -47,7 +47,7 @@ const CARDS: Card[] = [
   { emoji: "📍", name: "COMMUNITY HALL", type: "Community", area: "Mitchells Plain" },
   { emoji: "🏪", name: "SIPHO CORNER SPAZA", type: "Spaza Shop", area: "Alexandra" },
   { emoji: "🎵", name: "LOCAL MUSIC STUDIO", type: "Music Studio", area: "Maboneng" },
-] as const;
+];
 
 export function SignWall() {
   const navigate = useNavigate();
