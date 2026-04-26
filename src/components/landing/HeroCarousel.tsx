@@ -611,9 +611,41 @@ export function HeroCarousel() {
       <style>{`
         .kayaa-cta-explore:hover { filter: brightness(1.1); transform: scale(1.02); }
         .kayaa-cta-add:hover { background: rgba(255,255,255,0.08) !important; border-color: #FFFFFF !important; }
-        .kayaa-arrow:hover { background: rgba(57,217,138,0.15) !important; border-color: #39D98A !important; color: #39D98A !important; }
+        .kayaa-arrow:hover { background: rgba(13,17,23,0.9) !important; border-color: rgba(57,217,138,0.5) !important; }
         .kayaa-dot { transition: all 0.3s ease; }
+        .kayaa-progress-fill { animation: kayaaProgress 5s linear forwards; }
+        .kayaa-progress-fill.kayaa-paused { animation-play-state: paused; }
+        @keyframes kayaaProgress {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
+        @media (max-width: 768px) {
+          .kayaa-arrow { display: none !important; }
+        }
       `}</style>
+
+      {/* Progress bar */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 2,
+          background: "rgba(255,255,255,0.1)",
+          zIndex: 50,
+        }}
+      >
+        <div
+          key={`${active}-${paused ? "p" : "r"}`}
+          className={`kayaa-progress-fill ${paused ? "kayaa-paused" : ""}`}
+          style={{
+            height: "100%",
+            background: "#39D98A",
+            width: 0,
+          }}
+        />
+      </div>
 
       {slides.map((s, i) => (
         <div
