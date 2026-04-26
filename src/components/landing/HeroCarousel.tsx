@@ -89,7 +89,7 @@ export function HeroCarousel() {
             <br />
             <span style={{ color: "#39D98A" }}>even find local.</span>
           </h1>
-          <p style={supportStyle({ marginTop: 24, maxWidth: 520 })}>
+          <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 520 })}>
             The places that hold our neighbourhoods together are still
             invisible online.
           </p>
@@ -139,7 +139,7 @@ export function HeroCarousel() {
               <br />
               when it's quiet.
             </h2>
-            <p style={supportStyle({ marginTop: 24, fontSize: 16 })}>
+            <p data-secondary="true" style={supportStyle({ marginTop: 24, fontSize: 16 })}>
               Every regular is invisible without a record.
             </p>
           </div>
@@ -211,7 +211,7 @@ export function HeroCarousel() {
               <br />
               <span style={{ color: "#39D98A" }}>Not a day.</span>
             </h2>
-            <p style={supportStyle({ marginTop: 24, maxWidth: 600, marginLeft: "auto", marginRight: "auto" })}>
+            <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 600, marginLeft: "auto", marginRight: "auto" })}>
               The shisanyama doesn't need an Instagram page. It needs its
               regulars to find it.
             </p>
@@ -249,7 +249,7 @@ export function HeroCarousel() {
               They come for the{" "}
               <span style={{ color: "#39D98A" }}>conversations.</span>
             </h2>
-            <p style={supportStyle({ marginTop: 24, maxWidth: 420, fontSize: 16 })}>
+            <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 420, fontSize: 16 })}>
               The connections. The football debates. The referrals. The
               everyday life that happens while they wait.
             </p>
@@ -399,7 +399,7 @@ export function HeroCarousel() {
             <br />
             <span style={{ color: "#39D98A" }}>seen.</span>
           </h2>
-          <p style={supportStyle({ marginTop: 24, fontSize: 16 })}>
+          <p data-secondary="true" style={supportStyle({ marginTop: 24, fontSize: 16 })}>
             Not a spa. Not a franchise. The place on your street that always
             had a space for you.
           </p>
