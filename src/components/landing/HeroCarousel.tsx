@@ -61,7 +61,7 @@ export function HeroCarousel() {
   const slides: Slide[] = [
     {
       photo:
-        "https://images.unsplash.com/photo-1517022812141-23620dba5c23?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1580048915913-4f8f5cb481c4?w=1920&q=80",
       alt: "Township street life at dusk",
       brightness: 0.65,
       contrast: 1.2,
@@ -98,7 +98,7 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1920&q=80",
       alt: "Barber working with clippers",
       brightness: 0.6,
       contrast: 1.25,
@@ -148,7 +148,7 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&q=80",
       alt: "Smoke from a braai grill",
       brightness: 0.55,
       contrast: 1.3,
@@ -221,7 +221,7 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1605164599901-db7f68c4b3a3?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80",
       alt: "Car wash worker smiling",
       brightness: 0.65,
       contrast: 1.2,
@@ -289,7 +289,7 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=1920&q=80",
       alt: "Inside a small corner shop",
       brightness: 0.6,
       contrast: 1.15,
@@ -374,7 +374,7 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1595475207225-428b62bda831?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&q=80",
       alt: "Hands braiding hair",
       brightness: 0.65,
       contrast: 1.2,
@@ -439,7 +439,7 @@ export function HeroCarousel() {
     },
     {
       photo:
-        "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1920&q=80",
       alt: "People gathered outside a local shop",
       brightness: 0.5,
       contrast: 1.1,
@@ -657,6 +657,7 @@ export function HeroCarousel() {
             opacity: i === active ? 1 : 0,
             transition: "opacity 0.8s ease",
             pointerEvents: i === active ? "auto" : "none",
+            background: "linear-gradient(135deg, #0D1117, #161B22)",
           }}
         >
           <img
@@ -670,6 +671,10 @@ export function HeroCarousel() {
               height: "100%",
               objectFit: "cover",
               filter: photoFilter(s.brightness, s.contrast),
+              zIndex: 0,
+            }}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
             }}
           />
           <div
@@ -678,6 +683,7 @@ export function HeroCarousel() {
               inset: 0,
               background: s.overlay,
               pointerEvents: "none",
+              zIndex: 1,
             }}
           />
           {s.render()}
