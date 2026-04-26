@@ -657,6 +657,7 @@ export function HeroCarousel() {
             opacity: i === active ? 1 : 0,
             transition: "opacity 0.8s ease",
             pointerEvents: i === active ? "auto" : "none",
+            background: "linear-gradient(135deg, #0D1117, #161B22)",
           }}
         >
           <img
@@ -670,6 +671,10 @@ export function HeroCarousel() {
               height: "100%",
               objectFit: "cover",
               filter: photoFilter(s.brightness, s.contrast),
+              zIndex: 0,
+            }}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
             }}
           />
           <div
@@ -678,6 +683,7 @@ export function HeroCarousel() {
               inset: 0,
               background: s.overlay,
               pointerEvents: "none",
+              zIndex: 1,
             }}
           />
           {s.render()}
