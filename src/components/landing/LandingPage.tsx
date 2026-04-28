@@ -13,6 +13,8 @@ import { PlacesGallery } from "./PlacesGallery";
 import { ValueStack } from "./ValueStack";
 import { SocialProof } from "./SocialProof";
 import { CheckInCTA } from "./CheckInCTA";
+import { WaitlistModal } from "./WaitlistModal";
+import { StickyMobileCTA } from "./StickyMobileCTA";
 
 export function LandingPage() {
   useScrollReveal();
@@ -32,6 +34,8 @@ export function LandingPage() {
       <SocialProof />
       <CityWaitlist />
       <Footer />
+      <WaitlistModal />
+      <StickyMobileCTA />
     </div>
   );
 }
