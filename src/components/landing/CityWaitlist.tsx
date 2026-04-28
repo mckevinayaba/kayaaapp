@@ -1,4 +1,5 @@
 import { openWaitlist } from "@/lib/waitlist-store";
+import { WaitlistCounter } from "./WaitlistCounter";
 
 export function CityWaitlist() {
   return (
@@ -85,6 +86,9 @@ export function CityWaitlist() {
         >
           Takes 8 seconds. WhatsApp only — no spam, no email lists.
         </p>
+        <div className="reveal reveal-delay-3" style={{ marginTop: 18 }}>
+          <WaitlistCounter variant="muted" />
+        </div>
       </div>
     </section>
   );
