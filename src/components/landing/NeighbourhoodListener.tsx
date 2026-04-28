@@ -25,8 +25,8 @@ export function NeighbourhoodListener() {
       style={{
         position: "relative",
         padding: "120px 6%",
-        background: "#0A0E14",
-        borderTop: "1px solid #21262D",
+        background: "var(--midnight)",
+        borderTop: "1px solid var(--border-kayaa)",
         overflow: "hidden",
       }}
     >
@@ -97,7 +97,7 @@ export function NeighbourhoodListener() {
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: 11,
-            color: "#39D98A",
+            color: "var(--green)",
             textTransform: "uppercase",
             letterSpacing: "0.18em",
             margin: "0 0 18px",
@@ -111,12 +111,12 @@ export function NeighbourhoodListener() {
             fontFamily: "var(--font-display)",
             fontWeight: 800,
             fontSize: "clamp(34px, 5vw, 60px)",
-            color: "#FFFFFF",
+            color: "var(--warm-white)",
             lineHeight: 1.05,
             margin: "0 0 22px",
           }}
         >
-          Be a <span style={{ color: "#39D98A" }}>Neighbourhood Listener.</span>
+          Be a <span style={{ color: "var(--green)" }}>Neighbourhood Listener.</span>
         </h2>
         <p
           className="reveal"
@@ -142,7 +142,7 @@ export function NeighbourhoodListener() {
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: 11,
-                color: "#39D98A",
+                color: "var(--green)",
                 letterSpacing: "0.16em",
                 marginBottom: 14,
               }}
@@ -154,7 +154,7 @@ export function NeighbourhoodListener() {
                 fontFamily: "var(--font-display)",
                 fontWeight: 800,
                 fontSize: 24,
-                color: "#FFFFFF",
+                color: "var(--warm-white)",
                 marginBottom: 12,
               }}
             >
@@ -181,8 +181,8 @@ export function NeighbourhoodListener() {
           onClick={() => openWaitlist(1)}
           className="kayaa-listener-cta reveal"
           style={{
-            background: "#39D98A",
-            color: "#0D1117",
+            background: "var(--green)",
+            color: "var(--midnight)",
             fontFamily: "var(--font-body)",
             fontWeight: 700,
             fontSize: 16,
