@@ -54,9 +54,9 @@ export function WhyMatters() {
     <section
       id="why"
       style={{
-        background: "#0A0E14",
+        background: "var(--midnight)",
         padding: "120px 6%",
-        borderTop: "1px solid #21262D",
+        borderTop: "1px solid var(--border-kayaa)",
         position: "relative",
       }}
     >
@@ -73,8 +73,8 @@ export function WhyMatters() {
           aspect-ratio: 4/5;
           border-radius: 14px;
           overflow: hidden;
-          background: #161B22;
-          border: 1px solid #21262D;
+          background: var(--card-kayaa);
+          border: 1px solid var(--border-kayaa);
           transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
           cursor: default;
         }
@@ -101,7 +101,7 @@ export function WhyMatters() {
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: 11,
-            color: "#39D98A",
+            color: "var(--green)",
             textTransform: "uppercase",
             letterSpacing: "0.16em",
             margin: "0 0 18px",
@@ -115,14 +115,14 @@ export function WhyMatters() {
             fontFamily: "var(--font-display)",
             fontWeight: 800,
             fontSize: "clamp(30px, 4.4vw, 54px)",
-            color: "#FFFFFF",
+            color: "var(--warm-white)",
             lineHeight: 1.1,
             margin: "0 0 22px",
           }}
         >
           Some of the places doing the most
           <br />
-          <span style={{ color: "#39D98A" }}>are still seen the least.</span>
+          <span style={{ color: "var(--green)" }}>are still seen the least.</span>
         </h2>
         <p
           className="reveal"
@@ -163,7 +163,7 @@ export function WhyMatters() {
                 left: 18,
                 right: 18,
                 bottom: 18,
-                color: "#FFFFFF",
+                color: "var(--warm-white)",
               }}
             >
               <div
@@ -218,7 +218,7 @@ export function WhyMatters() {
       >
         We keep talking about community —
         <br />
-        <span style={{ color: "#39D98A" }}>
+        <span style={{ color: "var(--green)" }}>
           but we ignore the places that make community possible.
         </span>
       </p>

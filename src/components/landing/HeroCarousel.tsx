@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef, type CSSProperties } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { openWaitlist } from "@/lib/waitlist-store";
 
 type Slide = {
   photo: string;
@@ -54,7 +54,6 @@ const slideNumberStyle: CSSProperties = {
 };
 
 export function HeroCarousel() {
-  const navigate = useNavigate();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -85,13 +84,74 @@ export function HeroCarousel() {
             <br />
             support local.
             <br />
-            <span style={{ color: "#39D98A" }}>But we cannot</span>
+            <span style={{ color: "var(--green)" }}>But we cannot</span>
             <br />
-            <span style={{ color: "#39D98A" }}>even find local.</span>
+            <span style={{ color: "var(--green)" }}>even find local.</span>
           </h1>
           <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 520 })}>
-            The places that hold our neighbourhoods together are still
-            invisible online.
+            kayaa is building a new way to see the places holding our
+            neighbourhoods together.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              gap: 14,
+              marginTop: 32,
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => openWaitlist(1)}
+              className="kayaa-hero-primary"
+              style={{
+                background: "var(--green)",
+                color: "var(--midnight)",
+                fontFamily: "var(--font-body)",
+                fontWeight: 700,
+                fontSize: 15,
+                padding: "15px 28px",
+                borderRadius: 10,
+                border: "none",
+                cursor: "pointer",
+                boxShadow: "0 0 50px var(--green-glow)",
+                transition: "all .2s ease",
+              }}
+            >
+              Nominate a place →
+            </button>
+            <button
+              type="button"
+              onClick={() => openWaitlist(1)}
+              className="kayaa-hero-secondary"
+              style={{
+                background: "transparent",
+                color: "var(--warm-white)",
+                fontFamily: "var(--font-body)",
+                fontWeight: 600,
+                fontSize: 15,
+                padding: "15px 28px",
+                borderRadius: 10,
+                border: "1px solid rgba(57,217,138,0.4)",
+                cursor: "pointer",
+                transition: "all .2s ease",
+              }}
+            >
+              Join the neighbourhood waitlist
+            </button>
+          </div>
+          <p
+            data-secondary="true"
+            style={{
+              fontFamily: "var(--font-body)",
+              fontStyle: "italic",
+              fontSize: 14,
+              color: "rgba(240,246,252,0.6)",
+              marginTop: 18,
+              maxWidth: 520,
+            }}
+          >
+            Tell us the place in your area that would hurt if it closed.
           </p>
         </div>
       ),
@@ -498,11 +558,11 @@ export function HeroCarousel() {
             }}
           >
             <button
-              onClick={() => navigate({ to: "/auth", search: { redirect: "/feed" } as never })}
+              onClick={() => openWaitlist(1)}
               className="kayaa-cta-explore"
               style={{
-                background: "#39D98A",
-                color: "#0D1117",
+                background: "var(--green)",
+                color: "var(--midnight)",
                 fontFamily: "var(--font-body)",
                 fontWeight: 700,
                 fontSize: 16,
@@ -510,18 +570,18 @@ export function HeroCarousel() {
                 borderRadius: 8,
                 border: "none",
                 cursor: "pointer",
-                boxShadow: "0 0 60px rgba(57,217,138,0.3)",
+                boxShadow: "0 0 60px var(--green-glow)",
                 transition: "all 0.2s ease",
               }}
             >
-              Check in nearby →
+              Nominate a place →
             </button>
             <button
-              onClick={() => navigate({ to: "/add-place" as string as "/" })}
+              onClick={() => openWaitlist(1)}
               className="kayaa-cta-add"
               style={{
                 background: "transparent",
-                color: "#FFFFFF",
+                color: "var(--warm-white)",
                 border: "1px solid rgba(255,255,255,0.3)",
                 fontFamily: "var(--font-body)",
                 fontWeight: 500,
@@ -532,7 +592,7 @@ export function HeroCarousel() {
                 transition: "all 0.2s ease",
               }}
             >
-              I run a place — add it free
+              Join the neighbourhood waitlist
             </button>
           </div>
           <p

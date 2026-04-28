@@ -74,9 +74,9 @@ export function NeighbourhoodFeed() {
     <section
       id="community"
       style={{
-        background: "#0D1117",
+        background: "var(--midnight)",
         padding: "120px 6%",
-        borderTop: "1px solid #21262D",
+        borderTop: "1px solid var(--border-kayaa)",
         position: "relative",
         overflow: "hidden",
       }}
@@ -104,8 +104,8 @@ export function NeighbourhoodFeed() {
         }
         .kayaa-feed-card {
           position: relative;
-          background: #161B22;
-          border: 1px solid #21262D;
+          background: var(--card-kayaa);
+          border: 1px solid var(--border-kayaa);
           border-radius: 14px;
           overflow: hidden;
           display: flex;
@@ -131,8 +131,8 @@ export function NeighbourhoodFeed() {
         .kayaa-feed-card:hover .kayaa-feed-photo img { transform: scale(1.06); }
         .kayaa-live-dot {
           width: 8px; height: 8px; border-radius: 999px;
-          background: #39D98A;
-          box-shadow: 0 0 10px #39D98A;
+          background: var(--green);
+          box-shadow: 0 0 10px var(--green);
           animation: kayaaLivePulse 1.6s ease-in-out infinite;
         }
         @keyframes kayaaLivePulse {
@@ -162,7 +162,7 @@ export function NeighbourhoodFeed() {
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: 11,
-              color: "#39D98A",
+              color: "var(--green)",
               letterSpacing: "0.16em",
               textTransform: "uppercase",
             }}
@@ -176,13 +176,13 @@ export function NeighbourhoodFeed() {
             fontFamily: "var(--font-display)",
             fontWeight: 800,
             fontSize: "clamp(30px, 4.4vw, 54px)",
-            color: "#FFFFFF",
+            color: "var(--warm-white)",
             lineHeight: 1.1,
             margin: "0 0 18px",
           }}
         >
           Live from our
-          <span style={{ color: "#39D98A" }}> neighbourhoods.</span>
+          <span style={{ color: "var(--green)" }}> neighbourhoods.</span>
         </h2>
         <p
           className="reveal"
@@ -231,7 +231,7 @@ export function NeighbourhoodFeed() {
                   fontFamily: "var(--font-mono)",
                   fontSize: 10,
                   letterSpacing: "0.14em",
-                  color: "#39D98A",
+                  color: "var(--green)",
                   textTransform: "uppercase",
                 }}
               >
@@ -243,14 +243,14 @@ export function NeighbourhoodFeed() {
                   bottom: 12,
                   left: 14,
                   right: 14,
-                  color: "#FFFFFF",
+                  color: "var(--warm-white)",
                 }}
               >
                 <div
                   style={{
                     fontFamily: "var(--font-mono)",
                     fontSize: 10,
-                    color: "#39D98A",
+                    color: "var(--green)",
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
                     marginBottom: 4,
@@ -308,7 +308,7 @@ export function NeighbourhoodFeed() {
                 }}
               >
                 <span>📌 {p.checkins} check-ins</span>
-                <span style={{ color: "#39D98A" }}>♥ {p.hearts}</span>
+                <span style={{ color: "var(--green)" }}>♥ {p.hearts}</span>
                 <span>💬 {p.mentions}</span>
               </div>
             </div>
@@ -323,7 +323,7 @@ export function NeighbourhoodFeed() {
           className="reveal"
           style={{
             background: "transparent",
-            color: "#39D98A",
+            color: "var(--green)",
             fontFamily: "var(--font-body)",
             fontWeight: 600,
             fontSize: 15,
