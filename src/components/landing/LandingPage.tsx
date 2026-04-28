@@ -15,6 +15,9 @@ import { SocialProof } from "./SocialProof";
 import { CheckInCTA } from "./CheckInCTA";
 import { WaitlistModal } from "./WaitlistModal";
 import { StickyMobileCTA } from "./StickyMobileCTA";
+import { WhyMatters } from "./WhyMatters";
+import { NeighbourhoodFeed } from "./NeighbourhoodFeed";
+import { NeighbourhoodListener } from "./NeighbourhoodListener";
 
 export function LandingPage() {
   useScrollReveal();
@@ -24,14 +27,17 @@ export function LandingPage() {
       <HeroCarousel />
       <CheckInCTA />
       <TruthSection />
+      <WhyMatters />
       <EditorialPhotoBreak />
       <HowItWorks />
       <AppProof />
       <PlacesGallery />
+      <NeighbourhoodFeed />
       <ValueStack />
       <ForOwners />
       <ResearchBrief />
       <SocialProof />
+      <NeighbourhoodListener />
       <CityWaitlist />
       <Footer />
       <WaitlistModal />
