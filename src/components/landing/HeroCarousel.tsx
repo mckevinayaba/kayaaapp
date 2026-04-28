@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useRef, type CSSProperties } from "react";
-import { useNavigate } from "@tanstack/react-router";
 import { openWaitlist } from "@/lib/waitlist-store";
 
 type Slide = {
@@ -55,7 +54,6 @@ const slideNumberStyle: CSSProperties = {
 };
 
 export function HeroCarousel() {
-  const navigate = useNavigate();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
