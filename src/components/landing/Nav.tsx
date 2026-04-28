@@ -1,8 +1,7 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { openWaitlist } from "@/lib/waitlist-store";
 
 export function Nav() {
-  const navigate = useNavigate();
   return (
     <nav
       style={{
