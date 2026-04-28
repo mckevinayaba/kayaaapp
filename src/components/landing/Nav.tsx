@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import { openWaitlist } from "@/lib/waitlist-store";
 
 export function Nav() {
-  const navigate = useNavigate();
   return (
     <nav
       style={{
@@ -49,7 +49,7 @@ export function Nav() {
           Sign in
         </Link>
         <button
-          onClick={() => navigate({ to: "/auth", search: { redirect: "/feed" } as never })}
+          onClick={() => openWaitlist(1)}
           className="kayaa-add-btn"
           style={{
             fontFamily: "var(--font-body)",
@@ -64,7 +64,7 @@ export function Nav() {
             transition: "all 0.2s",
           }}
         >
-          Check in →
+          Join waitlist →
         </button>
       </div>
       <style>{`
