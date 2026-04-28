@@ -1,116 +1,55 @@
-## Goal
+# Add place address field to waitlist flow
 
-Make it impossible to land on kayaa and not join the waitlist. Keep the existing cinematic design, just add aggressive conversion surfaces around it.
+## The problem
 
-## What changes
+Right now the "What's the name of the place?" step only accepts a place **name** (e.g. "Uncle Dee's Barbershop"). There's no room to add **where** the place is — like "Randpark Ridge, Randburg" or a street address. Users are trying to cram name + address into one input and running out of meaning.
 
-### 1. Hero gets real CTAs (currently has none)
+The Suburb step at the start captures the *user's* neighbourhood (where they're speaking from), not the place's location. Those are often different — someone in Sandton might nominate a barbershop in Alex.
 
-Add two buttons to `HeroCarousel`:
-- **Primary**: "Join the waitlist →" (opens modal)
-- **Secondary (text link)**: "Nominate a place" (also opens modal, on step 2)
+## The fix
 
-Below the buttons, a tiny line: "WhatsApp us your area. We'll let you know when kayaa lands."
+Split the place step into **two clean inputs on one screen** instead of adding a 7th step (which would hurt completion rate):
 
-### 2. New `WaitlistModal` component (the conversion engine)
+```text
+Step 2 of 6 — What's the place?
 
-A single dark, centered modal that opens from anywhere. Two screens:
+[ Name of the place                              ]
+  e.g. Uncle Dee's Barbershop
 
-**Screen 1 — Capture (the only required step)**
-- Headline: "Be first when kayaa lands in your area."
-- Field 1: Suburb / area (e.g. "Tembisa")
-- Field 2: WhatsApp number (with +27 prefix hint, basic format validation)
-- Button: "Join the waitlist →"
-- Tiny line: "We'll WhatsApp you. No spam, no email lists."
+[ Where is it? (suburb, area, or street)         ]
+  e.g. Randpark Ridge, Randburg
 
-On submit → write to `country_waitlist` (already exists, `contact_type: "whatsapp"`) → instantly show Screen 2. They're already converted at this point.
+                                    [ Continue → ]
+```
 
-**Screen 2 — Nomination (optional, post-conversion bonus)**
-- Headline: "You're in. One last thing."
-- Sub: "Tell us one place in your area that would hurt if it closed. We'll start with those."
-- Field 1: Place name (e.g. "Uncle Dee's Barbershop")
-- Field 2 (chips, single-select): Barbershop / Salon / Shisanyama / Spaza / Car Wash / Food spot / Church / Other
-- Field 3 (optional textarea): "Why does it matter?" (placeholder: "What keeps people going back?")
-- Two buttons: "Submit" and "Skip" (both close the modal)
+Both fields visible together, name auto-focused, Tab moves to address, Enter on either advances. Address is **required** (otherwise we can't actually find the place later) but accepts free-form text up to 200 chars.
 
-On submit → write to `community_stories` (already exists). Skip just closes.
+## Where this data goes
 
-Final state: "Thanks. We'll WhatsApp you when kayaa is live in [their suburb]."
+- `place_name` → unchanged, stores just the name
+- `place_address` → NEW, appended into the existing `community_stories.story` field as a prefixed line (no schema change needed):
+  ```
+  Address: Randpark Ridge, Randburg
+  [original "why does it matter" text]
+  [owner|neighbour]
+  Area: [user's suburb]
+  ```
+  This keeps the admin export readable and avoids a database migration. If you'd rather have a dedicated `place_address` column in `community_stories`, say the word — it's a small migration.
 
-### 3. Sticky mobile CTA bar
+## Other small polish in the same change
 
-Fixed bottom bar, mobile only (`md:hidden`):
-- Background: solid `#0D1117` with green top border
-- "Join the waitlist" button, full width, opens the modal
-- Hidden when the modal is open or after they've submitted (use `localStorage` to remember)
+- Increase `place_name` `maxLength` from 200 → keep at 200 (DB cap), but make the input visually wider on mobile.
+- Update the admin dashboard CSV export to surface the address line clearly (parse out the `Address:` prefix into its own column).
 
-### 4. Social proof counter
+## Files touched
 
-Small line under the hero CTAs:
-- "Join 247 people from 31 suburbs already on the list."
-- Live count from `country_waitlist` via a server function (cached). Floor it (always say 247 not actual if actual is lower) — start with a baseline of 200 so it never looks empty.
+- `src/components/landing/WaitlistModal.tsx` — split the "place" step into name + address inputs, add `placeAddress` state, validation, and include it when writing to `community_stories`.
+- `src/server/waitlist.functions.ts` — in `getWaitlistList`, parse the `Address:` line out of `story` so it appears as its own field for the admin table + CSV.
+- `src/routes/admin.waitlist.tsx` — add an "Address" column.
 
-If the count is genuinely impressive later, promote it visually. For now it's just a quiet trust signal.
+## What stays the same
 
-### 5. Wire the existing `CityWaitlist` section to the modal
+- 6-step flow, progress bar, WhatsApp-only contact, all existing copy and animations.
+- No DB migration. No new tables. No auth changes.
 
-Keep the section (it's good copy real estate) but replace the inline form with a single big "Join the waitlist →" button that opens the same modal. One conversion path everywhere = consistent and easier to track.
-
-### 6. Hidden admin page (`/admin/waitlist`)
-
-Auth-gated (Lovable Cloud auth, your email only). Shows:
-- Total signups + suburb breakdown
-- Table: suburb, WhatsApp number, joined date, nominated place (if any), why
-- Each row: a "Message on WhatsApp" button that opens `https://wa.me/<number>?text=Hey%20from%20kayaa...`
-- CSV export
-
-This is how you actually do outreach. No API needed — you tap the button, your WhatsApp opens, you send.
-
-## What stays exactly as it is
-
-- All current sections (`TruthSection`, `EditorialPhotoBreak`, `HowItWorks`, `AppProof`, `PlacesGallery`, `ValueStack`, `ForOwners`, `ResearchBrief`, `SocialProof`, `Footer`)
-- All photos and copy
-- The dark cinematic design language
-- `country_waitlist` and `community_stories` tables (no schema changes)
-
-## What I'm NOT building (deliberately)
-
-- 6-step conversational form (kills conversion, save for v2)
-- WhatsApp Business API integration (you said no, agreed)
-- Email capture as primary (WhatsApp-first for SA)
-- Separate "Nominate a place" page (folded into post-signup step)
-- Auth/login for visitors (waitlist is anonymous, only admin needs auth)
-
-## Technical notes
-
-- `WaitlistModal` lives in `src/components/landing/WaitlistModal.tsx`. Use shadcn `Dialog`. Open state managed via a tiny Zustand store or simple context so any CTA can open it.
-- Phone validation: accept `+27...`, `0...`, or international. Normalise to `+27...` before insert. Use a small regex, no external library.
-- Counter: `createServerFn` with `requireSupabaseAuth` is overkill — use `supabaseAdmin` in a server fn (`getWaitlistStats`) that returns `{ count, suburbCount }`. Cache for 60s. Show floor of `max(actual, 200)`.
-- Admin page: new route `/admin/waitlist` with `requireSupabaseAuth` middleware. Hardcode allowed email check (your email) on the server. Reuses existing `auth.tsx` flow for sign-in.
-- `localStorage` key `kayaa_joined=1` to hide sticky bar after signup.
-
-## Files to create
-
-- `src/components/landing/WaitlistModal.tsx`
-- `src/components/landing/StickyMobileCTA.tsx`
-- `src/components/landing/WaitlistCounter.tsx`
-- `src/lib/waitlist-store.ts` (open/close state)
-- `src/server/waitlist.functions.ts` (count + admin list)
-- `src/routes/admin.waitlist.tsx`
-
-## Files to edit
-
-- `src/components/landing/HeroCarousel.tsx` (add CTA buttons + counter)
-- `src/components/landing/CityWaitlist.tsx` (replace form with single button)
-- `src/components/landing/LandingPage.tsx` (mount modal + sticky bar)
-
-## Conversion logic recap
-
-1. Land → see hero with CTA → click → modal opens
-2. 2 fields, 8 seconds → submit → **converted**
-3. Bonus screen asks for nomination → optional, pure upside
-4. Sticky mobile bar means CTA is never more than one tap away
-5. Counter builds trust ("others are doing this")
-6. You see signups in `/admin/waitlist`, tap WhatsApp button, message them personally
-
-That's the whole loop. No API, no Meta, no struggle.
+Approve and I'll ship it.
