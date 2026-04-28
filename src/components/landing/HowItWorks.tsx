@@ -25,6 +25,7 @@ const CARDS = [
 export function HowItWorks() {
   return (
     <section
+      id="how"
       style={{
         background: "#0D1117",
         padding: "100px 6%",
