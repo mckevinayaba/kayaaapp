@@ -65,6 +65,7 @@ export function WaitlistModal() {
 
   const [area, setArea] = useState("");
   const [placeName, setPlaceName] = useState("");
+  const [placeAddress, setPlaceAddress] = useState("");
   const [placeType, setPlaceType] = useState<string>("");
   const [why, setWhy] = useState("");
   const [ownership, setOwnership] = useState<"mine" | "other" | "">("");
@@ -111,6 +112,7 @@ export function WaitlistModal() {
         setStep("area");
         setArea("");
         setPlaceName("");
+        setPlaceAddress("");
         setPlaceType("");
         setWhy("");
         setOwnership("");
@@ -127,6 +129,8 @@ export function WaitlistModal() {
       setStep("place");
     } else if (step === "place") {
       if (placeName.trim().length < 2) return setError("Add the place name");
+      if (placeAddress.trim().length < 2)
+        return setError("Add where it is — suburb, area, or street");
       setStep("type");
     } else if (step === "type") {
       if (!placeType) return setError("Pick a category");
@@ -190,6 +194,7 @@ export function WaitlistModal() {
 
     // 2) Place nomination
     const story = [
+      placeAddress.trim() ? `Address: ${placeAddress.trim()}` : "",
       why.trim(),
       ownership === "mine" ? "[owner]" : ownership === "other" ? "[neighbour]" : "",
       area.trim() ? `Area: ${area.trim()}` : "",
@@ -216,7 +221,7 @@ export function WaitlistModal() {
       case "area":
         return "What neighbourhood are you speaking from?";
       case "place":
-        return "What's the name of the place?";
+        return "What's the place?";
       case "type":
         return "What kind of place is it?";
       case "why":
@@ -233,7 +238,12 @@ export function WaitlistModal() {
   if (!open) return null;
 
   const onEnterAdvance = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && step !== "why" && step !== "contact") {
+    if (
+      e.key === "Enter" &&
+      step !== "why" &&
+      step !== "contact" &&
+      step !== "place"
+    ) {
       e.preventDefault();
       goNext();
     }
@@ -454,8 +464,21 @@ export function WaitlistModal() {
                 placeholder="e.g. Uncle Dee's Barbershop"
                 value={placeName}
                 onChange={(e) => setPlaceName(e.target.value)}
-                onKeyDown={onEnterAdvance}
                 autoFocus
+                maxLength={200}
+                style={{ marginBottom: 10 }}
+              />
+              <input
+                className="kayaa-wm-input"
+                placeholder="Where is it? e.g. Randpark Ridge, Randburg"
+                value={placeAddress}
+                onChange={(e) => setPlaceAddress(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    goNext();
+                  }
+                }}
                 maxLength={200}
               />
               <p
@@ -466,7 +489,7 @@ export function WaitlistModal() {
                   margin: "10px 2px 0",
                 }}
               >
-                The place that would hurt if it closed.
+                The place that would hurt if it closed — and where to find it.
               </p>
             </div>
           )}

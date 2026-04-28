@@ -84,6 +84,21 @@ export const getWaitlistList = createServerFn({ method: "GET" })
 
     const enriched = signups.map((s) => {
       const nom = storyByContact.get((s.contact || "").trim())?.[0];
+      const rawStory = nom?.story ?? "";
+      // Pull out "Address: ..." line if present
+      const addrMatch = rawStory.match(/^Address:\s*(.+)$/m);
+      const nominated_address = addrMatch ? addrMatch[1].trim() : null;
+      const nominated_why = rawStory
+        .split("\n")
+        .filter(
+          (l) =>
+            !/^Address:/i.test(l) &&
+            !/^Area:/i.test(l) &&
+            l.trim() !== "[owner]" &&
+            l.trim() !== "[neighbour]",
+        )
+        .join("\n")
+        .trim();
       return {
         id: s.id,
         area: s.area,
@@ -93,7 +108,8 @@ export const getWaitlistList = createServerFn({ method: "GET" })
         source: s.source,
         nominated_place: nom?.place_name ?? null,
         nominated_type: nom?.place_type ?? null,
-        nominated_why: nom?.story ?? null,
+        nominated_address,
+        nominated_why: nominated_why || null,
       };
     });
 

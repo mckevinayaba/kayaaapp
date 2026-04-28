@@ -22,6 +22,7 @@ type Row = {
   source: string | null;
   nominated_place: string | null;
   nominated_type: string | null;
+  nominated_address: string | null;
   nominated_why: string | null;
 };
 
@@ -88,6 +89,7 @@ function AdminWaitlistPage() {
       "source",
       "nominated_place",
       "nominated_type",
+      "nominated_address",
       "nominated_why",
     ];
     const escape = (v: unknown) => {
@@ -105,6 +107,7 @@ function AdminWaitlistPage() {
           r.source ?? "",
           r.nominated_place ?? "",
           r.nominated_type ?? "",
+          r.nominated_address ?? "",
           r.nominated_why ?? "",
         ]
           .map(escape)
@@ -309,6 +312,7 @@ function AdminWaitlistPage() {
                       <Th>Suburb</Th>
                       <Th>Contact</Th>
                       <Th>Nominated</Th>
+                      <Th>Where</Th>
                       <Th>Why</Th>
                       <Th>Action</Th>
                     </tr>
@@ -360,6 +364,17 @@ function AdminWaitlistPage() {
                           )}
                         </Td>
                         <Td>
+                          {r.nominated_address ? (
+                            <span style={{ color: "rgba(255,255,255,0.75)" }}>
+                              {r.nominated_address}
+                            </span>
+                          ) : (
+                            <span style={{ color: "rgba(255,255,255,0.3)" }}>
+                              —
+                            </span>
+                          )}
+                        </Td>
+                        <Td>
                           <span
                             style={{
                               color: "rgba(255,255,255,0.6)",
@@ -397,7 +412,7 @@ function AdminWaitlistPage() {
                     {filtered.length === 0 && (
                       <tr>
                         <td
-                          colSpan={6}
+                          colSpan={7}
                           style={{
                             padding: 24,
                             textAlign: "center",
