@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { LandingPage } from "@/components/landing/LandingPage";
+import { PRE_LAUNCH } from "@/lib/waitlist-store";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -28,6 +29,12 @@ function Index() {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
+    // During pre-launch, the landing page is the only public surface.
+    // Don't auto-bounce signed-in users into the gated product.
+    if (PRE_LAUNCH) {
+      setChecked(true);
+      return;
+    }
     let active = true;
     supabase.auth
       .getSession()
