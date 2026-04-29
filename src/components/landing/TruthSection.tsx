@@ -8,18 +8,12 @@ const PLACE_LINES = [
 ];
 
 const PILLS = [
-  ["💈", "Barbershop"],
-  ["💅", "Salon"],
-  ["🍖", "Shisanyama"],
-  ["🚗", "Car Wash"],
-  ["⛪", "Church Hall"],
-  ["🛒", "Tuckshop"],
-  ["☕", "Café"],
-  ["🔧", "Mechanic"],
-  ["🍺", "Tavern"],
-  ["📍", "Food Spot"],
-  ["🏪", "Spaza Shop"],
-  ["🎵", "Music Studio"],
+  "Barbershops",
+  "Salons",
+  "Shisanyamas",
+  "Tuckshops",
+  "Spaza shops",
+  "Car washes",
 ] as const;
 
 const ITALIC_LINES = [
@@ -109,7 +103,7 @@ export function TruthSection() {
             marginBottom: 64,
           }}
         >
-          {PILLS.map(([emoji, label]) => (
+          {PILLS.map((label) => (
             <span
               key={label}
               className="kayaa-pill"
@@ -117,17 +111,16 @@ export function TruthSection() {
                 background: "var(--card-kayaa)",
                 border: "1px solid var(--border-kayaa)",
                 borderRadius: 999,
-                padding: "9px 20px",
+                padding: "9px 18px",
                 color: "var(--warm-white)",
-                fontFamily: "var(--font-body)",
-                fontSize: 14,
+                fontFamily: "var(--font-mono)",
+                fontSize: 12,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
                 cursor: "default",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
               }}
             >
-              <span aria-hidden>{emoji}</span> {label}
+              {label}
             </span>
           ))}
         </div>
