@@ -4,6 +4,11 @@
 const OPEN_EVENT = "kayaa:waitlist-open";
 const JOINED_KEY = "kayaa_joined";
 
+// Pre-launch gating. Flip to false when the product opens to the public.
+// While true, /feed and /auth are not reachable — visitors are routed back
+// to the landing page and the waitlist modal is opened.
+export const PRE_LAUNCH = true;
+
 export function openWaitlist(initialStep: 1 | 2 = 1) {
   if (typeof window === "undefined") return;
   window.dispatchEvent(

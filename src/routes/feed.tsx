@@ -1,8 +1,14 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { PRE_LAUNCH } from "@/lib/waitlist-store";
 
 export const Route = createFileRoute("/feed")({
+  beforeLoad: () => {
+    if (PRE_LAUNCH) {
+      throw redirect({ to: "/", search: { waitlist: 1 } as never });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Your feed — kayaa" },
