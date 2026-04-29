@@ -1,9 +1,15 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { PRE_LAUNCH } from "@/lib/waitlist-store";
 
 export const Route = createFileRoute("/auth")({
+  beforeLoad: () => {
+    if (PRE_LAUNCH) {
+      throw redirect({ to: "/", search: { waitlist: 1 } as never });
+    }
+  },
   validateSearch: (search: Record<string, unknown>) => ({
     redirect: typeof search.redirect === "string" ? search.redirect : "/feed",
   }),
