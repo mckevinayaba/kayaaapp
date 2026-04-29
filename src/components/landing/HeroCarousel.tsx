@@ -10,24 +10,24 @@ type Slide = {
   render: () => React.ReactNode;
 };
 
-const photoFilter = (b: number, c: number) =>
-  `contrast(${c}) brightness(${b})`;
+const photoFilter = (b: number, c: number) => `contrast(${c}) brightness(${b})`;
 
 const labelStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
   fontSize: 11,
-  letterSpacing: "0.14em",
+  letterSpacing: "0.18em",
   textTransform: "uppercase",
-  color: "#39D98A",
+  color: "var(--green)",
   margin: 0,
 };
 
 const headlineStyle = (extra: CSSProperties = {}): CSSProperties => ({
   fontFamily: "var(--font-display)",
   fontWeight: 800,
-  fontSize: "clamp(34px, 5.2vw, 68px)",
-  lineHeight: 1.05,
-  color: "#FFFFFF",
+  fontSize: "clamp(36px, 5.4vw, 72px)",
+  lineHeight: 1.02,
+  letterSpacing: "-0.02em",
+  color: "var(--warm-white)",
   margin: 0,
   ...extra,
 });
@@ -36,22 +36,49 @@ const supportStyle = (extra: CSSProperties = {}): CSSProperties => ({
   fontFamily: "var(--font-body)",
   fontWeight: 400,
   fontSize: 17,
-  color: "rgba(255,255,255,0.7)",
+  color: "rgba(255,255,255,0.72)",
   lineHeight: 1.55,
   margin: 0,
   ...extra,
 });
 
-const slideNumberStyle: CSSProperties = {
-  position: "absolute",
-  top: 24,
-  right: 32,
-  fontFamily: "var(--font-mono)",
-  fontSize: 10,
-  letterSpacing: "0.18em",
-  color: "rgba(255,255,255,0.4)",
-  zIndex: 12,
-};
+// Word-by-word reveal helper
+function RevealWords({
+  text,
+  delay = 0,
+  highlight,
+  style,
+}: {
+  text: string;
+  delay?: number;
+  highlight?: string; // green-coloured words (substring)
+  style?: CSSProperties;
+}) {
+  const words = text.split(" ");
+  return (
+    <span style={style}>
+      {words.map((w, i) => {
+        const isHL = highlight && text.indexOf(highlight) >= 0 &&
+          // crude per-word highlight: matches if substring contains this word
+          highlight.split(" ").includes(w.replace(/[.,]/g, ""));
+        return (
+          <span
+            key={i}
+            className="kayaa-word"
+            style={{
+              display: "inline-block",
+              animationDelay: `${delay + i * 0.08}s`,
+              color: isHL ? "var(--green)" : undefined,
+              marginRight: "0.28em",
+            }}
+          >
+            {w}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
 
 export function HeroCarousel() {
   const [active, setActive] = useState(0);
@@ -59,13 +86,12 @@ export function HeroCarousel() {
 
   const slides: Slide[] = [
     {
-      photo:
-        "/landing/01-made-in-soweto.jpg",
-      alt: "Made in Soweto — township street life",
-      brightness: 0.75,
-      contrast: 1.1,
+      photo: "/landing/01-made-in-soweto.jpg",
+      alt: "South African neighbourhood street life",
+      brightness: 0.62,
+      contrast: 1.12,
       overlay:
-        "linear-gradient(135deg, rgba(13,17,23,0.88) 0%, rgba(13,17,23,0.5) 50%, rgba(13,17,23,0.2) 100%)",
+        "linear-gradient(135deg, rgba(13,17,23,0.92) 0%, rgba(13,17,23,0.55) 55%, rgba(13,17,23,0.25) 100%)",
       render: () => (
         <div
           style={{
@@ -73,31 +99,73 @@ export function HeroCarousel() {
             left: 0,
             right: 0,
             bottom: 0,
-            padding: "0 6% 10%",
+            padding: "0 6% 11%",
             zIndex: 10,
-            maxWidth: 900,
+            maxWidth: 980,
           }}
         >
-          <p style={{ ...labelStyle, marginBottom: 18 }}>kayaa · South Africa</p>
-          <h1 style={headlineStyle()}>
-            We say
-            <br />
-            support local.
-            <br />
-            <span style={{ color: "var(--green)" }}>But we cannot</span>
-            <br />
-            <span style={{ color: "var(--green)" }}>even find local.</span>
-          </h1>
-          <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 520 })}>
-            kayaa is building a new way to see the places holding our
-            neighbourhoods together.
-          </p>
           <div
             style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              border: "1px solid rgba(57,217,138,0.35)",
+              background: "rgba(57,217,138,0.08)",
+              borderRadius: 999,
+              padding: "5px 12px",
+              marginBottom: 22,
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: 999,
+                background: "var(--green)",
+                boxShadow: "0 0 10px var(--green)",
+              }}
+            />
+            <span
+              style={{
+                ...labelStyle,
+                fontSize: 10,
+                letterSpacing: "0.2em",
+              }}
+            >
+              Pre-launch · Johannesburg first
+            </span>
+          </div>
+
+          <h1 style={headlineStyle()}>
+            <RevealWords text="We say support local." />
+            <br />
+            <RevealWords
+              text="But we cannot find local."
+              delay={0.45}
+              highlight="cannot find local."
+            />
+          </h1>
+
+          <p
+            data-secondary="true"
+            className="kayaa-fade-in"
+            style={{
+              ...supportStyle({ marginTop: 26, maxWidth: 540 }),
+              animationDelay: "1.4s",
+            }}
+          >
+            kayaa is a neighbourhood-first way to see the local places that hold
+            South Africa together — the ones the algorithms keep missing.
+          </p>
+
+          <div
+            className="kayaa-fade-in"
+            style={{
               display: "flex",
-              gap: 14,
-              marginTop: 32,
+              gap: 12,
+              marginTop: 30,
               flexWrap: "wrap",
+              animationDelay: "1.7s",
             }}
           >
             <button
@@ -118,7 +186,7 @@ export function HeroCarousel() {
                 transition: "all .2s ease",
               }}
             >
-              Nominate a place →
+              Join the waitlist →
             </button>
             <button
               type="button"
@@ -132,23 +200,25 @@ export function HeroCarousel() {
                 fontSize: 15,
                 padding: "15px 28px",
                 borderRadius: 10,
-                border: "1px solid rgba(57,217,138,0.4)",
+                border: "1px solid rgba(255,255,255,0.22)",
                 cursor: "pointer",
                 transition: "all .2s ease",
               }}
             >
-              Join the neighbourhood waitlist
+              Nominate a place
             </button>
           </div>
           <p
             data-secondary="true"
+            className="kayaa-fade-in"
             style={{
               fontFamily: "var(--font-body)",
               fontStyle: "italic",
               fontSize: 14,
-              color: "rgba(240,246,252,0.6)",
+              color: "rgba(240,246,252,0.55)",
               marginTop: 18,
               maxWidth: 520,
+              animationDelay: "2s",
             }}
           >
             Tell us the place in your area that would hurt if it closed.
@@ -157,204 +227,88 @@ export function HeroCarousel() {
       ),
     },
     {
-      photo:
-        "/landing/09-township-barbershop.jpg",
-      alt: "Bhuti's Barber — township barbershop in Alexandra",
-      brightness: 0.7,
-      contrast: 1.1,
+      photo: "/landing/09-township-barbershop.jpg",
+      alt: "Township barbershop",
+      brightness: 0.6,
+      contrast: 1.12,
       overlay:
-        "linear-gradient(to right, rgba(13,17,23,0) 0%, rgba(13,17,23,0) 30%, rgba(13,17,23,0.95) 100%)",
+        "linear-gradient(to right, rgba(13,17,23,0) 0%, rgba(13,17,23,0) 25%, rgba(13,17,23,0.95) 100%)",
       render: () => (
-        <>
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: 3,
-              background: "#39D98A",
-              zIndex: 11,
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              right: "6%",
-              top: "50%",
-              transform: "translateY(-50%)",
-              maxWidth: 520,
-              textAlign: "right",
-              zIndex: 10,
-            }}
-          >
-            <p style={{ ...labelStyle, marginBottom: 18 }}>The Barbershop</p>
-            <h2 style={headlineStyle()}>
-              He knows your cut.
-              <br />
-              He knows your story.
-              <br />
-              He's just never been{" "}
-              <span style={{ color: "#39D98A" }}>able to reach you</span>
-              <br />
-              when it's quiet.
-            </h2>
-            <p data-secondary="true" style={supportStyle({ marginTop: 24, fontSize: 16 })}>
-              Every regular is invisible without a record.
-            </p>
-          </div>
-        </>
+        <div
+          style={{
+            position: "absolute",
+            right: "6%",
+            top: "50%",
+            transform: "translateY(-50%)",
+            maxWidth: 540,
+            textAlign: "right",
+            zIndex: 10,
+          }}
+        >
+          <p style={{ ...labelStyle, marginBottom: 18 }}>The Barbershop</p>
+          <h2 style={headlineStyle()}>
+            He knows your cut.
+            <br />
+            He knows your story.
+            <br />
+            <span style={{ color: "var(--green)" }}>
+              He just can't reach you
+            </span>
+            <br />
+            when it's quiet.
+          </h2>
+          <p data-secondary="true" style={supportStyle({ marginTop: 22, fontSize: 16 })}>
+            Every regular is invisible without a record.
+          </p>
+        </div>
       ),
     },
     {
-      photo:
-        "/landing/04-shisanyama-evening.jpg",
-      alt: "Mzansi Meat shisanyama braai in Soweto at dusk",
-      brightness: 0.7,
+      photo: "/landing/04-shisanyama-evening.jpg",
+      alt: "Shisanyama at dusk",
+      brightness: 0.6,
       contrast: 1.1,
       overlay:
-        "linear-gradient(to top, rgba(13,17,23,0.97) 0%, rgba(13,17,23,0.6) 40%, rgba(13,17,23,0.1) 100%)",
+        "linear-gradient(to top, rgba(13,17,23,0.97) 0%, rgba(13,17,23,0.55) 45%, rgba(13,17,23,0.1) 100%)",
       render: () => (
-        <>
-          <div
-            style={{
-              position: "absolute",
-              top: "30%",
-              right: "8%",
-              maxWidth: 280,
-              background: "rgba(13,17,23,0.85)",
-              border: "1px solid rgba(57,217,138,0.25)",
-              borderLeft: "3px solid #39D98A",
-              borderRadius: 8,
-              padding: 16,
-              zIndex: 11,
-            }}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            padding: "0 10% 9%",
+            textAlign: "center",
+            zIndex: 10,
+          }}
+        >
+          <p style={{ ...labelStyle, marginBottom: 18 }}>Friday Nights</p>
+          <h2 style={headlineStyle()}>
+            Friday is a feeling.
+            <br />
+            <span style={{ color: "var(--green)" }}>Not a day.</span>
+          </h2>
+          <p
+            data-secondary="true"
+            style={supportStyle({
+              marginTop: 22,
+              maxWidth: 600,
+              marginInline: "auto",
+            })}
           >
-            <p
-              style={{
-                fontFamily: "var(--font-body)",
-                fontStyle: "italic",
-                fontSize: 13,
-                color: "rgba(255,255,255,0.8)",
-                margin: 0,
-                lineHeight: 1.5,
-              }}
-            >
-              "Every celebration somehow ends there."
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 10,
-                color: "#39D98A",
-                marginTop: 8,
-                letterSpacing: "0.14em",
-              }}
-            >
-              REGULAR · TEMBISA
-            </p>
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              bottom: 0,
-              padding: "0 10% 8%",
-              textAlign: "center",
-              zIndex: 10,
-            }}
-          >
-            <p style={{ ...labelStyle, marginBottom: 18 }}>Friday Nights</p>
-            <h2 style={headlineStyle()}>
-              Friday is a feeling.
-              <br />
-              <span style={{ color: "#39D98A" }}>Not a day.</span>
-            </h2>
-            <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 600, marginLeft: "auto", marginRight: "auto" })}>
-              The shisanyama doesn't need an Instagram page. It needs its
-              regulars to find it.
-            </p>
-          </div>
-        </>
+            The shisanyama doesn't need an Instagram page. It needs its
+            regulars to find it.
+          </p>
+        </div>
       ),
     },
     {
-      photo:
-        "/landing/03-kwamahlangu-carwash.jpg",
-      alt: "KwaMahlangu Car Wash in Tembisa",
-      brightness: 0.75,
-      contrast: 1.1,
+      photo: "/landing/06-tuckshop-window.jpg",
+      alt: "Tuckshop window",
+      brightness: 0.62,
+      contrast: 1.08,
       overlay:
-        "linear-gradient(to bottom right, rgba(13,17,23,0.9) 0%, rgba(13,17,23,0.3) 60%, rgba(13,17,23,0) 100%)",
-      render: () => (
-        <>
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              padding: "18% 6% 0",
-              zIndex: 10,
-              maxWidth: 720,
-            }}
-          >
-            <p style={{ ...labelStyle, marginBottom: 18 }}>The Car Wash</p>
-            <h2 style={headlineStyle()}>
-              People don't come
-              <br />
-              just for the wash.
-              <br />
-              They come for the{" "}
-              <span style={{ color: "#39D98A" }}>conversations.</span>
-            </h2>
-            <p data-secondary="true" style={supportStyle({ marginTop: 24, maxWidth: 420, fontSize: 16 })}>
-              The connections. The football debates. The referrals. The
-              everyday life that happens while they wait.
-            </p>
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              bottom: "12%",
-              right: "6%",
-              background: "rgba(13,17,23,0.9)",
-              border: "1px solid #21262D",
-              borderBottom: "2px solid #39D98A",
-              borderRadius: 4,
-              padding: "20px 24px",
-              zIndex: 11,
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontWeight: 700,
-                fontSize: 14,
-                color: "#FFFFFF",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                lineHeight: 1.8,
-                margin: 0,
-              }}
-            >
-              RESPECT LOCAL
-              <br />
-              SUPPORT LOCAL
-            </p>
-          </div>
-        </>
-      ),
-    },
-    {
-      photo:
-        "/landing/06-tuckshop-window.jpg",
-      alt: "Township tuckshop window with school kids buying chips",
-      brightness: 0.7,
-      contrast: 1.05,
-      overlay:
-        "radial-gradient(ellipse at 70% 50%, rgba(13,17,23,0) 0%, rgba(13,17,23,0.8) 60%, rgba(13,17,23,0.97) 100%)",
+        "radial-gradient(ellipse at 70% 50%, rgba(13,17,23,0) 0%, rgba(13,17,23,0.78) 60%, rgba(13,17,23,0.97) 100%)",
       render: () => (
         <div
           style={{
@@ -362,250 +316,29 @@ export function HeroCarousel() {
             left: "6%",
             top: "50%",
             transform: "translateY(-50%)",
-            maxWidth: 560,
+            maxWidth: 580,
             zIndex: 10,
           }}
         >
           <p style={{ ...labelStyle, marginBottom: 18 }}>The Tuckshop</p>
           <h2 style={headlineStyle()}>Trusted for years.</h2>
           <p
-            style={{
-              ...headlineStyle({
-                color: "rgba(255,255,255,0.7)",
-                fontSize: "clamp(32px, 5vw, 60px)",
-                marginTop: 8,
-              }),
-            }}
+            style={headlineStyle({
+              color: "rgba(255,255,255,0.65)",
+              fontSize: "clamp(32px, 4.6vw, 60px)",
+              marginTop: 6,
+            })}
           >
             Full every weekend.
           </p>
           <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 800,
-              fontSize: "clamp(36px, 5vw, 68px)",
-              lineHeight: 1,
-              color: "#39D98A",
-              margin: "8px 0 0",
-            }}
+            style={headlineStyle({
+              color: "var(--green)",
+              fontSize: "clamp(34px, 5vw, 64px)",
+              marginTop: 10,
+            })}
           >
             Still hard to find.
-          </p>
-          <div
-            style={{
-              display: "flex",
-              gap: 32,
-              marginTop: 32,
-              flexWrap: "wrap",
-            }}
-          >
-            {[
-              { n: "79%", l: "Not on Google Maps" },
-              { n: "R900B", l: "Township economy" },
-              { n: "0", l: "Tools for cash regulars" },
-            ].map((f) => (
-              <div key={f.n}>
-                <div
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 700,
-                    fontSize: 32,
-                    color: "#39D98A",
-                    lineHeight: 1,
-                  }}
-                >
-                  {f.n}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: 13,
-                    color: "rgba(255,255,255,0.5)",
-                    marginTop: 6,
-                  }}
-                >
-                  {f.l}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-    {
-      photo:
-        "/landing/05-salon-container.jpg",
-      alt: "Sisi's Hair & Nails container salon in Khayelitsha",
-      brightness: 0.75,
-      contrast: 1.1,
-      overlay:
-        "linear-gradient(to top left, rgba(13,17,23,0.95) 0%, rgba(13,17,23,0.5) 50%, rgba(13,17,23,0.1) 100%)",
-      render: () => (
-        <div
-          style={{
-            position: "absolute",
-            right: "6%",
-            bottom: "10%",
-            textAlign: "right",
-            maxWidth: 480,
-            zIndex: 10,
-          }}
-        >
-          <p style={{ ...labelStyle, marginBottom: 18 }}>The Salon</p>
-          <h2 style={headlineStyle()}>
-            This place made
-            <br />
-            so many women feel
-            <br />
-            <span style={{ color: "#39D98A" }}>seen.</span>
-          </h2>
-          <p data-secondary="true" style={supportStyle({ marginTop: 24, fontSize: 16 })}>
-            Not a spa. Not a franchise. The place on your street that always
-            had a space for you.
-          </p>
-          <div
-            style={{
-              borderTop: "1px solid rgba(57,217,138,0.2)",
-              paddingTop: 16,
-              marginTop: 24,
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-body)",
-                fontStyle: "italic",
-                fontSize: 14,
-                color: "rgba(255,255,255,0.7)",
-                margin: 0,
-              }}
-            >
-              "She remembered how everyone liked their coffee when they came
-              to wait."
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 10,
-                color: "#39D98A",
-                marginTop: 8,
-                letterSpacing: "0.14em",
-              }}
-            >
-              REGULAR · SANDTON
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      photo:
-        "/landing/07-taxi-rank-morning.jpg",
-      alt: "Minibus taxi rank in the morning, commuters and marshal",
-      brightness: 0.55,
-      contrast: 1.05,
-      overlay: "rgba(13,17,23,0.82)",
-      render: () => (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            padding: "0 24px",
-            zIndex: 10,
-          }}
-        >
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 800,
-              fontSize: "clamp(44px, 7vw, 88px)",
-              lineHeight: 1.05,
-              color: "#FFFFFF",
-              margin: 0,
-              maxWidth: 1100,
-            }}
-          >
-            Every place that
-            <br />
-            makes a neighbourhood.
-            <br />
-            <span style={{ color: "#39D98A" }}>One network.</span>
-          </h2>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 18,
-              color: "rgba(255,255,255,0.6)",
-              maxWidth: 500,
-              margin: "24px auto 0",
-              lineHeight: 1.6,
-            }}
-          >
-            Find your local places. Check in. Or add your place and let your
-            community find you.
-          </p>
-          <div
-            style={{
-              display: "flex",
-              gap: 16,
-              marginTop: 44,
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            <button
-              onClick={() => openWaitlist(1)}
-              className="kayaa-cta-explore"
-              style={{
-                background: "var(--green)",
-                color: "var(--midnight)",
-                fontFamily: "var(--font-body)",
-                fontWeight: 700,
-                fontSize: 16,
-                padding: "16px 36px",
-                borderRadius: 8,
-                border: "none",
-                cursor: "pointer",
-                boxShadow: "0 0 60px var(--green-glow)",
-                transition: "all 0.2s ease",
-              }}
-            >
-              Nominate a place →
-            </button>
-            <button
-              onClick={() => openWaitlist(1)}
-              className="kayaa-cta-add"
-              style={{
-                background: "transparent",
-                color: "var(--warm-white)",
-                border: "1px solid rgba(255,255,255,0.3)",
-                fontFamily: "var(--font-body)",
-                fontWeight: 500,
-                fontSize: 16,
-                padding: "16px 36px",
-                borderRadius: 8,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-            >
-              Join the neighbourhood waitlist
-            </button>
-          </div>
-          <p
-            data-secondary="true"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 10,
-              color: "rgba(255,255,255,0.3)",
-              letterSpacing: "0.18em",
-              marginTop: 20,
-            }}
-          >
-            NO CARD · NO DOWNLOAD · JUST OPEN
           </p>
         </div>
       ),
@@ -613,7 +346,6 @@ export function HeroCarousel() {
   ];
 
   const total = slides.length;
-
   const next = useCallback(() => setActive((a) => (a + 1) % total), [total]);
   const prev = useCallback(
     () => setActive((a) => (a - 1 + total) % total),
@@ -622,7 +354,7 @@ export function HeroCarousel() {
 
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(next, 5000);
+    const id = setInterval(next, 6500);
     return () => clearInterval(id);
   }, [paused, next]);
 
@@ -630,16 +362,11 @@ export function HeroCarousel() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") next();
       if (e.key === "ArrowLeft") prev();
-      if (e.code === "Space") {
-        e.preventDefault();
-        setPaused((p) => !p);
-      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [next, prev]);
 
-  // touch / swipe
   const touchStartX = useRef<number | null>(null);
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -667,25 +394,31 @@ export function HeroCarousel() {
         height: "100dvh",
         position: "relative",
         overflow: "hidden",
-        background: "#0D1117",
+        background: "var(--midnight)",
       }}
     >
       <style>{`
-        .kayaa-cta-explore:hover { filter: brightness(1.1); transform: scale(1.02); }
-        .kayaa-cta-add:hover { background: rgba(255,255,255,0.08) !important; border-color: #FFFFFF !important; }
-        .kayaa-arrow:hover { background: rgba(13,17,23,0.9) !important; border-color: rgba(57,217,138,0.5) !important; }
+        .kayaa-hero-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .kayaa-hero-secondary:hover { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.5) !important; }
         .kayaa-dot { transition: all 0.3s ease; }
-        .kayaa-progress-fill { animation: kayaaProgress 5s linear forwards; }
+        .kayaa-progress-fill { animation: kayaaProgress 6.5s linear forwards; }
         .kayaa-progress-fill.kayaa-paused { animation-play-state: paused; }
-        @keyframes kayaaProgress {
-          from { width: 0%; }
-          to { width: 100%; }
+        @keyframes kayaaProgress { from { width: 0%; } to { width: 100%; } }
+
+        .kayaa-word {
+          opacity: 0;
+          transform: translateY(18px);
+          animation: kayaaWordIn 0.7s cubic-bezier(.22,.61,.36,1) forwards;
         }
-        @media (max-width: 768px) {
-          .kayaa-arrow { display: none !important; }
+        @keyframes kayaaWordIn {
+          to { opacity: 1; transform: translateY(0); }
         }
-        /* Short-viewport safety: shrink hero typography & hide secondary copy
-           so progress bar (top), dots (bottom) and slide-number never collide. */
+        .kayaa-fade-in {
+          opacity: 0;
+          animation: kayaaFadeIn 0.8s ease forwards;
+        }
+        @keyframes kayaaFadeIn { to { opacity: 1; } }
+
         @media (max-height: 760px) {
           .kayaa-hero h1, .kayaa-hero h2 {
             font-size: clamp(28px, 4.2vw, 52px) !important;
@@ -693,14 +426,8 @@ export function HeroCarousel() {
           }
           .kayaa-hero p[data-secondary="true"] { display: none !important; }
         }
-        @media (max-height: 620px) {
-          .kayaa-hero h1, .kayaa-hero h2 {
-            font-size: clamp(24px, 3.8vw, 40px) !important;
-          }
-        }
       `}</style>
 
-      {/* Progress bar */}
       <div
         style={{
           position: "absolute",
@@ -708,18 +435,14 @@ export function HeroCarousel() {
           left: 0,
           right: 0,
           height: 2,
-          background: "rgba(255,255,255,0.1)",
+          background: "rgba(255,255,255,0.08)",
           zIndex: 50,
         }}
       >
         <div
           key={`${active}-${paused ? "p" : "r"}`}
           className={`kayaa-progress-fill ${paused ? "kayaa-paused" : ""}`}
-          style={{
-            height: "100%",
-            background: "#39D98A",
-            width: 0,
-          }}
+          style={{ height: "100%", background: "var(--green)", width: 0 }}
         />
       </div>
 
@@ -731,9 +454,9 @@ export function HeroCarousel() {
             position: "absolute",
             inset: 0,
             opacity: i === active ? 1 : 0,
-            transition: "opacity 0.8s ease",
+            transition: "opacity 1s ease",
             pointerEvents: i === active ? "auto" : "none",
-            background: "linear-gradient(135deg, #0D1117, #161B22)",
+            background: "var(--midnight)",
           }}
         >
           <img
@@ -748,6 +471,8 @@ export function HeroCarousel() {
               objectFit: "cover",
               filter: photoFilter(s.brightness, s.contrast),
               zIndex: 0,
+              transform: i === active ? "scale(1.04)" : "scale(1)",
+              transition: "transform 8s ease-out",
             }}
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -762,62 +487,10 @@ export function HeroCarousel() {
               zIndex: 1,
             }}
           />
-          {s.render()}
-          <div style={slideNumberStyle}>
-            {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-          </div>
+          {i === active && s.render()}
         </div>
       ))}
 
-      {/* Arrows */}
-      <button
-        aria-label="Previous slide"
-        onClick={prev}
-        className="kayaa-arrow"
-        style={{
-          position: "absolute",
-          left: 24,
-          top: "50%",
-          transform: "translateY(-50%)",
-          width: 44,
-          height: 44,
-          borderRadius: 999,
-          background: "rgba(13,17,23,0.5)",
-          border: "1px solid rgba(255,255,255,0.18)",
-          color: "rgba(255,255,255,0.8)",
-          cursor: "pointer",
-          zIndex: 20,
-          fontSize: 18,
-          transition: "all 0.2s",
-        }}
-      >
-        ‹
-      </button>
-      <button
-        aria-label="Next slide"
-        onClick={next}
-        className="kayaa-arrow"
-        style={{
-          position: "absolute",
-          right: 24,
-          top: "50%",
-          transform: "translateY(-50%)",
-          width: 44,
-          height: 44,
-          borderRadius: 999,
-          background: "rgba(13,17,23,0.5)",
-          border: "1px solid rgba(255,255,255,0.18)",
-          color: "rgba(255,255,255,0.8)",
-          cursor: "pointer",
-          zIndex: 20,
-          fontSize: 18,
-          transition: "all 0.2s",
-        }}
-      >
-        ›
-      </button>
-
-      {/* Dots */}
       <div
         style={{
           position: "absolute",
@@ -841,8 +514,7 @@ export function HeroCarousel() {
               borderRadius: i === active ? 999 : "50%",
               border: "none",
               cursor: "pointer",
-              background:
-                i === active ? "#39D98A" : "rgba(255,255,255,0.25)",
+              background: i === active ? "var(--green)" : "rgba(255,255,255,0.25)",
               padding: 0,
             }}
           />
