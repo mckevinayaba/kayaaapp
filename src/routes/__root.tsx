@@ -29,14 +29,22 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "kayaa — find local. support local." },
+      {
+        name: "description",
+        content:
+          "kayaa is a neighbourhood-first discovery platform for the South African places that hold our communities together. Pre-launch — join the waitlist.",
+      },
+      { name: "author", content: "kayaa" },
+      { property: "og:title", content: "kayaa — find local. support local." },
+      {
+        property: "og:description",
+        content:
+          "We say support local. But we cannot find local. kayaa is the visibility layer for the places holding our neighbourhoods together.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "kayaa — find local. support local." },
     ],
     links: [
       {

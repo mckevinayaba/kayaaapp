@@ -1,131 +1,234 @@
-const CARDS = [
+import { useEffect, useRef, useState } from "react";
+import { openWaitlist } from "@/lib/waitlist-store";
+
+const BEATS = [
   {
     n: "01",
-    icon: "📍",
-    title: "Find what's happening nearby",
+    title: "You open kayaa.",
     body:
-      "See which local places are open, busy, or hosting something today. Real places. Real people. Your area.",
+      "Your street appears — every place that actually matters, mapped by the people who walk past them every day.",
   },
   {
     n: "02",
-    icon: "✅",
-    title: "Check in where you belong",
+    title: "You walk in.",
     body:
-      "Walk in. Tap check in. No booking, no payment, no friction. Just you and the place.",
+      "One tap says: I was here. No booking. No payment. No friction. Just you and the place.",
   },
   {
     n: "03",
-    icon: "🏡",
-    title: "Become a regular",
+    title: "The place sees you back.",
     body:
-      "The more you check in, the more your places know you. Earn your status. Unlock what's only for regulars.",
+      "Your face becomes a name. Your visits become a record. The owner finally has a way to reach the people who already love them.",
+  },
+  {
+    n: "04",
+    title: "Your neighbourhood becomes visible.",
+    body:
+      "The places holding it together stop being invisible — to banks, councils, newcomers, sponsors, and to the people who live two streets away and still don't know they exist.",
   },
 ];
 
 export function HowItWorks() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const refs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    refs.current.forEach((el, i) => {
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) setActiveIdx((cur) => Math.max(cur, i));
+          });
+        },
+        { rootMargin: "-40% 0px -40% 0px" },
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
   return (
     <section
       id="how"
       style={{
-        background: "#0D1117",
-        padding: "100px 6%",
-        textAlign: "center",
+        background: "var(--midnight)",
+        padding: "120px 6%",
+        borderTop: "1px solid var(--border-kayaa)",
+        position: "relative",
       }}
     >
-      <style>{`
-        .kayaa-hiw-card { transition: all 0.2s ease; }
-        .kayaa-hiw-card:hover {
-          border-color: #39D98A !important;
-          transform: translateY(-4px);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-        .kayaa-hiw-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-          max-width: 900px;
-          margin: 0 auto;
-        }
-        @media (max-width: 768px) {
-          .kayaa-hiw-grid { grid-template-columns: 1fr; }
-        }
-      `}</style>
+      <div style={{ maxWidth: 880, margin: "0 auto 64px", textAlign: "center" }}>
+        <p
+          className="reveal"
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            color: "var(--green)",
+            textTransform: "uppercase",
+            letterSpacing: "0.18em",
+            margin: "0 0 18px",
+          }}
+        >
+          What kayaa is going to feel like
+        </p>
+        <h2
+          className="reveal"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontWeight: 800,
+            fontSize: "clamp(30px, 4.4vw, 54px)",
+            color: "var(--warm-white)",
+            lineHeight: 1.08,
+            letterSpacing: "-0.02em",
+            margin: 0,
+          }}
+        >
+          Four moments. <span style={{ color: "var(--green)" }}>One shift.</span>
+        </h2>
+      </div>
 
-      <p
-        className="reveal"
+      <div
         style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          color: "#39D98A",
-          textTransform: "uppercase",
-          letterSpacing: "0.14em",
-          margin: "0 0 16px",
+          maxWidth: 820,
+          margin: "0 auto",
+          position: "relative",
+          paddingLeft: 56,
         }}
       >
-        How kayaa works
-      </p>
-      <h2
-        className="reveal"
-        style={{
-          fontFamily: "var(--font-display)",
-          fontWeight: 700,
-          fontSize: "clamp(28px, 3.5vw, 44px)",
-          color: "#FFFFFF",
-          margin: "0 0 64px",
-        }}
-      >
-        Three things. That's it.
-      </h2>
+        {/* Vertical track */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: 18,
+            top: 8,
+            bottom: 8,
+            width: 2,
+            background: "var(--border-kayaa)",
+            borderRadius: 2,
+          }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: 18,
+            top: 8,
+            width: 2,
+            height: `${((activeIdx + 1) / BEATS.length) * 100}%`,
+            background: "var(--green)",
+            borderRadius: 2,
+            boxShadow: "0 0 12px rgba(57,217,138,0.6)",
+            transition: "height 0.6s cubic-bezier(.22,.61,.36,1)",
+          }}
+        />
 
-      <div className="kayaa-hiw-grid">
-        {CARDS.map((c, i) => (
-          <div
-            key={c.n}
-            className={`kayaa-hiw-card reveal reveal-delay-${i + 1}`}
-            style={{
-              background: "#161B22",
-              border: "1px solid #21262D",
-              borderRadius: 12,
-              padding: "36px 28px",
-              textAlign: "left",
-            }}
-          >
+        {BEATS.map((b, i) => {
+          const isOn = i <= activeIdx;
+          return (
             <div
+              key={b.n}
+              ref={(el) => {
+                refs.current[i] = el;
+              }}
               style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                color: "#39D98A",
-                marginBottom: 20,
-                letterSpacing: "0.14em",
+                position: "relative",
+                padding: "32px 0",
+                opacity: isOn ? 1 : 0.35,
+                transition: "opacity 0.6s ease",
               }}
             >
-              {c.n}
+              {/* Node */}
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  left: -56 + 12,
+                  top: 38,
+                  width: 14,
+                  height: 14,
+                  borderRadius: 999,
+                  background: isOn ? "var(--green)" : "var(--card-kayaa)",
+                  border: `2px solid ${isOn ? "var(--green)" : "var(--border-kayaa)"}`,
+                  boxShadow: isOn ? "0 0 18px rgba(57,217,138,0.55)" : "none",
+                  transition: "all 0.4s ease",
+                }}
+              />
+              <div
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 11,
+                  color: "var(--green)",
+                  letterSpacing: "0.18em",
+                  marginBottom: 10,
+                }}
+              >
+                {b.n}
+              </div>
+              <h3
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  fontSize: "clamp(22px, 2.8vw, 34px)",
+                  color: "var(--warm-white)",
+                  letterSpacing: "-0.01em",
+                  margin: "0 0 12px",
+                  lineHeight: 1.15,
+                }}
+              >
+                {b.title}
+              </h3>
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: 17,
+                  color: "rgba(255,255,255,0.7)",
+                  lineHeight: 1.65,
+                  margin: 0,
+                  maxWidth: 620,
+                }}
+              >
+                {b.body}
+              </p>
             </div>
-            <div style={{ fontSize: 40, lineHeight: 1 }}>{c.icon}</div>
-            <h3
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 700,
-                fontSize: 20,
-                color: "#FFFFFF",
-                margin: "12px 0 10px",
-              }}
-            >
-              {c.title}
-            </h3>
-            <p
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: 15,
-                color: "#6B7280",
-                lineHeight: 1.6,
-                margin: 0,
-              }}
-            >
-              {c.body}
-            </p>
-          </div>
-        ))}
+          );
+        })}
+      </div>
+
+      <div style={{ textAlign: "center", marginTop: 64 }}>
+        <button
+          type="button"
+          onClick={() => openWaitlist(1)}
+          style={{
+            background: "var(--green)",
+            color: "var(--midnight)",
+            fontFamily: "var(--font-body)",
+            fontWeight: 700,
+            fontSize: 16,
+            padding: "16px 36px",
+            borderRadius: 10,
+            border: "none",
+            cursor: "pointer",
+            boxShadow: "0 0 50px var(--green-glow)",
+            transition: "all .2s ease",
+          }}
+        >
+          Join the waitlist →
+        </button>
+        <p
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            color: "rgba(255,255,255,0.4)",
+            letterSpacing: "0.16em",
+            marginTop: 14,
+          }}
+        >
+          PRE-LAUNCH · NO SPAM · WHATSAPP ONLY
+        </p>
       </div>
     </section>
   );

@@ -1,147 +1,128 @@
-import { useNavigate } from "@tanstack/react-router";
-
-const LINKS: { label: string; to: string }[] = [
-  { label: "Feed", to: "/feed" },
-  { label: "Board", to: "/board" },
-  { label: "Add Place", to: "/add-place" },
-  { label: "Sign in", to: "/auth" },
-];
+import { Link } from "@tanstack/react-router";
+import { openWaitlist } from "@/lib/waitlist-store";
 
 export function Footer() {
-  const navigate = useNavigate();
   return (
     <footer
       style={{
         background: "var(--card-kayaa)",
         borderTop: "1px solid var(--border-kayaa)",
-        padding: "40px 24px 32px",
+        padding: "56px 24px 40px",
       }}
     >
       <style>{`
         .kayaa-footer-inner {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 16px;
+          display: grid;
+          grid-template-columns: 1.3fr 1fr 1fr;
+          gap: 48px;
           max-width: 1100px;
           margin: 0 auto;
         }
-        .kayaa-footer-link { transition: color 0.2s; }
-        .kayaa-footer-link:hover { color: var(--warm-white) !important; }
-        .kayaa-footer-tag {
-          font-family: var(--font-body);
-          font-size: 13px;
-          color: var(--muted-kayaa);
-          max-width: 420px;
-          line-height: 1.55;
+        @media (max-width: 760px) {
+          .kayaa-footer-inner { grid-template-columns: 1fr; gap: 32px; text-align: left; }
         }
-        .kayaa-footer-social {
-          display: flex; gap: 14px; align-items: center;
-        }
-        .kayaa-footer-social a {
+        .kayaa-footer-link {
           font-family: var(--font-body);
-          font-size: 13px;
-          color: var(--muted-kayaa);
+          font-size: 14px;
+          color: rgba(255,255,255,0.6);
           text-decoration: none;
-          transition: color 0.2s;
+          display: block;
+          padding: 4px 0;
+          transition: color .2s;
         }
-        .kayaa-footer-social a:hover { color: var(--green); }
-        @media (max-width: 600px) {
-          .kayaa-footer-inner {
-            flex-direction: column;
-            text-align: center;
-          }
-          .kayaa-footer-tag { text-align: center; }
+        .kayaa-footer-link:hover { color: var(--green); }
+        .kayaa-footer-h {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.4);
+          margin: 0 0 14px;
         }
       `}</style>
+
       <div className="kayaa-footer-inner">
         <div>
-          <button
-            onClick={() => navigate({ to: "/" })}
+          <a
+            href="/"
             style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
               fontFamily: "var(--font-display)",
               fontWeight: 700,
-              fontSize: 18,
+              fontSize: 22,
               color: "var(--green)",
-              marginBottom: 8,
+              textDecoration: "none",
+              letterSpacing: "-0.02em",
             }}
           >
             kayaa
-          </button>
-          <p className="kayaa-footer-tag" style={{ margin: 0 }}>
-            Built in Johannesburg. Launching across South Africa,
-            neighbourhood by neighbourhood.
-          </p>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            gap: 4,
-            alignItems: "center",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          {LINKS.map((l, i) => (
-            <span key={l.to} style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-              <button
-                className="kayaa-footer-link"
-                onClick={() => navigate({ to: l.to as string as "/" })}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: "0 6px",
-                  fontFamily: "var(--font-body)",
-                  fontSize: 13,
-                  color: "var(--muted-kayaa)",
-                }}
-              >
-                {l.label}
-              </button>
-              {i < LINKS.length - 1 && (
-                <span style={{ color: "var(--muted-kayaa)", fontSize: 13 }}>·</span>
-              )}
-            </span>
-          ))}
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
-          <div className="kayaa-footer-social">
-            <a
-              href="https://wa.me/27000000000"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="WhatsApp"
-            >
-              WhatsApp
-            </a>
-            <a
-              href="https://instagram.com/kayaa.app"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-            >
-              Instagram
-            </a>
-            <a href="mailto:hello@kayaa.co.za">Email</a>
-          </div>
-          <div
+          </a>
+          <p
             style={{
               fontFamily: "var(--font-body)",
-              fontSize: 12,
-              color: "var(--muted-kayaa)",
+              fontSize: 14,
+              color: "rgba(255,255,255,0.55)",
+              lineHeight: 1.6,
+              margin: "16px 0 24px",
+              maxWidth: 360,
             }}
           >
-            © 2026 kayaa
-          </div>
+            A neighbourhood-first way to see the local places that hold South
+            Africa together. Built in Johannesburg. Coming neighbourhood by
+            neighbourhood.
+          </p>
+          <button
+            onClick={() => openWaitlist(1)}
+            style={{
+              background: "var(--green)",
+              color: "var(--midnight)",
+              fontFamily: "var(--font-body)",
+              fontWeight: 700,
+              fontSize: 14,
+              padding: "12px 22px",
+              borderRadius: 999,
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            Join the waitlist →
+          </button>
         </div>
+
+        <div>
+          <p className="kayaa-footer-h">The page</p>
+          <a href="/#how" className="kayaa-footer-link">How it works</a>
+          <a href="/#why" className="kayaa-footer-link">For places</a>
+          <a href="/#community" className="kayaa-footer-link">Community</a>
+          <Link to="/about" className="kayaa-footer-link">About</Link>
+        </div>
+
+        <div>
+          <p className="kayaa-footer-h">Talk to us</p>
+          <a className="kayaa-footer-link" href="https://wa.me/27000000000" target="_blank" rel="noreferrer">WhatsApp</a>
+          <a className="kayaa-footer-link" href="https://instagram.com/kayaa.app" target="_blank" rel="noreferrer">Instagram</a>
+          <a className="kayaa-footer-link" href="mailto:hello@kayaa.co.za">hello@kayaa.co.za</a>
+        </div>
+      </div>
+
+      <div
+        style={{
+          maxWidth: 1100,
+          margin: "40px auto 0",
+          paddingTop: 24,
+          borderTop: "1px solid var(--border-kayaa)",
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 12,
+          fontFamily: "var(--font-mono)",
+          fontSize: 11,
+          letterSpacing: "0.14em",
+          color: "rgba(255,255,255,0.35)",
+          textTransform: "uppercase",
+        }}
+      >
+        <span>© 2026 kayaa · Built in South Africa 🇿🇦</span>
+        <span>Pre-launch · Joining the wait keeps you first</span>
       </div>
     </footer>
   );
