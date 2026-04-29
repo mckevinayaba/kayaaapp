@@ -6,9 +6,12 @@ import { PRE_LAUNCH, openWaitlist } from "@/lib/waitlist-store";
 
 export const Route = createFileRoute("/")({
   component: Index,
-  validateSearch: (search: Record<string, unknown>) => ({
-    waitlist: search.waitlist === 1 || search.waitlist === "1" ? 1 : undefined,
-  }),
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { waitlist?: 1 } => {
+    if (search.waitlist === 1 || search.waitlist === "1") return { waitlist: 1 };
+    return {};
+  },
   head: () => ({
     meta: [
       { title: "kayaa — find local. support local." },
