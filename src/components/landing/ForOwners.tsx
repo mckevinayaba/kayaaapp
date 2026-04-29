@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { openWaitlist } from "@/lib/waitlist-store";
 
 const FEATURES = [
   "See who your real regulars are",
@@ -23,7 +23,6 @@ const ROWS = [
 ] as { name: string; badge: string; visit: string; strong?: boolean; muted?: boolean }[];
 
 export function ForOwners() {
-  const navigate = useNavigate();
   return (
     <section
       style={{
@@ -138,7 +137,7 @@ kayaa gives that knowledge a record — so you can reach them when it's quiet, a
           </div>
 
           <button
-            onClick={() => navigate({ to: "/add-place" as string as "/" })}
+            onClick={() => openWaitlist(1)}
             className="kayaa-owners-cta"
             style={{
               marginTop: 36,
@@ -153,7 +152,7 @@ kayaa gives that knowledge a record — so you can reach them when it's quiet, a
               cursor: "pointer",
             }}
           >
-            Add your place — it's free →
+            Join the waitlist →
           </button>
         </div>
 
