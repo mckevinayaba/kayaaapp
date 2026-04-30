@@ -130,8 +130,8 @@ export function PlacesGallery() {
             lineHeight: 1.6,
           }}
         >
-          Not the spots Google ranks. The places your neighbourhood actually
-          revolves around.
+          The places your neighbourhood actually revolves around — the ones
+          people keep going back to.
         </p>
       </div>
 

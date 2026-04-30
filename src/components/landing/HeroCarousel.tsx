@@ -166,9 +166,9 @@ export function HeroCarousel() {
             <RevealWords text="We say support local." />
             <br />
             <RevealWords
-              text="But we cannot find local."
+              text="But we cannot even find local."
               delay={0.45}
-              highlight="cannot find local."
+              highlight="cannot even find local."
             />
           </h1>
 
@@ -180,10 +180,10 @@ export function HeroCarousel() {
               animationDelay: "1.4s",
             }}
           >
-            The corner shop, the salon, the shisanyama down the road — they're
-            holding our neighbourhoods together while the world's apps pretend
-            they don't exist. Help us put them on the map before they
-            disappear.
+            South Africa is full of neighbourhood places people trust, return
+            to, recommend, and build routine around, but too many of them are
+            still hard to find, easy to overlook, and invisible beyond word of
+            mouth.
           </p>
 
           <div
@@ -260,7 +260,7 @@ export function HeroCarousel() {
               animationDelay: "2s",
             }}
           >
-            Tell us the place in your area that would hurt if it closed.
+            Tell us the place in your area that keeps pulling people back.
           </p>
         </div>
       ),

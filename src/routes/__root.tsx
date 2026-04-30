@@ -33,21 +33,19 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "kayaa is a neighbourhood-first discovery platform for the South African places that hold our communities together. Pre-launch — join the waitlist.",
+          "We say support local. But we cannot even find local. kayaa is the visibility layer for the local places people keep going back to — built so being known does not require a marketing budget.",
       },
       { name: "author", content: "kayaa" },
       { property: "og:title", content: "Home for the places that hold neighbourhoods together" },
       {
         property: "og:description",
         content:
-          "We say support local. But we cannot find local. kayaa is the visibility layer for the places holding our neighbourhoods together.",
+          "We say support local. But we cannot even find local. kayaa is the visibility layer for the local places people keep going back to — built so being known does not require a marketing budget.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Home for the places that hold neighbourhoods together" },
-      { name: "description", content: "A digital home for the places that hold neighbourhoods together. Barbershops, spazas, shisanyamas, car washes. One neighbourhood at a time. Join the waitlist." },
-      { property: "og:description", content: "A digital home for the places that hold neighbourhoods together. Barbershops, spazas, shisanyamas, car washes. One neighbourhood at a time. Join the waitlist." },
-      { name: "twitter:description", content: "A digital home for the places that hold neighbourhoods together. Barbershops, spazas, shisanyamas, car washes. One neighbourhood at a time. Join the waitlist." },
+      { name: "twitter:description", content: "We say support local. But we cannot even find local. kayaa is the visibility layer for the local places people keep going back to." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/WrPuVWGhYoRy0ARbb1Bsf9PQdtU2/social-images/social-1777533129665-ChatGPT_Image_Apr_30,_2026,_09_11_51_AM.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/WrPuVWGhYoRy0ARbb1Bsf9PQdtU2/social-images/social-1777533129665-ChatGPT_Image_Apr_30,_2026,_09_11_51_AM.webp" },
     ],

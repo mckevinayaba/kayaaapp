@@ -6,25 +6,25 @@ const BEATS = [
     n: "01",
     title: "You open kayaa.",
     body:
-      "Your street appears — every place that actually matters, mapped by the people who walk past them every day.",
+      "Your neighbourhood appears, with the places people actually use, trust, and keep returning to.",
   },
   {
     n: "02",
     title: "You walk in.",
     body:
-      "One tap says: I was here. No booking. No payment. No friction. Just you and the place.",
+      "One tap says you were there. No friction. No unnecessary steps.",
   },
   {
     n: "03",
-    title: "The place sees you back.",
+    title: "The place becomes easier to see.",
     body:
-      "Your face becomes a name. Your visits become a record. The owner finally has a way to reach the people who already love them.",
+      "Its activity, its presence, and its relevance become more visible over time.",
   },
   {
     n: "04",
-    title: "Your neighbourhood becomes visible.",
+    title: "The neighbourhood becomes clearer.",
     body:
-      "The places holding it together stop being invisible — to banks, councils, newcomers, sponsors, and to the people who live two streets away and still don't know they exist.",
+      "The places holding it together become easier to discover, easier to return to, and harder to overlook.",
   },
 ];
 
@@ -227,7 +227,7 @@ export function HowItWorks() {
             marginTop: 14,
           }}
         >
-          PRE-LAUNCH · NO SPAM · WHATSAPP ONLY
+          PRE-LAUNCH · NO SPAM · WHATSAPP OR EMAIL
         </p>
       </div>
     </section>

@@ -54,8 +54,9 @@ export function CityWaitlist() {
             lineHeight: 1.6,
           }}
         >
-          We launch one neighbourhood at a time so we can get it right.
-          Add yours and we'll let you know the moment kayaa reaches your area.
+          Tell us where you are, and we will let you know when kayaa reaches
+          your area. We are building this carefully because the places we are
+          building for deserve to be done right, not rushed.
         </p>
 
         <button
@@ -75,7 +76,7 @@ export function CityWaitlist() {
             boxShadow: "0 0 50px var(--green-glow)",
           }}
         >
-          Join the waitlist →
+          Join the neighbourhood waitlist →
         </button>
         <p
           className="reveal reveal-delay-2"
@@ -88,7 +89,30 @@ export function CityWaitlist() {
             margin: "16px 0 0",
           }}
         >
-          Takes 8 seconds · WhatsApp only · No spam
+          Choose how you want to hear from us: WhatsApp or email
+        </p>
+        <p
+          className="reveal reveal-delay-2"
+          style={{
+            fontFamily: "var(--font-body)",
+            fontSize: 13,
+            color: "rgba(255,255,255,0.5)",
+            margin: "10px 0 0",
+          }}
+        >
+          Prefer to message us directly?{" "}
+          <a
+            href="https://wa.me/27663365296"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "var(--green)",
+              textDecoration: "none",
+              borderBottom: "1px solid rgba(57,217,138,0.4)",
+            }}
+          >
+            WhatsApp us on +27 66 336 5296
+          </a>
         </p>
       </div>
     </section>
