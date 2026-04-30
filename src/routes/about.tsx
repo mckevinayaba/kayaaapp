@@ -280,7 +280,7 @@ function AboutPage() {
             "Not Google Maps. We are not building a global directory.",
             "Not a chain showcase. We are not for franchises with marketing teams.",
             "Not a payments app. The cash that flows through these places already works.",
-            "Not live yet. We are pre-launch. Johannesburg first. Then everywhere.",
+            "Not live yet. We are pre-launch. One neighbourhood at a time — wherever people speak up first.",
           ].map((line) => (
             <li
               key={line}
