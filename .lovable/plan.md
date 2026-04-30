@@ -1,5 +1,18 @@
-## Goal
-Expand the "What kind of place is it?" step on the waitlist form to better reflect the full range of African neighbourhood places people would nominate — so no one feels their corner spot doesn't belong.
+## Latest goal
+Sharpen the pre-launch homepage so the story feeds the action: clearer hero CTAs, a dedicated "Nomination ask" section between Why-Matters and Places, and share affordances at three high-intent moments (hero, Listener, post-submission).
+
+### Added
+- `src/lib/share.ts` — Web Share API helper with WhatsApp + clipboard fallback and a default share message rooted in the kayaa voice.
+- `src/components/landing/ShareButton.tsx` — reusable share row (primary / soft / ghost variants) with visible WhatsApp shortcut and a copy-confirmation pill.
+- `src/components/landing/NominationAsk.tsx` — new section: "Tell us the place in your area that keeps pulling people back" with the supporting line and the dominant Nominate / secondary Join CTAs. Mounted between `WhyMatters` and `PlacesGallery` in `LandingPage.tsx`.
+
+### Changed
+- `HeroCarousel.tsx` slide 1 — primary CTA shortened to "Nominate a place", secondary to "Join the neighbourhood waitlist", and a "Share this with your street" row added under the CTAs.
+- `NeighbourhoodListener.tsx` — added a centred share row beneath the existing "Nominate a place" CTA.
+- `WaitlistModal.tsx` confirmation step — added a green-bordered share card: "Know another place that matters? Share this page with someone in your neighbourhood." with the primary share button + WhatsApp shortcut.
+
+## Earlier work (kept for context)
+Expanded the `PLACE_TYPES` list to 37 neighbourhood-true categories and added search, "Other" specify input, focus management and selection confirmation in the waitlist modal.
 
 ## Change
 In `src/components/landing/WaitlistModal.tsx`, expand the `PLACE_TYPES` array from 11 entries to a richer, neighbourhood-true list. "Other" stays at the end as the catch-all.
