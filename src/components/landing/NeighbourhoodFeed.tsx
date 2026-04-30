@@ -7,10 +7,6 @@ const FEED = [
     type: "Barbershop",
     area: "Alexandra · Joburg",
     quote: "He's been cutting three generations of the same family.",
-    checkins: 142,
-    hearts: 38,
-    mentions: 12,
-    timeAgo: "2h ago",
   },
   {
     photo: "/landing/02-koses-general-dealer.jpg",
@@ -18,10 +14,6 @@ const FEED = [
     type: "Spaza Shop",
     area: "Orlando East · Soweto",
     quote: "Open at 5am. Knows everyone's name. Never closes when you need her.",
-    checkins: 287,
-    hearts: 64,
-    mentions: 23,
-    timeAgo: "4h ago",
   },
   {
     photo: "/landing/03-kwamahlangu-carwash.jpg",
@@ -29,10 +21,6 @@ const FEED = [
     type: "Car Wash",
     area: "Tembisa · Ekurhuleni",
     quote: "The conversations here are worth more than the wash.",
-    checkins: 96,
-    hearts: 41,
-    mentions: 8,
-    timeAgo: "Yesterday",
   },
   {
     photo: "/landing/04-shisanyama-evening.jpg",
@@ -40,10 +28,6 @@ const FEED = [
     type: "Shisanyama",
     area: "Diepkloof · Soweto",
     quote: "Every celebration on this street ends here.",
-    checkins: 412,
-    hearts: 128,
-    mentions: 47,
-    timeAgo: "Friday night",
   },
   {
     photo: "/landing/07-taxi-rank-morning.jpg",
@@ -51,10 +35,6 @@ const FEED = [
     type: "Church Hall",
     area: "Khayelitsha · Cape Town",
     quote: "Weddings, funerals, choir practice — held by the same four walls.",
-    checkins: 73,
-    hearts: 52,
-    mentions: 14,
-    timeAgo: "Sunday",
   },
   {
     photo: "/landing/05-salon-container.jpg",
@@ -62,10 +42,6 @@ const FEED = [
     type: "Salon",
     area: "Mitchells Plain · Cape Town",
     quote: "She remembers how everyone takes their coffee.",
-    checkins: 188,
-    hearts: 71,
-    mentions: 19,
-    timeAgo: "1d ago",
   },
 ];
 
@@ -150,24 +126,23 @@ export function NeighbourhoodFeed() {
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            background: "rgba(57,217,138,0.08)",
-            border: "1px solid rgba(57,217,138,0.25)",
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.12)",
             padding: "6px 14px",
             borderRadius: 999,
             marginBottom: 20,
           }}
         >
-          <span className="kayaa-live-dot" aria-hidden />
           <span
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: 11,
-              color: "var(--green)",
+              color: "rgba(255,255,255,0.7)",
               letterSpacing: "0.16em",
               textTransform: "uppercase",
             }}
           >
-            Live signals
+            A glimpse of what's coming
           </span>
         </div>
         <h2
@@ -181,8 +156,9 @@ export function NeighbourhoodFeed() {
             margin: "0 0 18px",
           }}
         >
-          Live from our
-          <span style={{ color: "var(--green)" }}> neighbourhoods.</span>
+          This is what your neighbourhood wall will look like.
+          <br />
+          <span style={{ color: "var(--green)" }}>Once we're live.</span>
         </h2>
         <p
           className="reveal"
@@ -192,12 +168,13 @@ export function NeighbourhoodFeed() {
             color: "rgba(255,255,255,0.65)",
             lineHeight: 1.6,
             margin: 0,
-            maxWidth: 560,
+            maxWidth: 620,
             marginInline: "auto",
           }}
         >
-          A small preview of the wall kayaa is building — places nominated by
-          the people who keep going back.
+          A mock-up of the kayaa wall at launch — the kinds of places, signals
+          and stories your community will see when you check in. Real names
+          will come from real neighbours like you.
         </p>
       </div>
 
@@ -225,17 +202,17 @@ export function NeighbourhoodFeed() {
                   gap: 6,
                   background: "rgba(13,17,23,0.78)",
                   backdropFilter: "blur(6px)",
-                  border: "1px solid rgba(57,217,138,0.3)",
+                  border: "1px solid rgba(255,255,255,0.18)",
                   borderRadius: 999,
                   padding: "4px 10px",
                   fontFamily: "var(--font-mono)",
                   fontSize: 10,
                   letterSpacing: "0.14em",
-                  color: "var(--green)",
+                  color: "rgba(255,255,255,0.7)",
                   textTransform: "uppercase",
                 }}
               >
-                <span className="kayaa-live-dot" aria-hidden /> {p.timeAgo}
+                Preview
               </div>
               <div
                 style={{
@@ -298,18 +275,23 @@ export function NeighbourhoodFeed() {
               <div
                 style={{
                   display: "flex",
-                  gap: 16,
+                  gap: 10,
                   paddingTop: 12,
                   borderTop: "1px dashed rgba(255,255,255,0.08)",
                   fontFamily: "var(--font-mono)",
                   fontSize: 11,
-                  color: "rgba(255,255,255,0.6)",
+                  color: "rgba(255,255,255,0.45)",
                   letterSpacing: "0.04em",
+                  flexWrap: "wrap",
+                  alignItems: "center",
                 }}
               >
-                <span>📌 {p.checkins} check-ins</span>
-                <span style={{ color: "var(--green)" }}>♥ {p.hearts}</span>
-                <span>💬 {p.mentions}</span>
+                <span>📌 check-ins</span>
+                <span>♥ hearts</span>
+                <span>💬 mentions</span>
+                <span style={{ color: "rgba(255,255,255,0.35)" }}>
+                  — at launch
+                </span>
               </div>
             </div>
           </article>
@@ -340,7 +322,7 @@ export function NeighbourhoodFeed() {
             (e.currentTarget as HTMLButtonElement).style.background = "transparent";
           }}
         >
-          Add a place to the wall →
+          Nominate the first place on your street →
         </button>
       </div>
     </section>
