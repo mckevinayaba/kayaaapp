@@ -4,6 +4,7 @@ import { TruthSection } from "./TruthSection";
 import { WhyMatters } from "./WhyMatters";
 import { HowItWorks } from "./HowItWorks";
 import { PlacesGallery } from "./PlacesGallery";
+import { NominationAsk } from "./NominationAsk";
 import { NeighbourhoodFeed } from "./NeighbourhoodFeed";
 import { NeighbourhoodListener } from "./NeighbourhoodListener";
 import { CityWaitlist } from "./CityWaitlist";
@@ -20,6 +21,7 @@ export function LandingPage() {
       <HeroCarousel />
       <TruthSection />
       <WhyMatters />
+      <NominationAsk />
       <HowItWorks />
       <PlacesGallery />
       <NeighbourhoodFeed />
