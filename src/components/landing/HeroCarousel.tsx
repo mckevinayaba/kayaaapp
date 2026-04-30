@@ -42,6 +42,63 @@ const supportStyle = (extra: CSSProperties = {}): CSSProperties => ({
   ...extra,
 });
 
+function SlideCTAs({ align = "left" }: { align?: "left" | "right" | "center" }) {
+  const justify =
+    align === "right" ? "flex-end" : align === "center" ? "center" : "flex-start";
+  return (
+    <div
+      data-slide-ctas="true"
+      style={{
+        display: "flex",
+        gap: 10,
+        marginTop: 22,
+        flexWrap: "wrap",
+        justifyContent: justify,
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => openWaitlist(1)}
+        className="kayaa-hero-primary"
+        style={{
+          background: "var(--green)",
+          color: "var(--midnight)",
+          fontFamily: "var(--font-body)",
+          fontWeight: 700,
+          fontSize: 13,
+          padding: "12px 22px",
+          borderRadius: 10,
+          border: "none",
+          cursor: "pointer",
+          boxShadow: "0 0 40px var(--green-glow)",
+          transition: "all .2s ease",
+        }}
+      >
+        Nominate this kind of place
+      </button>
+      <button
+        type="button"
+        onClick={() => openWaitlist(1)}
+        className="kayaa-hero-secondary"
+        style={{
+          background: "transparent",
+          color: "var(--warm-white)",
+          fontFamily: "var(--font-body)",
+          fontWeight: 600,
+          fontSize: 13,
+          padding: "12px 22px",
+          borderRadius: 10,
+          border: "1px solid rgba(255,255,255,0.22)",
+          cursor: "pointer",
+          transition: "all .2s ease",
+        }}
+      >
+        Join the waitlist →
+      </button>
+    </div>
+  );
+}
+
 // Word-by-word reveal helper
 function RevealWords({
   text,
