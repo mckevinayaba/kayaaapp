@@ -163,7 +163,8 @@ function AboutPage() {
             }}
           >
             This page is the long version of why kayaa exists. No spin. No
-            slogans we can't back up.
+            vague promises. Just the problem, the cost of leaving it
+            unsolved, and what kayaa is being built to do about it.
           </p>
         </div>
       </section>
@@ -173,36 +174,38 @@ function AboutPage() {
         label="The uncomfortable part"
         title={
           <>
-            South Africa is full of places doing
-            extraordinary things — and almost
-            <span style={{ color: "var(--green)" }}> none of them are findable.</span>
+            South Africa is full of neighbourhood places doing extraordinary
+            things, and almost
+            <span style={{ color: "var(--green)" }}> none of them are easy to find properly.</span>
           </>
         }
       >
         <p>
-          Townships in this country hold a R900-billion economy. And most of
-          the places inside that economy do not exist on Google Maps.
-        </p>
-        <p style={{ marginTop: 18 }}>
           The barber who has cut three generations of the same family has no
-          page, no record, no way to call back his own regulars when it's
-          quiet on a Tuesday afternoon.
+          visible record of the community he has built and no simple way to
+          stay connected to the people who already trust him.
         </p>
         <p style={{ marginTop: 18 }}>
-          The tuckshop that fed a street through lockdown cannot prove to a
-          bank that it has customers — even though it serves the same fifty
-          people every single day.
+          The tuckshop that fed a street through lockdown cannot clearly show
+          the consistency of the customers it serves, even though the same
+          people keep coming back every single day.
         </p>
         <p style={{ marginTop: 18 }}>
           The salon that taught a generation of women how to feel beautiful
-          has no archive of any of it. No story. No trail. Nothing that
-          outlives the day.
+          has no real archive of that trust, no visible trail of what it
+          means to the people who depend on it, and no durable neighbourhood
+          presence beyond the day itself.
         </p>
         <p style={{ marginTop: 18 }}>
-          The shisanyama where every birthday on the street ends, the car
-          wash where the football debates happen, the church hall that holds
-          weddings and funerals in the same week — invisible. Not to the
-          neighbourhood. To everyone else.
+          The shisanyama where birthdays end, the car wash where football
+          debates happen, the church hall that holds weddings and funerals in
+          the same week, the café people keep recommending, the mechanic
+          people trust with their week, and the clothing shop people return
+          to before every important moment are often visible only to the
+          people who already know them.
+        </p>
+        <p style={{ marginTop: 18 }}>
+          Not to the neighbourhood. To everyone else.
         </p>
       </Section>
 
@@ -218,18 +221,20 @@ function AboutPage() {
         }
       >
         <p>
-          When a place cannot be found, it cannot be funded. It cannot
-          negotiate a lease. It cannot attract a sponsor. It cannot prove its
-          customer base. It cannot pass anything on to the next generation.
+          When a place cannot be seen properly, it becomes harder to attract
+          new customers, harder to prove value, harder to build continuity,
+          harder to create momentum, and harder to grow beyond the limits of
+          word of mouth.
         </p>
         <p style={{ marginTop: 18 }}>
-          When a place cannot be found, it dies quietly — and gets replaced
-          by a chain that doesn't know anyone's name.
+          When a place stays invisible for too long, it does not only lose
+          attention. It loses opportunity.
         </p>
         <p style={{ marginTop: 18 }}>
           We keep telling each other to support local. But you cannot support
-          what you cannot see. And we have built a country where the places
-          doing the most are the ones being seen the least.
+          what you cannot see clearly. And we have built a country where many
+          of the places doing the most are still the ones being seen the
+          least.
         </p>
       </Section>
 
@@ -247,19 +252,60 @@ function AboutPage() {
         }
       >
         <p>
-          kayaa is a neighbourhood-first discovery platform for the local
-          places that hold South African communities together — built so that
-          being known doesn't require a marketing budget.
+          kayaa is a neighbourhood-first visibility and discovery platform
+          for the local places people keep going back to across South
+          Africa, built so that being known does not require a marketing
+          budget.
         </p>
         <p style={{ marginTop: 18 }}>
-          You will be able to open kayaa, see the places on your street, walk
-          in, tap once, and become a regular. The places will get a real page,
-          a real record of their community, and a real way to reach the
-          people who already love them.
+          You will be able to open kayaa, see the places around you,
+          discover what is happening nearby, walk in, and tap once to show
+          that you were there. The places will get a real page, a visible
+          record of community activity, and a clearer way to stay connected
+          to the people who already know them and the people nearby who
+          should.
         </p>
         <p style={{ marginTop: 18 }}>
-          That is the entire product. Discovery for the people who live there.
-          Visibility for the places that hold them.
+          That is the product.
+        </p>
+        <p style={{ marginTop: 18 }}>
+          Clearer discovery for neighbourhoods.
+          <br />
+          Better visibility for places.
+          <br />
+          More commercial possibility for businesses.
+        </p>
+      </Section>
+
+      {/* WHAT IT HELPS DO */}
+      <Section
+        label="What kayaa helps do"
+        title={
+          <>
+            Easier to find.
+            <br />
+            <span style={{ color: "var(--green)" }}>
+              Easier to return to. Easier to grow.
+            </span>
+          </>
+        }
+      >
+        <p>
+          kayaa is being built to help local places become easier to find,
+          easier to return to, and easier to grow.
+        </p>
+        <p style={{ marginTop: 18 }}>
+          For neighbourhoods, that means less guesswork and clearer local
+          discovery.
+        </p>
+        <p style={{ marginTop: 18 }}>
+          For businesses and places, that means stronger visibility, more
+          repeat recognition, and a better chance of turning everyday trust
+          into something visible, usable, and commercially meaningful.
+        </p>
+        <p style={{ marginTop: 18 }}>
+          Because the problem is not only that local places are loved. The
+          problem is that too many of them are still digitally hard to see.
         </p>
       </Section>
 
@@ -276,11 +322,12 @@ function AboutPage() {
           }}
         >
           {[
-            "Not Yelp. We are not here to rate, rank or score anyone.",
-            "Not Google Maps. We are not building a global directory.",
-            "Not a chain showcase. We are not for franchises with marketing teams.",
-            "Not a payments app. The cash that flows through these places already works.",
-            "Not live yet. We are pre-launch. One neighbourhood at a time — wherever people speak up first.",
+            "Not a rating game. This is not built to reduce places to stars and scores.",
+            "Not a global directory. This is built around neighbourhood visibility and local relevance.",
+            "Not a chain showcase. This is for the places people already trust, not only the places with the biggest budgets.",
+            "Not another noisy content feed. This is built around places, neighbourhood life, and local visibility.",
+            "Not a payments app. The cash that already moves through these places is not the first problem. Visibility is.",
+            "Not live yet. We are pre-launch. One neighbourhood at a time, wherever people speak up first.",
           ].map((line) => (
             <li
               key={line}
@@ -363,7 +410,7 @@ function AboutPage() {
               boxShadow: "0 0 50px var(--green-glow)",
             }}
           >
-            Join the waitlist →
+            Join the neighbourhood waitlist →
           </button>
           <div style={{ marginTop: 24 }}>
             <Link
