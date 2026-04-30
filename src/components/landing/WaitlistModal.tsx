@@ -93,6 +93,8 @@ export function WaitlistModal() {
   const [placeName, setPlaceName] = useState("");
   const [placeAddress, setPlaceAddress] = useState("");
   const [placeType, setPlaceType] = useState<string>("");
+  const [placeTypeOther, setPlaceTypeOther] = useState<string>("");
+  const [typeSearch, setTypeSearch] = useState<string>("");
   const [why, setWhy] = useState("");
   const [ownership, setOwnership] = useState<"mine" | "other" | "">("");
   const [phone, setPhone] = useState("");
@@ -140,6 +142,8 @@ export function WaitlistModal() {
         setPlaceName("");
         setPlaceAddress("");
         setPlaceType("");
+        setPlaceTypeOther("");
+        setTypeSearch("");
         setWhy("");
         setOwnership("");
         setPhone("");
@@ -160,6 +164,9 @@ export function WaitlistModal() {
       setStep("type");
     } else if (step === "type") {
       if (!placeType) return setError("Pick a category");
+      if (placeType === "Other" && placeTypeOther.trim().length < 2) {
+        return setError("Tell us what kind of place it is");
+      }
       setStep("why");
     } else if (step === "why") {
       // optional, but encourage
@@ -229,9 +236,14 @@ export function WaitlistModal() {
       .join("\n")
       .slice(0, 4000);
 
+    const finalPlaceType =
+      placeType === "Other" && placeTypeOther.trim()
+        ? `Other: ${placeTypeOther.trim()}`
+        : placeType;
+
     await supabase.from("community_stories").insert({
       place_name: placeName.trim().slice(0, 200),
-      place_type: placeType ? placeType.slice(0, 200) : null,
+      place_type: finalPlaceType ? finalPlaceType.slice(0, 200) : null,
       story: story || null,
       contact: normalised,
       source: "landing_flow",
