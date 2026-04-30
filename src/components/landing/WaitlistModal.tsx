@@ -80,9 +80,11 @@ const emailSchema = z
   .string()
   .trim()
   .email("Check the email")
-  .max(200)
-  .optional()
-  .or(z.literal(""));
+  .max(200);
+
+const SUPPORT_WHATSAPP_HREF =
+  "https://wa.me/27663365296?text=" +
+  encodeURIComponent("Hi kayaa — I'd like to chat about my neighbourhood.");
 
 export function WaitlistModal() {
   const [open, setOpen] = useState(false);
@@ -100,6 +102,9 @@ export function WaitlistModal() {
   const [ownership, setOwnership] = useState<"mine" | "other" | "">("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [contactMethod, setContactMethod] = useState<"whatsapp" | "email">(
+    "whatsapp",
+  );
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const otherInputRef = useRef<HTMLInputElement>(null);
@@ -173,6 +178,7 @@ export function WaitlistModal() {
         setOwnership("");
         setPhone("");
         setEmail("");
+        setContactMethod("whatsapp");
       }
     }, 200);
   };
@@ -211,35 +217,37 @@ export function WaitlistModal() {
   const submitFinal = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    const phoneParsed = phoneSchema.safeParse(phone);
-    if (!phoneParsed.success) {
-      setError(phoneParsed.error.issues[0]?.message ?? "Add your WhatsApp number");
-      return;
-    }
-    const normalised = normaliseZAPhone(phoneParsed.data);
-    if (!normalised) {
-      setError("Use a valid WhatsApp number (e.g. 071 234 5678 or +27...)");
-      return;
-    }
-    const emailParsed = emailSchema.safeParse(email);
-    if (!emailParsed.success) {
-      setError(emailParsed.error.issues[0]?.message ?? "Check the email");
-      return;
+
+    let contactPayload = "";
+    if (contactMethod === "whatsapp") {
+      const phoneParsed = phoneSchema.safeParse(phone);
+      if (!phoneParsed.success) {
+        setError(phoneParsed.error.issues[0]?.message ?? "Add your WhatsApp number");
+        return;
+      }
+      const normalised = normaliseZAPhone(phoneParsed.data);
+      if (!normalised) {
+        setError("Use a valid WhatsApp number (e.g. 071 234 5678 or +27...)");
+        return;
+      }
+      contactPayload = normalised;
+    } else {
+      const emailParsed = emailSchema.safeParse(email);
+      if (!emailParsed.success) {
+        setError(emailParsed.error.issues[0]?.message ?? "Check the email");
+        return;
+      }
+      contactPayload = emailParsed.data;
     }
 
     setSubmitting(true);
-
-    // 1) Waitlist record (the contact)
-    const contactPayload = email.trim()
-      ? `${normalised} | ${email.trim().slice(0, 180)}`
-      : normalised;
 
     const { error: waitlistErr } = await supabase
       .from("country_waitlist")
       .insert({
         area: area.trim().slice(0, 200),
         contact: contactPayload.slice(0, 200),
-        contact_type: email.trim() ? "whatsapp+email" : "whatsapp",
+        contact_type: contactMethod,
         country_code: "ZA",
         source: "landing_flow",
       });
@@ -270,7 +278,7 @@ export function WaitlistModal() {
       place_name: placeName.trim().slice(0, 200),
       place_type: finalPlaceType ? finalPlaceType.slice(0, 200) : null,
       story: story || null,
-      contact: normalised,
+      contact: contactPayload,
       source: "landing_flow",
     });
 
@@ -292,7 +300,7 @@ export function WaitlistModal() {
       case "ownership":
         return "Is this your place?";
       case "contact":
-        return "Where should we notify you?";
+        return "How should we contact you?";
       case "done":
         return "You're in.";
     }
@@ -710,34 +718,98 @@ export function WaitlistModal() {
 
           {step === "contact" && (
             <form onSubmit={submitFinal} className="kayaa-wm-step">
-              <input
-                className="kayaa-wm-input"
-                placeholder="WhatsApp number (e.g. 071 234 5678)"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                inputMode="tel"
-                autoFocus
-                required
-                maxLength={40}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                className="kayaa-wm-input"
-                placeholder="Email (optional)"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                maxLength={200}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  marginBottom: 14,
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setError(null);
+                    setContactMethod("whatsapp");
+                  }}
+                  data-active={contactMethod === "whatsapp"}
+                  className="kayaa-wm-ownership"
+                  style={{ marginBottom: 0, flex: 1, textAlign: "center" }}
+                >
+                  WhatsApp
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setError(null);
+                    setContactMethod("email");
+                  }}
+                  data-active={contactMethod === "email"}
+                  className="kayaa-wm-ownership"
+                  style={{ marginBottom: 0, flex: 1, textAlign: "center" }}
+                >
+                  Email
+                </button>
+              </div>
+
+              {contactMethod === "whatsapp" ? (
+                <input
+                  key="wa"
+                  className="kayaa-wm-input"
+                  placeholder="Enter your WhatsApp number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  inputMode="tel"
+                  autoFocus
+                  required
+                  maxLength={40}
+                />
+              ) : (
+                <input
+                  key="em"
+                  className="kayaa-wm-input"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  autoFocus
+                  required
+                  maxLength={200}
+                />
+              )}
               <p
                 style={{
                   fontFamily: "var(--font-body)",
                   fontSize: 13,
-                  color: "rgba(255,255,255,0.45)",
+                  color: "rgba(255,255,255,0.5)",
                   margin: "10px 2px 0",
+                  lineHeight: 1.5,
                 }}
               >
-                We'll only WhatsApp you. Never sold, never shared.
+                We will only contact you when kayaa reaches your area or when
+                places like this begin to appear.
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: 12.5,
+                  color: "rgba(255,255,255,0.42)",
+                  margin: "12px 2px 0",
+                  lineHeight: 1.5,
+                }}
+              >
+                Prefer to message us directly?{" "}
+                <a
+                  href={SUPPORT_WHATSAPP_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "#39D98A",
+                    textDecoration: "underline",
+                  }}
+                >
+                  WhatsApp us
+                </a>
+                .
               </p>
               {/* hidden submit so Enter works */}
               <button type="submit" style={{ display: "none" }} aria-hidden />
@@ -785,7 +857,7 @@ export function WaitlistModal() {
                   margin: "0 0 24px",
                 }}
               >
-                We'll WhatsApp you when kayaa is live in{" "}
+                We'll let you know when kayaa is live in{" "}
                 <strong style={{ color: "#39D98A" }}>{area || "your area"}</strong>{" "}
                 — and when places like{" "}
                 <strong style={{ color: "#FFFFFF" }}>{placeName || "yours"}</strong>{" "}
