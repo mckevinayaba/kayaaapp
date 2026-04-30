@@ -287,6 +287,7 @@ export function HeroCarousel() {
           <p data-secondary="true" style={supportStyle({ marginTop: 22, fontSize: 16 })}>
             Every regular is invisible without a record.
           </p>
+          <SlideCTAs align="right" />
         </div>
       ),
     },
@@ -326,6 +327,7 @@ export function HeroCarousel() {
             The shisanyama doesn't need an Instagram page. It needs its
             regulars to find it.
           </p>
+          <SlideCTAs align="center" />
         </div>
       ),
     },
@@ -367,6 +369,7 @@ export function HeroCarousel() {
           >
             Still hard to find.
           </p>
+          <SlideCTAs align="left" />
         </div>
       ),
     },
