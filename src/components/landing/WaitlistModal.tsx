@@ -559,12 +559,12 @@ export function WaitlistModal() {
           {step === "type" && (
             <div className="kayaa-wm-step">
               <input
+                ref={typeSearchInputRef}
                 className="kayaa-wm-input"
                 placeholder="Search categories..."
                 value={typeSearch}
                 onChange={(e) => setTypeSearch(e.target.value)}
                 maxLength={60}
-                autoFocus
                 style={{ marginBottom: 14, fontSize: 15, padding: "13px 16px" }}
               />
               {(() => {
@@ -625,12 +625,12 @@ export function WaitlistModal() {
 
               {placeType === "Other" && (
                 <input
+                  ref={otherInputRef}
                   className="kayaa-wm-input"
                   placeholder="What kind of place is it? (e.g. Sewing co-op, Bookstore...)"
                   value={placeTypeOther}
                   onChange={(e) => setPlaceTypeOther(e.target.value)}
                   maxLength={120}
-                  autoFocus
                   style={{ marginTop: 14, fontSize: 16 }}
                 />
               )}
