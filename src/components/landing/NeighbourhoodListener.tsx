@@ -5,17 +5,17 @@ const STEPS = [
   {
     n: "01",
     title: "Listen",
-    body: "Notice the places people on your street keep going back to. The ones nobody talks about online.",
+    body: "Notice the places people in your area keep going back to, the ones everyone knows but too few people can actually find.",
   },
   {
     n: "02",
     title: "Nominate",
-    body: "Tell us the place. Where it is. Why it matters. One minute, no account.",
+    body: "Tell us the place, where it is, and why it matters.",
   },
   {
     n: "03",
     title: "Make it impossible to miss",
-    body: "We bring it onto the kayaa wall, where the rest of the neighbourhood can finally see it too.",
+    body: "We use what people share to shape the future neighbourhood wall and make local places easier to see.",
   },
 ];
 

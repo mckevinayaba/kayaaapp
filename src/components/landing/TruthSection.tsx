@@ -1,19 +1,34 @@
 const PLACE_LINES = [
   "The barbershop.",
+  "The salon.",
+  "The restaurant.",
+  "The café.",
   "The tuckshop.",
+  "The spaza shop.",
   "The shisanyama.",
+  "The tavern.",
+  "The club.",
+  "The clothing shop.",
   "The car wash.",
   "The church hall.",
+  "The pharmacy.",
+  "The mechanic.",
   "The corner food spot.",
 ];
 
 const PILLS = [
   "Barbershops",
   "Salons",
-  "Shisanyamas",
+  "Restaurants",
+  "Cafés",
   "Tuckshops",
   "Spaza shops",
+  "Shisanyamas",
+  "Taverns",
   "Car washes",
+  "Pharmacies",
+  "Mechanics",
+  "Clothing shops",
 ] as const;
 
 const ITALIC_LINES = [
@@ -75,7 +90,7 @@ export function TruthSection() {
               marginTop: 28,
             }}
           >
-            Trusted for years. Full every weekend.
+            The places every neighbourhood keeps going back to.
           </p>
           <p
             className="reveal"

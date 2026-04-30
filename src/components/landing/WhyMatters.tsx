@@ -136,8 +136,12 @@ export function WhyMatters() {
             marginInline: "auto",
           }}
         >
-          Local places aren't just businesses. They hold trust, routine, memory
-          and community. They deserve to be visible.
+          Local places are not just businesses. They hold trust, routine,
+          memory, and community. They also create everyday economic activity,
+          repeat customer relationships, and neighbourhood visibility. When
+          those places are hard to find, they lose more than attention. They
+          lose discovery, repeat foot traffic, new customers, proof of demand,
+          and opportunities to grow.
         </p>
       </div>
 

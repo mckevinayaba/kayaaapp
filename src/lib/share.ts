@@ -2,7 +2,7 @@
 // Used by the hero, Neighbourhood Listener, and waitlist confirmation.
 
 const DEFAULT_TEXT =
-  "I just nominated a place for kayaa — a platform helping make local places easier to see. Tell them the place in your area that keeps pulling people back.";
+  "I just nominated a place for kayaa. Tell them the place in your area that keeps pulling people back.";
 
 export type ShareResult = "shared" | "copied" | "cancelled" | "unsupported";
 

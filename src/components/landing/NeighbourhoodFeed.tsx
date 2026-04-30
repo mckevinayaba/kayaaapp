@@ -172,9 +172,9 @@ export function NeighbourhoodFeed() {
             marginInline: "auto",
           }}
         >
-          A mock-up of the kayaa wall at launch — the kinds of places, signals
-          and stories your community will see when you check in. Real names
-          will come from real neighbours like you.
+          A preview of what your neighbourhood wall will look like at launch —
+          the kinds of places, signals, and stories your community will see.
+          Real names will come from real neighbours like you.
         </p>
       </div>
 
