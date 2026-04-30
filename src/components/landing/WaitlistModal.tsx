@@ -101,6 +101,8 @@ export function WaitlistModal() {
   const [email, setEmail] = useState("");
 
   const dialogRef = useRef<HTMLDivElement>(null);
+  const otherInputRef = useRef<HTMLInputElement>(null);
+  const typeSearchInputRef = useRef<HTMLInputElement>(null);
 
   const stepIndex = STEPS.indexOf(step);
   const totalSteps = STEPS.length;
@@ -131,6 +133,28 @@ export function WaitlistModal() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
+
+  // When user picks "Other", move focus straight to the specify input.
+  useEffect(() => {
+    if (step === "type" && placeType === "Other") {
+      // Defer to next frame so the input is mounted before we focus it.
+      const id = requestAnimationFrame(() => {
+        otherInputRef.current?.focus();
+      });
+      return () => cancelAnimationFrame(id);
+    }
+  }, [step, placeType]);
+
+  // When entering the type step, focus the search box (only if no category
+  // is selected yet — otherwise the Other input or summary should keep focus).
+  useEffect(() => {
+    if (step === "type" && !placeType) {
+      const id = requestAnimationFrame(() => {
+        typeSearchInputRef.current?.focus();
+      });
+      return () => cancelAnimationFrame(id);
+    }
+  }, [step, placeType]);
 
   const close = () => {
     setOpen(false);
@@ -535,12 +559,12 @@ export function WaitlistModal() {
           {step === "type" && (
             <div className="kayaa-wm-step">
               <input
+                ref={typeSearchInputRef}
                 className="kayaa-wm-input"
                 placeholder="Search categories..."
                 value={typeSearch}
                 onChange={(e) => setTypeSearch(e.target.value)}
                 maxLength={60}
-                autoFocus
                 style={{ marginBottom: 14, fontSize: 15, padding: "13px 16px" }}
               />
               {(() => {
@@ -601,12 +625,12 @@ export function WaitlistModal() {
 
               {placeType === "Other" && (
                 <input
+                  ref={otherInputRef}
                   className="kayaa-wm-input"
                   placeholder="What kind of place is it? (e.g. Sewing co-op, Bookstore...)"
                   value={placeTypeOther}
                   onChange={(e) => setPlaceTypeOther(e.target.value)}
                   maxLength={120}
-                  autoFocus
                   style={{ marginTop: 14, fontSize: 16 }}
                 />
               )}
