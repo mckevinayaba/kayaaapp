@@ -40,9 +40,9 @@ export function CityWaitlist() {
             margin: "0 0 14px",
           }}
         >
-          We're starting in Johannesburg.
+          One neighbourhood at a time.
           <br />
-          <span style={{ color: "var(--green)" }}>Tell us where you are next.</span>
+          <span style={{ color: "var(--green)" }}>Tell us where you are.</span>
         </h2>
         <p
           className="reveal"
@@ -55,7 +55,7 @@ export function CityWaitlist() {
           }}
         >
           We launch one neighbourhood at a time so we can get it right.
-          Add yours and we'll WhatsApp you the moment kayaa goes live there.
+          Add yours and we'll let you know the moment kayaa reaches your area.
         </p>
 
         <button
