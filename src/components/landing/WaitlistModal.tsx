@@ -93,6 +93,8 @@ export function WaitlistModal() {
   const [placeName, setPlaceName] = useState("");
   const [placeAddress, setPlaceAddress] = useState("");
   const [placeType, setPlaceType] = useState<string>("");
+  const [placeTypeOther, setPlaceTypeOther] = useState<string>("");
+  const [typeSearch, setTypeSearch] = useState<string>("");
   const [why, setWhy] = useState("");
   const [ownership, setOwnership] = useState<"mine" | "other" | "">("");
   const [phone, setPhone] = useState("");
@@ -140,6 +142,8 @@ export function WaitlistModal() {
         setPlaceName("");
         setPlaceAddress("");
         setPlaceType("");
+        setPlaceTypeOther("");
+        setTypeSearch("");
         setWhy("");
         setOwnership("");
         setPhone("");
@@ -160,6 +164,9 @@ export function WaitlistModal() {
       setStep("type");
     } else if (step === "type") {
       if (!placeType) return setError("Pick a category");
+      if (placeType === "Other" && placeTypeOther.trim().length < 2) {
+        return setError("Tell us what kind of place it is");
+      }
       setStep("why");
     } else if (step === "why") {
       // optional, but encourage
@@ -229,9 +236,14 @@ export function WaitlistModal() {
       .join("\n")
       .slice(0, 4000);
 
+    const finalPlaceType =
+      placeType === "Other" && placeTypeOther.trim()
+        ? `Other: ${placeTypeOther.trim()}`
+        : placeType;
+
     await supabase.from("community_stories").insert({
       place_name: placeName.trim().slice(0, 200),
-      place_type: placeType ? placeType.slice(0, 200) : null,
+      place_type: finalPlaceType ? finalPlaceType.slice(0, 200) : null,
       story: story || null,
       contact: normalised,
       source: "landing_flow",
@@ -522,19 +534,111 @@ export function WaitlistModal() {
 
           {step === "type" && (
             <div className="kayaa-wm-step">
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {PLACE_TYPES.map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    className="kayaa-wm-chip"
-                    data-active={placeType === t}
-                    onClick={() => setPlaceType(t)}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
+              <input
+                className="kayaa-wm-input"
+                placeholder="Search categories..."
+                value={typeSearch}
+                onChange={(e) => setTypeSearch(e.target.value)}
+                maxLength={60}
+                autoFocus
+                style={{ marginBottom: 14, fontSize: 15, padding: "13px 16px" }}
+              />
+              {(() => {
+                const q = typeSearch.trim().toLowerCase();
+                const filtered = q
+                  ? PLACE_TYPES.filter((t) => t.toLowerCase().includes(q))
+                  : PLACE_TYPES;
+                if (filtered.length === 0) {
+                  return (
+                    <p
+                      style={{
+                        fontFamily: "var(--font-body)",
+                        fontSize: 14,
+                        color: "rgba(255,255,255,0.55)",
+                        margin: "8px 2px 14px",
+                      }}
+                    >
+                      No matches. Pick{" "}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPlaceType("Other");
+                          setTypeSearch("");
+                        }}
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          color: "#39D98A",
+                          fontFamily: "inherit",
+                          fontSize: "inherit",
+                          padding: 0,
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        Other
+                      </button>{" "}
+                      and tell us.
+                    </p>
+                  );
+                }
+                return (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {filtered.map((t) => (
+                      <button
+                        key={t}
+                        type="button"
+                        className="kayaa-wm-chip"
+                        data-active={placeType === t}
+                        onClick={() => setPlaceType(t)}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                );
+              })()}
+
+              {placeType === "Other" && (
+                <input
+                  className="kayaa-wm-input"
+                  placeholder="What kind of place is it? (e.g. Sewing co-op, Bookstore...)"
+                  value={placeTypeOther}
+                  onChange={(e) => setPlaceTypeOther(e.target.value)}
+                  maxLength={120}
+                  autoFocus
+                  style={{ marginTop: 14, fontSize: 16 }}
+                />
+              )}
+
+              {placeType && (
+                <div
+                  style={{
+                    marginTop: 18,
+                    padding: "12px 14px",
+                    borderRadius: 10,
+                    background: "rgba(57,217,138,0.08)",
+                    border: "1px solid rgba(57,217,138,0.28)",
+                    fontFamily: "var(--font-body)",
+                    fontSize: 14,
+                    color: "rgba(255,255,255,0.85)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  <span style={{ color: "#39D98A", fontWeight: 700 }}>✓</span>
+                  <span>
+                    Selected:{" "}
+                    <strong style={{ color: "#FFFFFF" }}>
+                      {placeType === "Other" && placeTypeOther.trim()
+                        ? `Other — ${placeTypeOther.trim()}`
+                        : placeType}
+                    </strong>
+                  </span>
+                </div>
+              )}
             </div>
           )}
 
