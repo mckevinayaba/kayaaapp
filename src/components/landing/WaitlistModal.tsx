@@ -292,7 +292,7 @@ export function WaitlistModal() {
       case "ownership":
         return "Is this your place?";
       case "contact":
-        return "Where should we notify you?";
+        return "How should we contact you?";
       case "done":
         return "You're in.";
     }
