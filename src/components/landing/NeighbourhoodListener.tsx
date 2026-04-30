@@ -1,4 +1,5 @@
 import { openWaitlist } from "@/lib/waitlist-store";
+import { ShareButton } from "./ShareButton";
 
 const STEPS = [
   {
@@ -208,6 +209,21 @@ export function NeighbourhoodListener() {
         >
           Tell us the place in your area that keeps pulling people back.
         </p>
+        <div
+          className="reveal"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 22,
+          }}
+        >
+          <ShareButton
+            label="Share this with your street"
+            variant="soft"
+            showWhatsApp
+            align="center"
+          />
+        </div>
       </div>
     </section>
   );
