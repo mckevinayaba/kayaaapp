@@ -80,9 +80,11 @@ const emailSchema = z
   .string()
   .trim()
   .email("Check the email")
-  .max(200)
-  .optional()
-  .or(z.literal(""));
+  .max(200);
+
+const SUPPORT_WHATSAPP_HREF =
+  "https://wa.me/27663365296?text=" +
+  encodeURIComponent("Hi kayaa — I'd like to chat about my neighbourhood.");
 
 export function WaitlistModal() {
   const [open, setOpen] = useState(false);
@@ -100,6 +102,9 @@ export function WaitlistModal() {
   const [ownership, setOwnership] = useState<"mine" | "other" | "">("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [contactMethod, setContactMethod] = useState<"whatsapp" | "email">(
+    "whatsapp",
+  );
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const otherInputRef = useRef<HTMLInputElement>(null);
@@ -212,35 +217,37 @@ export function WaitlistModal() {
   const submitFinal = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    const phoneParsed = phoneSchema.safeParse(phone);
-    if (!phoneParsed.success) {
-      setError(phoneParsed.error.issues[0]?.message ?? "Add your WhatsApp number");
-      return;
-    }
-    const normalised = normaliseZAPhone(phoneParsed.data);
-    if (!normalised) {
-      setError("Use a valid WhatsApp number (e.g. 071 234 5678 or +27...)");
-      return;
-    }
-    const emailParsed = emailSchema.safeParse(email);
-    if (!emailParsed.success) {
-      setError(emailParsed.error.issues[0]?.message ?? "Check the email");
-      return;
+
+    let contactPayload = "";
+    if (contactMethod === "whatsapp") {
+      const phoneParsed = phoneSchema.safeParse(phone);
+      if (!phoneParsed.success) {
+        setError(phoneParsed.error.issues[0]?.message ?? "Add your WhatsApp number");
+        return;
+      }
+      const normalised = normaliseZAPhone(phoneParsed.data);
+      if (!normalised) {
+        setError("Use a valid WhatsApp number (e.g. 071 234 5678 or +27...)");
+        return;
+      }
+      contactPayload = normalised;
+    } else {
+      const emailParsed = emailSchema.safeParse(email);
+      if (!emailParsed.success) {
+        setError(emailParsed.error.issues[0]?.message ?? "Check the email");
+        return;
+      }
+      contactPayload = emailParsed.data;
     }
 
     setSubmitting(true);
-
-    // 1) Waitlist record (the contact)
-    const contactPayload = email.trim()
-      ? `${normalised} | ${email.trim().slice(0, 180)}`
-      : normalised;
 
     const { error: waitlistErr } = await supabase
       .from("country_waitlist")
       .insert({
         area: area.trim().slice(0, 200),
         contact: contactPayload.slice(0, 200),
-        contact_type: email.trim() ? "whatsapp+email" : "whatsapp",
+        contact_type: contactMethod,
         country_code: "ZA",
         source: "landing_flow",
       });
@@ -271,7 +278,7 @@ export function WaitlistModal() {
       place_name: placeName.trim().slice(0, 200),
       place_type: finalPlaceType ? finalPlaceType.slice(0, 200) : null,
       story: story || null,
-      contact: normalised,
+      contact: contactPayload,
       source: "landing_flow",
     });
 
