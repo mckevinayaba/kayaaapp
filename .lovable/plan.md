@@ -1,31 +1,52 @@
-## Reframe the "Live from our neighbourhoods" section
+## Goal
+Expand the "What kind of place is it?" step on the waitlist form to better reflect the full range of African neighbourhood places people would nominate — so no one feels their corner spot doesn't belong.
 
-The section currently reads like a real, active feed (live dot, "2h ago", check-in counts, "Live signals" badge). With no real users yet, this looks fabricated. We'll reframe it explicitly as **a preview of what the wall will look like once kayaa goes live** — honest, aspirational, and still emotionally compelling.
+## Change
+In `src/components/landing/WaitlistModal.tsx`, expand the `PLACE_TYPES` array from 11 entries to a richer, neighbourhood-true list. "Other" stays at the end as the catch-all.
 
-### Changes to `src/components/landing/NeighbourhoodFeed.tsx`
+### New list (in order)
+1. Barbershop
+2. Salon / Hair
+3. Spaza
+4. Tuckshop
+5. Shisanyama
+6. Kota spot
+7. Food spot
+8. Café
+9. Bakery
+10. Butchery
+11. Fruit & veg
+12. Tavern / Pub
+13. Car wash
+14. Garage / Mechanic
+15. Tyre fitment
+16. Panelbeater
+17. Hardware
+18. Laundry / Dry cleaner
+19. Tailor / Seamstress
+20. Cobbler
+21. Phone repair
+22. Internet café
+23. Stationery / Print shop
+24. Pharmacy / Chemist
+25. Clinic
+26. Crèche / Daycare
+27. Tutor / After-school
+28. Gym
+29. Church
+30. Mosque
+31. Community hall
+32. Market stall
+33. Bookshop
+34. Florist
+35. Pet shop / Vet
+36. Studio (music / art)
+37. Other
 
-**1. Section header — swap the framing**
-- Replace the "● LIVE SIGNALS" pill with a calmer label: **"A GLIMPSE OF WHAT'S COMING"** (no pulsing dot, no "live" language).
-- Headline change:
-  - From: *"Live from our neighbourhoods."*
-  - To: *"This is what your neighbourhood wall will look like."* — with the second line *"Once we're live."* in green.
-- Subline change:
-  - From: *"A small preview of the wall kayaa is building — places nominated by the people who keep going back."*
-  - To: *"A mock-up of the kayaa wall at launch — the kinds of places, signals, and stories your community will see when you check in. Real names will come from real neighbours like you."*
+## Notes
+- Chips already wrap responsively (`flex-wrap`), so a longer list renders fine on mobile and desktop.
+- Single-select behaviour and validation logic untouched — only the array contents change.
+- Naming uses neighbourhood vernacular ("Spaza", "Shisanyama", "Kota spot", "Chemist") alongside familiar terms so it reads as written by someone who lives here, not generated.
 
-**2. Cards — remove fake-realtime cues**
-- Remove the green pulsing "live dot" + relative timestamp ("2h ago", "Yesterday", "Friday night") chip on each photo.
-- Replace it with a small honest tag: **"PREVIEW"** in muted mono type (no pulse, no green glow).
-- Keep the place name, type, area, and the italic quote — these read as illustrative storytelling, not claims.
-- Replace the metrics row (`📌 142 check-ins · ♥ 38 · 💬 12`) with a single line in muted text: *"check-ins · hearts · mentions — coming when kayaa goes live"* (icons only, no numbers). This keeps the visual rhythm but removes the fabricated numbers.
-
-**3. Footer CTA**
-- Keep the button but tighten copy: **"Nominate the first place on your street →"** — connects the preview directly to the action that makes it real.
-
-### Why this works
-- Removes any implication that these are real check-ins (which would feel dishonest on inspection).
-- Keeps the emotional payload: people still see their neighbourhood reflected.
-- Reframes the section as **a promise of what they're joining**, not a claim of what already exists — which is more powerful for a waitlist conversion.
-
-### Files touched
-- `src/components/landing/NeighbourhoodFeed.tsx` (only file)
+## Files
+- `src/components/landing/WaitlistModal.tsx` — replace `PLACE_TYPES` array.
