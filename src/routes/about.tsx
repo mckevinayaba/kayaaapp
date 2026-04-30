@@ -8,20 +8,20 @@ import { WaitlistModal } from "@/components/landing/WaitlistModal";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About kayaa — we say support local. but we cannot find local." },
+      { title: "About kayaa — we say support local. But we cannot even find local." },
       {
         name: "description",
         content:
-          "kayaa is a neighbourhood-first discovery platform for the South African places that hold our communities together. An honest look at why visibility matters.",
+          "The long version of why kayaa exists. The problem, the cost of leaving it unsolved, and what kayaa is being built to do about it.",
       },
       {
         property: "og:title",
-        content: "About kayaa — we say support local. but we cannot find local.",
+        content: "About kayaa — we say support local. But we cannot even find local.",
       },
       {
         property: "og:description",
         content:
-          "Townships hold a R900-billion economy and most of the places inside it don't exist on Google Maps. kayaa is building the visibility layer.",
+          "South Africa is full of neighbourhood places doing extraordinary things, and almost none of them are easy to find properly. kayaa is the visibility layer being built to change that.",
       },
       { property: "og:type", content: "website" },
     ],
