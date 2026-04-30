@@ -857,7 +857,7 @@ export function WaitlistModal() {
                   margin: "0 0 24px",
                 }}
               >
-                We'll WhatsApp you when kayaa is live in{" "}
+                We'll let you know when kayaa is live in{" "}
                 <strong style={{ color: "#39D98A" }}>{area || "your area"}</strong>{" "}
                 — and when places like{" "}
                 <strong style={{ color: "#FFFFFF" }}>{placeName || "yours"}</strong>{" "}
