@@ -42,6 +42,63 @@ const supportStyle = (extra: CSSProperties = {}): CSSProperties => ({
   ...extra,
 });
 
+function SlideCTAs({ align = "left" }: { align?: "left" | "right" | "center" }) {
+  const justify =
+    align === "right" ? "flex-end" : align === "center" ? "center" : "flex-start";
+  return (
+    <div
+      data-slide-ctas="true"
+      style={{
+        display: "flex",
+        gap: 10,
+        marginTop: 22,
+        flexWrap: "wrap",
+        justifyContent: justify,
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => openWaitlist(1)}
+        className="kayaa-hero-primary"
+        style={{
+          background: "var(--green)",
+          color: "var(--midnight)",
+          fontFamily: "var(--font-body)",
+          fontWeight: 700,
+          fontSize: 13,
+          padding: "12px 22px",
+          borderRadius: 10,
+          border: "none",
+          cursor: "pointer",
+          boxShadow: "0 0 40px var(--green-glow)",
+          transition: "all .2s ease",
+        }}
+      >
+        Nominate this kind of place
+      </button>
+      <button
+        type="button"
+        onClick={() => openWaitlist(1)}
+        className="kayaa-hero-secondary"
+        style={{
+          background: "transparent",
+          color: "var(--warm-white)",
+          fontFamily: "var(--font-body)",
+          fontWeight: 600,
+          fontSize: 13,
+          padding: "12px 22px",
+          borderRadius: 10,
+          border: "1px solid rgba(255,255,255,0.22)",
+          cursor: "pointer",
+          transition: "all .2s ease",
+        }}
+      >
+        Join the waitlist →
+      </button>
+    </div>
+  );
+}
+
 // Word-by-word reveal helper
 function RevealWords({
   text,
@@ -104,38 +161,6 @@ export function HeroCarousel() {
             maxWidth: 980,
           }}
         >
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              border: "1px solid rgba(57,217,138,0.35)",
-              background: "rgba(57,217,138,0.08)",
-              borderRadius: 999,
-              padding: "5px 12px",
-              marginBottom: 22,
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: 999,
-                background: "var(--green)",
-                boxShadow: "0 0 10px var(--green)",
-              }}
-            />
-            <span
-              style={{
-                ...labelStyle,
-                fontSize: 10,
-                letterSpacing: "0.2em",
-              }}
-            >
-              Pre-launch · Johannesburg first
-            </span>
-          </div>
-
           <h1 style={headlineStyle()}>
             <RevealWords text="We say support local." />
             <br />
@@ -154,8 +179,10 @@ export function HeroCarousel() {
               animationDelay: "1.4s",
             }}
           >
-            kayaa is a neighbourhood-first way to see the local places that hold
-            South Africa together — the ones the algorithms keep missing.
+            The corner shop, the salon, the shisanyama down the road — they're
+            holding our neighbourhoods together while the world's apps pretend
+            they don't exist. Help us put them on the map before they
+            disappear.
           </p>
 
           <div
@@ -186,7 +213,7 @@ export function HeroCarousel() {
                 transition: "all .2s ease",
               }}
             >
-              Join the waitlist →
+              Nominate a place now
             </button>
             <button
               type="button"
@@ -205,7 +232,7 @@ export function HeroCarousel() {
                 transition: "all .2s ease",
               }}
             >
-              Nominate a place
+              Join the waitlist — be first when kayaa goes live
             </button>
           </div>
           <p
@@ -260,6 +287,7 @@ export function HeroCarousel() {
           <p data-secondary="true" style={supportStyle({ marginTop: 22, fontSize: 16 })}>
             Every regular is invisible without a record.
           </p>
+          <SlideCTAs align="right" />
         </div>
       ),
     },
@@ -299,6 +327,7 @@ export function HeroCarousel() {
             The shisanyama doesn't need an Instagram page. It needs its
             regulars to find it.
           </p>
+          <SlideCTAs align="center" />
         </div>
       ),
     },
@@ -340,6 +369,7 @@ export function HeroCarousel() {
           >
             Still hard to find.
           </p>
+          <SlideCTAs align="left" />
         </div>
       ),
     },
