@@ -29,14 +29,14 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "kayaa — find local. support local." },
+      { title: "Home for the places that hold neighbourhoods together" },
       {
         name: "description",
         content:
           "kayaa is a neighbourhood-first discovery platform for the South African places that hold our communities together. Pre-launch — join the waitlist.",
       },
       { name: "author", content: "kayaa" },
-      { property: "og:title", content: "kayaa — find local. support local." },
+      { property: "og:title", content: "Home for the places that hold neighbourhoods together" },
       {
         property: "og:description",
         content:
@@ -44,7 +44,12 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "kayaa — find local. support local." },
+      { name: "twitter:title", content: "Home for the places that hold neighbourhoods together" },
+      { name: "description", content: "A digital home for the places that hold neighbourhoods together. Barbershops, spazas, shisanyamas, car washes. Johannesburg first. Join the waitlist." },
+      { property: "og:description", content: "A digital home for the places that hold neighbourhoods together. Barbershops, spazas, shisanyamas, car washes. Johannesburg first. Join the waitlist." },
+      { name: "twitter:description", content: "A digital home for the places that hold neighbourhoods together. Barbershops, spazas, shisanyamas, car washes. Johannesburg first. Join the waitlist." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/WrPuVWGhYoRy0ARbb1Bsf9PQdtU2/social-images/social-1777533129665-ChatGPT_Image_Apr_30,_2026,_09_11_51_AM.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/WrPuVWGhYoRy0ARbb1Bsf9PQdtU2/social-images/social-1777533129665-ChatGPT_Image_Apr_30,_2026,_09_11_51_AM.webp" },
     ],
     links: [
       {
