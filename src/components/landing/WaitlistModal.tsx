@@ -6,6 +6,7 @@ import {
   normaliseZAPhone,
   onWaitlistOpen,
 } from "@/lib/waitlist-store";
+import { ShareButton } from "./ShareButton";
 
 const PLACE_TYPES = [
   "Barbershop",
@@ -790,6 +791,46 @@ export function WaitlistModal() {
                 <strong style={{ color: "#FFFFFF" }}>{placeName || "yours"}</strong>{" "}
                 begin to appear.
               </p>
+              <div
+                style={{
+                  background: "rgba(57,217,138,0.06)",
+                  border: "1px solid rgba(57,217,138,0.25)",
+                  borderRadius: 12,
+                  padding: "18px 18px 16px",
+                  marginBottom: 20,
+                  textAlign: "left",
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 700,
+                    fontSize: 15,
+                    color: "#FFFFFF",
+                    margin: "0 0 6px",
+                  }}
+                >
+                  Know another place that matters?
+                </p>
+                <p
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: 13,
+                    color: "rgba(255,255,255,0.65)",
+                    margin: "0 0 14px",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Share this page with someone in your neighbourhood. One nomination
+                  is one place pulled out of invisibility.
+                </p>
+                <ShareButton
+                  label="Share kayaa"
+                  variant="primary"
+                  showWhatsApp
+                  align="left"
+                />
+              </div>
               <button
                 onClick={close}
                 style={{

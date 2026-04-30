@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef, type CSSProperties } from "react";
 import { openWaitlist } from "@/lib/waitlist-store";
+import { ShareButton } from "./ShareButton";
 
 type Slide = {
   photo: string;
@@ -213,7 +214,7 @@ export function HeroCarousel() {
                 transition: "all .2s ease",
               }}
             >
-              Nominate a place now
+              Nominate a place
             </button>
             <button
               type="button"
@@ -232,8 +233,19 @@ export function HeroCarousel() {
                 transition: "all .2s ease",
               }}
             >
-              Join the waitlist — be first when kayaa goes live
+              Join the neighbourhood waitlist
             </button>
+          </div>
+          <div
+            className="kayaa-fade-in"
+            style={{ marginTop: 18, animationDelay: "1.85s" }}
+          >
+            <ShareButton
+              label="Share this with your street"
+              variant="ghost"
+              showWhatsApp
+              align="left"
+            />
           </div>
           <p
             data-secondary="true"
@@ -243,7 +255,7 @@ export function HeroCarousel() {
               fontStyle: "italic",
               fontSize: 14,
               color: "rgba(240,246,252,0.55)",
-              marginTop: 18,
+              marginTop: 14,
               maxWidth: 520,
               animationDelay: "2s",
             }}
