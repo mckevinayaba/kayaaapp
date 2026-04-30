@@ -173,6 +173,7 @@ export function WaitlistModal() {
         setOwnership("");
         setPhone("");
         setEmail("");
+        setContactMethod("whatsapp");
       }
     }, 200);
   };
@@ -710,34 +711,98 @@ export function WaitlistModal() {
 
           {step === "contact" && (
             <form onSubmit={submitFinal} className="kayaa-wm-step">
-              <input
-                className="kayaa-wm-input"
-                placeholder="WhatsApp number (e.g. 071 234 5678)"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                inputMode="tel"
-                autoFocus
-                required
-                maxLength={40}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                className="kayaa-wm-input"
-                placeholder="Email (optional)"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                maxLength={200}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  marginBottom: 14,
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setError(null);
+                    setContactMethod("whatsapp");
+                  }}
+                  data-active={contactMethod === "whatsapp"}
+                  className="kayaa-wm-ownership"
+                  style={{ marginBottom: 0, flex: 1, textAlign: "center" }}
+                >
+                  WhatsApp
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setError(null);
+                    setContactMethod("email");
+                  }}
+                  data-active={contactMethod === "email"}
+                  className="kayaa-wm-ownership"
+                  style={{ marginBottom: 0, flex: 1, textAlign: "center" }}
+                >
+                  Email
+                </button>
+              </div>
+
+              {contactMethod === "whatsapp" ? (
+                <input
+                  key="wa"
+                  className="kayaa-wm-input"
+                  placeholder="Enter your WhatsApp number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  inputMode="tel"
+                  autoFocus
+                  required
+                  maxLength={40}
+                />
+              ) : (
+                <input
+                  key="em"
+                  className="kayaa-wm-input"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  autoFocus
+                  required
+                  maxLength={200}
+                />
+              )}
               <p
                 style={{
                   fontFamily: "var(--font-body)",
                   fontSize: 13,
-                  color: "rgba(255,255,255,0.45)",
+                  color: "rgba(255,255,255,0.5)",
                   margin: "10px 2px 0",
+                  lineHeight: 1.5,
                 }}
               >
-                We'll only WhatsApp you. Never sold, never shared.
+                We will only contact you when kayaa reaches your area or when
+                places like this begin to appear.
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: 12.5,
+                  color: "rgba(255,255,255,0.42)",
+                  margin: "12px 2px 0",
+                  lineHeight: 1.5,
+                }}
+              >
+                Prefer to message us directly?{" "}
+                <a
+                  href={SUPPORT_WHATSAPP_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "#39D98A",
+                    textDecoration: "underline",
+                  }}
+                >
+                  WhatsApp us
+                </a>
+                .
               </p>
               {/* hidden submit so Enter works */}
               <button type="submit" style={{ display: "none" }} aria-hidden />
