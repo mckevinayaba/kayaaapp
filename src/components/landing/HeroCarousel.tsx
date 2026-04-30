@@ -104,38 +104,6 @@ export function HeroCarousel() {
             maxWidth: 980,
           }}
         >
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              border: "1px solid rgba(57,217,138,0.35)",
-              background: "rgba(57,217,138,0.08)",
-              borderRadius: 999,
-              padding: "5px 12px",
-              marginBottom: 22,
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: 999,
-                background: "var(--green)",
-                boxShadow: "0 0 10px var(--green)",
-              }}
-            />
-            <span
-              style={{
-                ...labelStyle,
-                fontSize: 10,
-                letterSpacing: "0.2em",
-              }}
-            >
-              Pre-launch · Johannesburg first
-            </span>
-          </div>
-
           <h1 style={headlineStyle()}>
             <RevealWords text="We say support local." />
             <br />
@@ -154,8 +122,10 @@ export function HeroCarousel() {
               animationDelay: "1.4s",
             }}
           >
-            kayaa is a neighbourhood-first way to see the local places that hold
-            South Africa together — the ones the algorithms keep missing.
+            The corner shop, the salon, the shisanyama down the road — they're
+            holding our neighbourhoods together while the world's apps pretend
+            they don't exist. Help us put them on the map before they
+            disappear.
           </p>
 
           <div
@@ -186,7 +156,7 @@ export function HeroCarousel() {
                 transition: "all .2s ease",
               }}
             >
-              Join the waitlist →
+              Nominate a place now
             </button>
             <button
               type="button"
@@ -205,7 +175,7 @@ export function HeroCarousel() {
                 transition: "all .2s ease",
               }}
             >
-              Nominate a place
+              Join the waitlist — be first when kayaa goes live
             </button>
           </div>
           <p
