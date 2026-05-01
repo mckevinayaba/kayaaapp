@@ -292,7 +292,7 @@ export function WaitlistModal() {
       case "area":
         return "What neighbourhood are you speaking from?";
       case "place":
-        return "What's the place?";
+        return "What is the name of the place?";
       case "type":
         return "What kind of place is it?";
       case "why":
@@ -302,7 +302,7 @@ export function WaitlistModal() {
       case "contact":
         return "How should we contact you?";
       case "done":
-        return "You're in.";
+        return "You're on the kayaa neighbourhood waitlist.";
     }
   }, [step]);
 
@@ -523,7 +523,7 @@ export function WaitlistModal() {
                   margin: "10px 2px 0",
                 }}
               >
-                We launch one neighbourhood at a time.
+                We launch one neighbourhood at a time, so we can get it right.
               </p>
             </div>
           )}
@@ -560,7 +560,7 @@ export function WaitlistModal() {
                   margin: "10px 2px 0",
                 }}
               >
-                The place that would hurt if it closed — and where to find it.
+                It can be your place, or one you think deserves to be seen — and where to find it.
               </p>
             </div>
           )}
@@ -695,7 +695,7 @@ export function WaitlistModal() {
                   margin: "10px 2px 0",
                 }}
               >
-                Optional — but the truth is what makes kayaa.
+                Optional — what you share helps us understand which places matter and where local demand is strongest.
               </p>
             </div>
           )}
