@@ -22,9 +22,9 @@ const BEATS = [
   },
   {
     n: "04",
-    title: "The neighbourhood becomes clearer.",
+    title: "Places get found, return, and grow.",
     body:
-      "Places become easier to return to. Activity becomes easier to follow. The signals that matter become harder to overlook.",
+      "Repeat check-ins, visible activity, and place-based posts help businesses stay visible to regulars, bring them back on quiet days, attract new nearby customers, and grow without needing a marketing budget.",
   },
 ];
 
