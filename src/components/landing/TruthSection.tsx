@@ -36,7 +36,13 @@ const ITALIC_LINES = [
   "The trusted mechanic in Randburg.",
   "The salon in Sandton.",
   "The food spot in Maboneng.",
-  "The church hall in Midrand.",
+  "The corner pub in Fourways.",
+  "The pharmacy in Braamfontein.",
+  "The restaurant in Hillbrow.",
+  "The shisanyama in Soweto.",
+  "The car wash in Tembisa.",
+  "The salon in Khayelitsha.",
+  "The tuckshop in Mitchells Plain.",
 ];
 
 const divider = {
@@ -153,7 +159,7 @@ export function TruthSection() {
               marginBottom: 28,
             }}
           >
-            And this is not only a township problem.
+            This is every neighbourhood, not one kind of neighbourhood.
           </h2>
           {ITALIC_LINES.map((line, i) => (
             <div

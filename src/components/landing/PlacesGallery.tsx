@@ -115,9 +115,11 @@ export function PlacesGallery() {
             lineHeight: 1.15,
           }}
         >
-          Soweto. Alex. Tembisa. Khayelitsha.
+          Sandton. Rosebank. Fourways. Soweto.
           <br />
-          <span style={{ color: "#39D98A" }}>This is where kayaa lives.</span>
+          Alex. Tembisa. Khayelitsha. Mitchells Plain.
+          <br />
+          <span style={{ color: "#39D98A" }}>Every neighbourhood. Same idea.</span>
         </h2>
         <p
           className="reveal"
@@ -130,8 +132,8 @@ export function PlacesGallery() {
             lineHeight: 1.6,
           }}
         >
-          The places your neighbourhood actually revolves around — the ones
-          people keep going back to.
+          The places your neighbourhood actually revolves around — across
+          every kind of South African area, not just one.
         </p>
       </div>
 
