@@ -1,27 +1,39 @@
 const SIGNALS = [
   {
-    icon: "📍",
-    title: "Place-based posts",
+    icon: "📡",
+    title: "Neighbourhood feed",
     body:
-      "Photos, videos, and updates tied to a real location, so you can see exactly where something happened, was seen, or was shared.",
+      "A live view of places, updates, check-ins, and local posts nearby — so you can see what is active in your area in one place.",
+  },
+  {
+    icon: "📍",
+    title: "Place-based photos & videos",
+    body:
+      "Post nice places, useful moments, events, or updates and pin them to the exact location they happened — not floating content, real local context.",
   },
   {
     icon: "🔔",
-    title: "Useful local alerts",
+    title: "Neighbourhood alerts",
     body:
-      "Quick neighbourhood signals about what people are noticing nearby — from helpful tips to things worth being aware of in your area.",
+      "Useful local signals and awareness posts tied to real places, so you stay more informed and more alert about what is happening around you.",
   },
   {
-    icon: "✨",
-    title: "Good things nearby",
+    icon: "✅",
+    title: "Check-ins",
     body:
-      "A new spot worth trying, a beautiful moment on your street, a place doing something great — shared with the neighbourhood that would actually care.",
+      "One tap when you walk in. Over time, this builds a visible record of which places people actually keep going back to.",
   },
   {
-    icon: "🗺️",
-    title: "A clearer view of your area",
+    icon: "♻️",
+    title: "Regulars",
     body:
-      "Trusted places, community updates, and real local signals — all in one neighbourhood layer, so daily life is easier to see and easier to understand.",
+      "Repeat check-ins create a visible signal of loyalty — proof that a place already has the community most apps cannot see.",
+  },
+  {
+    icon: "🏪",
+    title: "Place dashboard",
+    body:
+      "Owners can manage their place, post updates, see check-ins, understand repeat activity, and stay visible — without needing a marketing budget.",
   },
 ];
 
@@ -54,9 +66,9 @@ export function NeighbourhoodSignals() {
       <style>{`
         .kayaa-signals-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 16px;
-          max-width: 980px;
+          max-width: 1180px;
           margin: 56px auto 0;
         }
         .kayaa-signal-card {
@@ -71,7 +83,8 @@ export function NeighbourhoodSignals() {
           border-color: rgba(57,217,138,0.35);
           box-shadow: 0 18px 40px rgba(0,0,0,0.45), 0 0 24px rgba(57,217,138,0.12);
         }
-        @media (max-width: 720px) { .kayaa-signals-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1000px) { .kayaa-signals-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px)  { .kayaa-signals-grid { grid-template-columns: 1fr; } }
       `}</style>
 
       <div
@@ -93,7 +106,7 @@ export function NeighbourhoodSignals() {
             margin: "0 0 18px",
           }}
         >
-          More than discovery
+          What kayaa actually does
         </p>
         <h2
           className="reveal"
@@ -107,9 +120,9 @@ export function NeighbourhoodSignals() {
             margin: "0 0 22px",
           }}
         >
-          See what is happening
+          See it. Discover it.
           <br />
-          <span style={{ color: "var(--green)" }}>around you.</span>
+          <span style={{ color: "var(--green)" }}>Help places grow from it.</span>
         </h2>
         <p
           className="reveal"
@@ -123,11 +136,11 @@ export function NeighbourhoodSignals() {
             marginInline: "auto",
           }}
         >
-          From trusted places and neighbourhood updates to useful alerts,
-          photos, videos, and real local signals, kayaa helps make
-          neighbourhood life easier to see and easier to understand. Share
-          what you are seeing, enjoying, or want others to know — tied to the
-          exact place it happened.
+          kayaa does three things. It helps people see what is happening
+          around them, discover the local places that matter, and helps those
+          places stay visible, get found, and grow. Not star ratings. Not
+          random opinions. Place-based sharing tied to real locations, with
+          real neighbourhood utility.
         </p>
       </div>
 
@@ -187,8 +200,9 @@ export function NeighbourhoodSignals() {
           lineHeight: 1.6,
         }}
       >
-        Practical visibility. Place-based community updates. A neighbourhood
-        layer for the things that actually matter where you live.
+        For neighbourhoods: clearer discovery and a practical view of local
+        life. For places and businesses: visibility, repeat foot traffic, new
+        nearby customers, and visible proof your community already exists.
       </p>
     </section>
   );
