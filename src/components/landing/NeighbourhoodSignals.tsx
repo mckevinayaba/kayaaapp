@@ -66,9 +66,9 @@ export function NeighbourhoodSignals() {
       <style>{`
         .kayaa-signals-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 16px;
-          max-width: 980px;
+          max-width: 1180px;
           margin: 56px auto 0;
         }
         .kayaa-signal-card {
@@ -83,7 +83,8 @@ export function NeighbourhoodSignals() {
           border-color: rgba(57,217,138,0.35);
           box-shadow: 0 18px 40px rgba(0,0,0,0.45), 0 0 24px rgba(57,217,138,0.12);
         }
-        @media (max-width: 720px) { .kayaa-signals-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1000px) { .kayaa-signals-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px)  { .kayaa-signals-grid { grid-template-columns: 1fr; } }
       `}</style>
 
       <div
