@@ -6,7 +6,7 @@ const BEATS = [
     n: "01",
     title: "You open kayaa.",
     body:
-      "Your neighbourhood appears, with the places people actually use, trust, and keep returning to.",
+      "Your neighbourhood appears, with the places that matter, the updates people are sharing, and the local signals you would want to know about.",
   },
   {
     n: "02",
@@ -16,15 +16,15 @@ const BEATS = [
   },
   {
     n: "03",
-    title: "The place becomes easier to see.",
+    title: "You see what is happening nearby.",
     body:
-      "Its activity, its presence, and its relevance become more visible over time.",
+      "Useful updates, photos, videos, and alerts from real places — tied to exact locations — so you stay aware of neighbourhood life as it unfolds.",
   },
   {
     n: "04",
     title: "The neighbourhood becomes clearer.",
     body:
-      "The places holding it together become easier to discover, easier to return to, and harder to overlook.",
+      "Places become easier to return to. Activity becomes easier to follow. The signals that matter become harder to overlook.",
   },
 ];
 

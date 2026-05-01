@@ -2,6 +2,7 @@ import { Nav } from "./Nav";
 import { HeroCarousel } from "./HeroCarousel";
 import { TruthSection } from "./TruthSection";
 import { WhyMatters } from "./WhyMatters";
+import { NeighbourhoodSignals } from "./NeighbourhoodSignals";
 import { HowItWorks } from "./HowItWorks";
 import { PlacesGallery } from "./PlacesGallery";
 import { NominationAsk } from "./NominationAsk";
@@ -21,6 +22,7 @@ export function LandingPage() {
       <HeroCarousel />
       <TruthSection />
       <WhyMatters />
+      <NeighbourhoodSignals />
       <NominationAsk />
       <HowItWorks />
       <PlacesGallery />

@@ -183,7 +183,8 @@ export function HeroCarousel() {
             South Africa is full of neighbourhood places people trust, return
             to, recommend, and build routine around, but too many of them are
             still hard to find, easy to overlook, and invisible beyond word of
-            mouth.
+            mouth — and the everyday updates, alerts, and local signals that
+            make a neighbourhood feel alive are just as hard to see.
           </p>
 
           <div

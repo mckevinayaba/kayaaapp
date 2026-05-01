@@ -138,10 +138,12 @@ export function WhyMatters() {
         >
           Local places are not just businesses. They hold trust, routine,
           memory, and community. They also create everyday economic activity,
-          repeat customer relationships, and neighbourhood visibility. When
-          those places are hard to find, they lose more than attention. They
-          lose discovery, repeat foot traffic, new customers, proof of demand,
-          and opportunities to grow.
+          repeat customer relationships, and the local signals neighbourhoods
+          rely on. When those places — and the updates around them — are hard
+          to see, neighbourhoods lose more than attention. They lose
+          discovery, awareness of what is happening nearby, repeat foot
+          traffic, proof of demand, and the practical visibility that makes
+          local life easier to understand.
         </p>
       </div>
 

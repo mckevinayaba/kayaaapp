@@ -253,20 +253,22 @@ function AboutPage() {
       >
         <p>
           kayaa is a neighbourhood-first visibility and discovery platform
-          for the local places people keep going back to across South
-          Africa, built so that being known does not require a marketing
+          where people can see the places that matter, follow what is
+          happening around them, and share useful local updates tied to real
+          places — built so that being known does not require a marketing
           budget.
         </p>
         <p style={{ marginTop: 18 }}>
-          You will be able to open kayaa, see the places around you,
-          discover what is happening nearby, walk in, and tap once to show
-          that you were there. The places will get a real page, a visible
-          record of community activity, and a clearer way to stay connected
-          to the people who already know them and the people nearby who
-          should.
+          You will be able to open kayaa, see the places around you, follow
+          the updates people are sharing, see useful neighbourhood signals
+          and alerts, and share photos, videos, and posts tied to the exact
+          place they happened. Walk in and tap once to show you were there.
+          Places get a real page, a visible record of community activity,
+          and a clearer way to stay connected to the people who already know
+          them — and the people nearby who should.
         </p>
         <p style={{ marginTop: 18 }}>
-          That is the product.
+          A living neighbourhood layer. Not just a place directory.
         </p>
         <p style={{ marginTop: 18 }}>
           Clearer discovery for neighbourhoods.
@@ -274,6 +276,8 @@ function AboutPage() {
           Better visibility for places.
           <br />
           More commercial possibility for businesses.
+          <br />
+          More awareness of what is happening around you.
         </p>
       </Section>
 
@@ -295,8 +299,11 @@ function AboutPage() {
           easier to return to, and easier to grow.
         </p>
         <p style={{ marginTop: 18 }}>
-          For neighbourhoods, that means less guesswork and clearer local
-          discovery.
+          For neighbourhoods, that means less guesswork, clearer local
+          discovery, and a practical view of what is happening nearby —
+          useful alerts, community updates, and place-based posts that help
+          people stay more informed, more alert, and better connected to
+          local life.
         </p>
         <p style={{ marginTop: 18 }}>
           For businesses and places, that means stronger visibility, more
@@ -305,7 +312,8 @@ function AboutPage() {
         </p>
         <p style={{ marginTop: 18 }}>
           Because the problem is not only that local places are loved. The
-          problem is that too many of them are still digitally hard to see.
+          problem is that too many of them — and too much of what is
+          happening around them — are still digitally hard to see.
         </p>
       </Section>
 
