@@ -119,7 +119,7 @@ export function PlacesGallery() {
           <br />
           Alex. Tembisa. Khayelitsha. Mitchells Plain.
           <br />
-          <span style={{ color: "#39D98A" }}>Every neighbourhood. Same idea.</span>
+          <span style={{ color: "#39D98A" }}>The neighbourhood, made visible.</span>
         </h2>
         <p
           className="reveal"
@@ -132,8 +132,8 @@ export function PlacesGallery() {
             lineHeight: 1.6,
           }}
         >
-          The places your neighbourhood actually revolves around — across
-          every kind of South African area, not just one.
+          The places your neighbourhood actually revolves around.
+          Wherever your neighbourhood is.
         </p>
       </div>
 
