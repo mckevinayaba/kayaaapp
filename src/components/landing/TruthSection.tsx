@@ -159,7 +159,7 @@ export function TruthSection() {
               marginBottom: 28,
             }}
           >
-            This is every neighbourhood, not one kind of neighbourhood.
+            This is the neighbourhood. Wherever it is.
           </h2>
           {ITALIC_LINES.map((line, i) => (
             <div
