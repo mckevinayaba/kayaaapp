@@ -208,10 +208,10 @@ function AboutPage() {
           Not to the neighbourhood. To everyone else.
         </p>
         <p style={{ marginTop: 18 }}>
-          And this is true across every kind of South African area —
-          Sandton, Rosebank, Fourways, Randburg, Braamfontein, Hillbrow,
-          Maboneng, Soweto, Alexandra, Tembisa, Khayelitsha, Mitchells
-          Plain. Different streets. Same wound.
+          The same thing is happening in Sandton, Rosebank, Fourways,
+          Randburg, Braamfontein, Hillbrow, Maboneng, Soweto, Alexandra,
+          Tembisa, Khayelitsha, Mitchells Plain. Different streets. Same
+          wound.
         </p>
       </Section>
 
