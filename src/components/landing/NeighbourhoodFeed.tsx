@@ -40,7 +40,7 @@ const FEED = [
     photo: "/landing/05-salon-container.jpg",
     name: "Sisi's Hair & Nails",
     type: "Salon",
-    area: "Mitchells Plain · Cape Town",
+    area: "Rosebank · Joburg",
     quote: "She remembers how everyone takes their coffee.",
   },
 ];
