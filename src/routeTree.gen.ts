@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminWaitlistRouteImport } from './routes/admin.waitlist'
@@ -25,6 +26,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -36,14 +42,15 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminWaitlistRoute = AdminWaitlistRouteImport.update({
-  id: '/admin/waitlist',
-  path: '/admin/waitlist',
-  getParentRoute: () => rootRouteImport,
+  id: '/waitlist',
+  path: '/waitlist',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/feed': typeof FeedRoute
   '/admin/waitlist': typeof AdminWaitlistRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/feed': typeof FeedRoute
   '/admin/waitlist': typeof AdminWaitlistRoute
@@ -59,24 +67,32 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/feed': typeof FeedRoute
   '/admin/waitlist': typeof AdminWaitlistRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/auth' | '/feed' | '/admin/waitlist'
+  fullPaths: '/' | '/about' | '/admin' | '/auth' | '/feed' | '/admin/waitlist'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/auth' | '/feed' | '/admin/waitlist'
-  id: '__root__' | '/' | '/about' | '/auth' | '/feed' | '/admin/waitlist'
+  to: '/' | '/about' | '/admin' | '/auth' | '/feed' | '/admin/waitlist'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/auth'
+    | '/feed'
+    | '/admin/waitlist'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   FeedRoute: typeof FeedRoute
-  AdminWaitlistRoute: typeof AdminWaitlistRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -95,6 +111,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -111,20 +134,30 @@ declare module '@tanstack/react-router' {
     }
     '/admin/waitlist': {
       id: '/admin/waitlist'
-      path: '/admin/waitlist'
+      path: '/waitlist'
       fullPath: '/admin/waitlist'
       preLoaderRoute: typeof AdminWaitlistRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRoute
     }
   }
 }
 
+interface AdminRouteChildren {
+  AdminWaitlistRoute: typeof AdminWaitlistRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminWaitlistRoute: AdminWaitlistRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   FeedRoute: FeedRoute,
-  AdminWaitlistRoute: AdminWaitlistRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

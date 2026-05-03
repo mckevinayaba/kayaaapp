@@ -43,8 +43,8 @@ function AdminWaitlistPage() {
       const { data: sess } = await supabase.auth.getSession();
       if (!sess.session) {
         navigate({
-          to: "/auth",
-          search: { redirect: "/admin/waitlist" } as never,
+          to: "/admin",
+          
         });
         return;
       }
@@ -64,8 +64,8 @@ function AdminWaitlistPage() {
           setError("Your account doesn't have admin access.");
         } else if (status === 401) {
           navigate({
-            to: "/auth",
-            search: { redirect: "/admin/waitlist" } as never,
+            to: "/admin",
+            
           });
           return;
         } else {
