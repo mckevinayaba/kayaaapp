@@ -26,6 +26,17 @@ type Row = {
   nominated_why: string | null;
 };
 
+type Nomination = {
+  id: string;
+  created_at: string;
+  place_name: string;
+  place_type: string | null;
+  story: string | null;
+  contact: string | null;
+  source: string | null;
+  linked: boolean;
+};
+
 function AdminWaitlistPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -34,6 +45,7 @@ function AdminWaitlistPage() {
     total: number;
     byArea: { area: string; n: number }[];
     rows: Row[];
+    nominations: Nomination[];
   } | null>(null);
   const [filter, setFilter] = useState("");
 
@@ -125,6 +137,64 @@ function AdminWaitlistPage() {
     URL.revokeObjectURL(url);
   };
 
+  const downloadNominationsCSV = () => {
+    if (!data) return;
+    const header = [
+      "submitted_at",
+      "place_name",
+      "place_type",
+      "address",
+      "why",
+      "contact",
+      "linked_to_signup",
+      "source",
+    ];
+    const escape = (v: unknown) => {
+      const s = v == null ? "" : String(v);
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+    const lines = [header.join(",")];
+    for (const n of data.nominations) {
+      const rawStory = n.story ?? "";
+      const addrMatch = rawStory.match(/^Address:\s*(.+)$/m);
+      const address = addrMatch ? addrMatch[1].trim() : "";
+      const why = rawStory
+        .split("\n")
+        .filter(
+          (l) =>
+            !/^Address:/i.test(l) &&
+            !/^Area:/i.test(l) &&
+            l.trim() !== "[owner]" &&
+            l.trim() !== "[neighbour]",
+        )
+        .join(" ")
+        .trim();
+      lines.push(
+        [
+          n.created_at,
+          n.place_name,
+          n.place_type ?? "",
+          address,
+          why,
+          n.contact ?? "",
+          n.linked ? "yes" : "no",
+          n.source ?? "",
+        ]
+          .map(escape)
+          .join(","),
+      );
+    }
+    const blob = new Blob([lines.join("\n")], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `kayaa-nominations-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const waUrl = (raw: string, area: string) => {
     const num = raw.replace(/[^\d]/g, "");
     const text = encodeURIComponent(
@@ -144,6 +214,19 @@ function AdminWaitlistPage() {
         );
       })
     : rows;
+
+  const nominations = data?.nominations ?? [];
+  const filteredNominations = filter
+    ? nominations.filter((n) => {
+        const f = filter.toLowerCase();
+        return (
+          n.place_name.toLowerCase().includes(f) ||
+          (n.contact ?? "").toLowerCase().includes(f) ||
+          (n.story ?? "").toLowerCase().includes(f) ||
+          (n.place_type ?? "").toLowerCase().includes(f)
+        );
+      })
+    : nominations;
 
   return (
     <div
@@ -190,22 +273,40 @@ function AdminWaitlistPage() {
             </h1>
           </div>
           {data && (
-            <button
-              onClick={downloadCSV}
-              style={{
-                background: "#39D98A",
-                color: "#0D1117",
-                fontFamily: "var(--font-body)",
-                fontWeight: 600,
-                fontSize: 13,
-                padding: "10px 18px",
-                borderRadius: 8,
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              Download CSV
-            </button>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button
+                onClick={downloadCSV}
+                style={{
+                  background: "#39D98A",
+                  color: "#0D1117",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  padding: "10px 18px",
+                  borderRadius: 8,
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Waitlist CSV
+              </button>
+              <button
+                onClick={downloadNominationsCSV}
+                style={{
+                  background: "transparent",
+                  color: "#39D98A",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  padding: "10px 18px",
+                  borderRadius: 8,
+                  border: "1px solid #39D98A",
+                  cursor: "pointer",
+                }}
+              >
+                Nominations CSV
+              </button>
+            </div>
           )}
         </div>
 
@@ -468,6 +569,179 @@ function AdminWaitlistPage() {
                 </div>
               </div>
             )}
+
+            {/* Nominations */}
+            <div style={{ marginTop: 40 }}>
+              <h2
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 700,
+                  fontSize: 20,
+                  marginBottom: 4,
+                }}
+              >
+                Nominations ({nominations.length})
+              </h2>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: 13,
+                  margin: "0 0 14px",
+                }}
+              >
+                Every place submitted via the nomination form, including those
+                not linked to a waitlist signup.
+              </p>
+              <div
+                style={{
+                  background: "#161B22",
+                  border: "1px solid #21262D",
+                  borderRadius: 12,
+                  overflow: "hidden",
+                }}
+              >
+                <div style={{ overflowX: "auto" }}>
+                  <table
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      fontFamily: "var(--font-body)",
+                      fontSize: 13,
+                      minWidth: 900,
+                    }}
+                  >
+                    <thead>
+                      <tr style={{ background: "#0D1117" }}>
+                        <Th>Submitted</Th>
+                        <Th>Place</Th>
+                        <Th>Type</Th>
+                        <Th>Where / Why</Th>
+                        <Th>Contact</Th>
+                        <Th>Linked</Th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredNominations.map((n) => {
+                        const rawStory = n.story ?? "";
+                        const addrMatch = rawStory.match(
+                          /^Address:\s*(.+)$/m,
+                        );
+                        const address = addrMatch ? addrMatch[1].trim() : null;
+                        const why = rawStory
+                          .split("\n")
+                          .filter(
+                            (l) =>
+                              !/^Address:/i.test(l) &&
+                              !/^Area:/i.test(l) &&
+                              l.trim() !== "[owner]" &&
+                              l.trim() !== "[neighbour]",
+                          )
+                          .join(" ")
+                          .trim();
+                        return (
+                          <tr
+                            key={n.id}
+                            style={{ borderTop: "1px solid #21262D" }}
+                          >
+                            <Td>
+                              {new Date(n.created_at).toLocaleString("en-ZA", {
+                                day: "2-digit",
+                                month: "short",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </Td>
+                            <Td>
+                              <strong>{n.place_name}</strong>
+                            </Td>
+                            <Td>
+                              <span style={{ color: "rgba(255,255,255,0.6)" }}>
+                                {n.place_type ?? "—"}
+                              </span>
+                            </Td>
+                            <Td>
+                              {address && (
+                                <div
+                                  style={{
+                                    color: "rgba(255,255,255,0.75)",
+                                    marginBottom: 4,
+                                  }}
+                                >
+                                  {address}
+                                </div>
+                              )}
+                              {why && (
+                                <div
+                                  style={{
+                                    color: "rgba(255,255,255,0.55)",
+                                    fontStyle: "italic",
+                                    maxWidth: 360,
+                                  }}
+                                >
+                                  {why}
+                                </div>
+                              )}
+                              {!address && !why && (
+                                <span
+                                  style={{ color: "rgba(255,255,255,0.3)" }}
+                                >
+                                  —
+                                </span>
+                              )}
+                            </Td>
+                            <Td>
+                              {n.contact ? (
+                                <span
+                                  style={{ fontFamily: "var(--font-mono)" }}
+                                >
+                                  {n.contact}
+                                </span>
+                              ) : (
+                                <span
+                                  style={{ color: "rgba(255,255,255,0.3)" }}
+                                >
+                                  —
+                                </span>
+                              )}
+                            </Td>
+                            <Td>
+                              <span
+                                style={{
+                                  background: n.linked
+                                    ? "rgba(57,217,138,0.15)"
+                                    : "rgba(245,158,11,0.15)",
+                                  color: n.linked ? "#39D98A" : "#F59E0B",
+                                  padding: "3px 8px",
+                                  borderRadius: 999,
+                                  fontSize: 11,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {n.linked ? "yes" : "no"}
+                              </span>
+                            </Td>
+                          </tr>
+                        );
+                      })}
+                      {filteredNominations.length === 0 && (
+                        <tr>
+                          <td
+                            colSpan={6}
+                            style={{
+                              padding: 24,
+                              textAlign: "center",
+                              color: "rgba(255,255,255,0.4)",
+                            }}
+                          >
+                            No nominations yet.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </>
         )}
       </div>
