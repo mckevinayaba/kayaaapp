@@ -569,6 +569,179 @@ function AdminWaitlistPage() {
                 </div>
               </div>
             )}
+
+            {/* Nominations */}
+            <div style={{ marginTop: 40 }}>
+              <h2
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 700,
+                  fontSize: 20,
+                  marginBottom: 4,
+                }}
+              >
+                Nominations ({nominations.length})
+              </h2>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: 13,
+                  margin: "0 0 14px",
+                }}
+              >
+                Every place submitted via the nomination form, including those
+                not linked to a waitlist signup.
+              </p>
+              <div
+                style={{
+                  background: "#161B22",
+                  border: "1px solid #21262D",
+                  borderRadius: 12,
+                  overflow: "hidden",
+                }}
+              >
+                <div style={{ overflowX: "auto" }}>
+                  <table
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      fontFamily: "var(--font-body)",
+                      fontSize: 13,
+                      minWidth: 900,
+                    }}
+                  >
+                    <thead>
+                      <tr style={{ background: "#0D1117" }}>
+                        <Th>Submitted</Th>
+                        <Th>Place</Th>
+                        <Th>Type</Th>
+                        <Th>Where / Why</Th>
+                        <Th>Contact</Th>
+                        <Th>Linked</Th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredNominations.map((n) => {
+                        const rawStory = n.story ?? "";
+                        const addrMatch = rawStory.match(
+                          /^Address:\s*(.+)$/m,
+                        );
+                        const address = addrMatch ? addrMatch[1].trim() : null;
+                        const why = rawStory
+                          .split("\n")
+                          .filter(
+                            (l) =>
+                              !/^Address:/i.test(l) &&
+                              !/^Area:/i.test(l) &&
+                              l.trim() !== "[owner]" &&
+                              l.trim() !== "[neighbour]",
+                          )
+                          .join(" ")
+                          .trim();
+                        return (
+                          <tr
+                            key={n.id}
+                            style={{ borderTop: "1px solid #21262D" }}
+                          >
+                            <Td>
+                              {new Date(n.created_at).toLocaleString("en-ZA", {
+                                day: "2-digit",
+                                month: "short",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </Td>
+                            <Td>
+                              <strong>{n.place_name}</strong>
+                            </Td>
+                            <Td>
+                              <span style={{ color: "rgba(255,255,255,0.6)" }}>
+                                {n.place_type ?? "—"}
+                              </span>
+                            </Td>
+                            <Td>
+                              {address && (
+                                <div
+                                  style={{
+                                    color: "rgba(255,255,255,0.75)",
+                                    marginBottom: 4,
+                                  }}
+                                >
+                                  {address}
+                                </div>
+                              )}
+                              {why && (
+                                <div
+                                  style={{
+                                    color: "rgba(255,255,255,0.55)",
+                                    fontStyle: "italic",
+                                    maxWidth: 360,
+                                  }}
+                                >
+                                  {why}
+                                </div>
+                              )}
+                              {!address && !why && (
+                                <span
+                                  style={{ color: "rgba(255,255,255,0.3)" }}
+                                >
+                                  —
+                                </span>
+                              )}
+                            </Td>
+                            <Td>
+                              {n.contact ? (
+                                <span
+                                  style={{ fontFamily: "var(--font-mono)" }}
+                                >
+                                  {n.contact}
+                                </span>
+                              ) : (
+                                <span
+                                  style={{ color: "rgba(255,255,255,0.3)" }}
+                                >
+                                  —
+                                </span>
+                              )}
+                            </Td>
+                            <Td>
+                              <span
+                                style={{
+                                  background: n.linked
+                                    ? "rgba(57,217,138,0.15)"
+                                    : "rgba(245,158,11,0.15)",
+                                  color: n.linked ? "#39D98A" : "#F59E0B",
+                                  padding: "3px 8px",
+                                  borderRadius: 999,
+                                  fontSize: 11,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {n.linked ? "yes" : "no"}
+                              </span>
+                            </Td>
+                          </tr>
+                        );
+                      })}
+                      {filteredNominations.length === 0 && (
+                        <tr>
+                          <td
+                            colSpan={6}
+                            style={{
+                              padding: 24,
+                              textAlign: "center",
+                              color: "rgba(255,255,255,0.4)",
+                            }}
+                          >
+                            No nominations yet.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </>
         )}
       </div>
