@@ -26,6 +26,17 @@ type Row = {
   nominated_why: string | null;
 };
 
+type Nomination = {
+  id: string;
+  created_at: string;
+  place_name: string;
+  place_type: string | null;
+  story: string | null;
+  contact: string | null;
+  source: string | null;
+  linked: boolean;
+};
+
 function AdminWaitlistPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -34,6 +45,7 @@ function AdminWaitlistPage() {
     total: number;
     byArea: { area: string; n: number }[];
     rows: Row[];
+    nominations: Nomination[];
   } | null>(null);
   const [filter, setFilter] = useState("");
 
@@ -125,6 +137,64 @@ function AdminWaitlistPage() {
     URL.revokeObjectURL(url);
   };
 
+  const downloadNominationsCSV = () => {
+    if (!data) return;
+    const header = [
+      "submitted_at",
+      "place_name",
+      "place_type",
+      "address",
+      "why",
+      "contact",
+      "linked_to_signup",
+      "source",
+    ];
+    const escape = (v: unknown) => {
+      const s = v == null ? "" : String(v);
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+    const lines = [header.join(",")];
+    for (const n of data.nominations) {
+      const rawStory = n.story ?? "";
+      const addrMatch = rawStory.match(/^Address:\s*(.+)$/m);
+      const address = addrMatch ? addrMatch[1].trim() : "";
+      const why = rawStory
+        .split("\n")
+        .filter(
+          (l) =>
+            !/^Address:/i.test(l) &&
+            !/^Area:/i.test(l) &&
+            l.trim() !== "[owner]" &&
+            l.trim() !== "[neighbour]",
+        )
+        .join(" ")
+        .trim();
+      lines.push(
+        [
+          n.created_at,
+          n.place_name,
+          n.place_type ?? "",
+          address,
+          why,
+          n.contact ?? "",
+          n.linked ? "yes" : "no",
+          n.source ?? "",
+        ]
+          .map(escape)
+          .join(","),
+      );
+    }
+    const blob = new Blob([lines.join("\n")], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `kayaa-nominations-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const waUrl = (raw: string, area: string) => {
     const num = raw.replace(/[^\d]/g, "");
     const text = encodeURIComponent(
@@ -144,6 +214,19 @@ function AdminWaitlistPage() {
         );
       })
     : rows;
+
+  const nominations = data?.nominations ?? [];
+  const filteredNominations = filter
+    ? nominations.filter((n) => {
+        const f = filter.toLowerCase();
+        return (
+          n.place_name.toLowerCase().includes(f) ||
+          (n.contact ?? "").toLowerCase().includes(f) ||
+          (n.story ?? "").toLowerCase().includes(f) ||
+          (n.place_type ?? "").toLowerCase().includes(f)
+        );
+      })
+    : nominations;
 
   return (
     <div
@@ -190,22 +273,40 @@ function AdminWaitlistPage() {
             </h1>
           </div>
           {data && (
-            <button
-              onClick={downloadCSV}
-              style={{
-                background: "#39D98A",
-                color: "#0D1117",
-                fontFamily: "var(--font-body)",
-                fontWeight: 600,
-                fontSize: 13,
-                padding: "10px 18px",
-                borderRadius: 8,
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              Download CSV
-            </button>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button
+                onClick={downloadCSV}
+                style={{
+                  background: "#39D98A",
+                  color: "#0D1117",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  padding: "10px 18px",
+                  borderRadius: 8,
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Waitlist CSV
+              </button>
+              <button
+                onClick={downloadNominationsCSV}
+                style={{
+                  background: "transparent",
+                  color: "#39D98A",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  padding: "10px 18px",
+                  borderRadius: 8,
+                  border: "1px solid #39D98A",
+                  cursor: "pointer",
+                }}
+              >
+                Nominations CSV
+              </button>
+            </div>
           )}
         </div>
 
