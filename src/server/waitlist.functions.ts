@@ -130,5 +130,15 @@ export const getWaitlistList = createServerFn({ method: "GET" })
       orphanStories: stories.filter(
         (s) => !s.contact || !signups.some((sg) => sg.contact === s.contact),
       ),
+      nominations: stories.map((s) => ({
+        id: s.id,
+        created_at: s.created_at,
+        place_name: s.place_name,
+        place_type: s.place_type,
+        story: s.story,
+        contact: s.contact,
+        source: s.source,
+        linked: !!s.contact && signups.some((sg) => sg.contact === s.contact),
+      })),
     };
   });
