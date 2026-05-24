@@ -40,10 +40,18 @@ function ResetPasswordPage() {
       }
     });
     (async () => {
-      const code = new URLSearchParams(window.location.search).get("code");
+      const search = new URLSearchParams(window.location.search);
+      const code = search.get("code");
+      const tokenHash = search.get("token_hash");
       if (code) {
         const { error: exchangeErr } = await supabase.auth.exchangeCodeForSession(code);
         if (exchangeErr && !cancelled) setError(exchangeErr.message);
+      } else if (tokenHash && search.get("type") === "recovery") {
+        const { error: verifyErr } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: "recovery",
+        });
+        if (verifyErr && !cancelled) setError(verifyErr.message);
       }
       const { data } = await supabase.auth.getSession();
       if (!cancelled) {
