@@ -33,16 +33,28 @@ function ResetPasswordPage() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "PASSWORD_RECOVERY" || (event === "SIGNED_IN" && session)) {
         setReady(true);
       }
     });
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) setReady(true);
-      setChecked(true);
-    });
-    return () => sub.subscription.unsubscribe();
+    (async () => {
+      const code = new URLSearchParams(window.location.search).get("code");
+      if (code) {
+        const { error: exchangeErr } = await supabase.auth.exchangeCodeForSession(code);
+        if (exchangeErr && !cancelled) setError(exchangeErr.message);
+      }
+      const { data } = await supabase.auth.getSession();
+      if (!cancelled) {
+        if (data.session) setReady(true);
+        setChecked(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   const handleSubmit = async (e: FormEvent) => {
