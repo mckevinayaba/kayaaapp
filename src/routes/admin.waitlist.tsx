@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { getWaitlistList } from "@/lib/waitlist.functions";
 
@@ -39,6 +40,7 @@ type Nomination = {
 
 function AdminWaitlistPage() {
   const navigate = useNavigate();
+  const fetchWaitlist = useServerFn(getWaitlistList);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<{
@@ -61,17 +63,24 @@ function AdminWaitlistPage() {
         return;
       }
       try {
-        const result = await getWaitlistList();
+        const result = await fetchWaitlist();
         if (!cancelled) {
           setData(result as never);
           setLoading(false);
         }
       } catch (e) {
         if (cancelled) return;
+        console.error("getWaitlistList failed:", e);
         const status =
           e instanceof Response
             ? e.status
             : (e as { status?: number })?.status;
+        const message =
+          e instanceof Error
+            ? e.message
+            : typeof e === "string"
+              ? e
+              : "Unknown error";
         if (status === 403) {
           setError("Your account doesn't have admin access.");
         } else if (status === 401) {
@@ -81,7 +90,7 @@ function AdminWaitlistPage() {
           });
           return;
         } else {
-          setError("Couldn't load the waitlist.");
+          setError(`Couldn't load the waitlist: ${message}`);
         }
         setLoading(false);
       }
@@ -89,7 +98,7 @@ function AdminWaitlistPage() {
     return () => {
       cancelled = true;
     };
-  }, [navigate]);
+  }, [navigate, fetchWaitlist]);
 
   const downloadCSV = () => {
     if (!data) return;
