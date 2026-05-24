@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { getWaitlistList } from "@/server/waitlist.functions";
+import { getWaitlistList } from "@/lib/waitlist.functions";
 
 export const Route = createFileRoute("/admin/waitlist")({
   head: () => ({
