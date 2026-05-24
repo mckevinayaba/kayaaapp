@@ -41,11 +41,20 @@ function ResetPasswordPage() {
     });
     (async () => {
       const search = new URLSearchParams(window.location.search);
+      const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
       const code = search.get("code");
       const tokenHash = search.get("token_hash");
+      const accessToken = hash.get("access_token");
+      const refreshToken = hash.get("refresh_token");
       if (code) {
         const { error: exchangeErr } = await supabase.auth.exchangeCodeForSession(code);
         if (exchangeErr && !cancelled) setError(exchangeErr.message);
+      } else if (accessToken && refreshToken && hash.get("type") === "recovery") {
+        const { error: sessionErr } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+        if (sessionErr && !cancelled) setError(sessionErr.message);
       } else if (tokenHash && search.get("type") === "recovery") {
         const { error: verifyErr } = await supabase.auth.verifyOtp({
           token_hash: tokenHash,
