@@ -240,6 +240,95 @@ function AdminLoginPage() {
               {mode === "signin" ? "Set admin password" : "Sign in"}
             </button>
           </p>
+
+          {mode === "signin" && (
+            <div style={{ marginTop: 10, textAlign: "center" }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setForgotOpen((v) => !v);
+                  setError(null);
+                  setInfo(null);
+                }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "rgba(255,255,255,0.65)",
+                  cursor: "pointer",
+                  fontSize: 13,
+                  padding: 0,
+                  textDecoration: "underline",
+                }}
+              >
+                {forgotOpen ? "Cancel" : "Forgot password?"}
+              </button>
+            </div>
+          )}
+
+          {forgotOpen && mode === "signin" && (
+            <form
+              onSubmit={async (ev) => {
+                ev.preventDefault();
+                setError(null);
+                setInfo(null);
+                const parsed = z
+                  .string()
+                  .trim()
+                  .email("Enter a valid email")
+                  .max(255)
+                  .safeParse(resetEmail);
+                if (!parsed.success) {
+                  setError(parsed.error.issues[0]?.message ?? "Invalid email");
+                  return;
+                }
+                setResetBusy(true);
+                try {
+                  if (isAdmin(parsed.data)) {
+                    await supabase.auth.resetPasswordForEmail(parsed.data, {
+                      redirectTo: `${window.location.origin}/admin/reset-password`,
+                    });
+                  }
+                  setInfo(
+                    "If this email is authorised, a reset link has been sent. Check your inbox.",
+                  );
+                  setForgotOpen(false);
+                } catch (err) {
+                  setError(err instanceof Error ? err.message : "Something went wrong.");
+                } finally {
+                  setResetBusy(false);
+                }
+              }}
+              style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 10 }}
+            >
+              <label style={labelStyle}>Reset email</label>
+              <input
+                type="email"
+                required
+                placeholder="Admin email"
+                value={resetEmail}
+                onChange={(ev) => setResetEmail(ev.target.value)}
+                style={inputStyle}
+                autoComplete="email"
+              />
+              <button
+                type="submit"
+                disabled={resetBusy}
+                style={{
+                  padding: "11px 16px",
+                  background: "transparent",
+                  color: "#39D98A",
+                  border: "1px solid #39D98A",
+                  borderRadius: 8,
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 600,
+                  fontSize: 14,
+                  cursor: resetBusy ? "not-allowed" : "pointer",
+                }}
+              >
+                {resetBusy ? "Sending…" : "Send reset link"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
