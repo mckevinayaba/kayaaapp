@@ -1,22 +1,33 @@
 ## Goal
-Show all nominated places (from `community_stories`) in the admin dashboard, including ones not linked to a waitlist signup.
+Let the admin recover access to `/admin` when they forget their password, using Supabase's built-in password reset email.
 
-## Current state
-- `/admin/waitlist` shows waitlist signups with a "Nominated" column that joins by contact. This hides:
-  - Nominations submitted without joining the waitlist (orphan stories — already returned by the server as `orphanStories` but never rendered).
-  - Multiple nominations from the same contact (only the first match shows).
+## Flow
+1. On `/admin`, add a **"Forgot password?"** link under the password field.
+2. Clicking it reveals an inline email input + **"Send reset link"** button (no extra route needed). Submitting calls:
+   ```ts
+   supabase.auth.resetPasswordForEmail(email, {
+     redirectTo: `${window.location.origin}/admin/reset-password`,
+   })
+   ```
+   - Validate email with zod and gate on `isAdminEmail` before sending so non-admins get a generic "If this email is authorised, a reset link has been sent." message (no enumeration).
+   - Show success / error inline using the same styling as existing `error` / `info` messages.
 
-## Changes
+3. New route **`src/routes/admin.reset-password.tsx`** (public, `noindex`):
+   - Same dark visual style as `/admin`.
+   - On mount, subscribe to `supabase.auth.onAuthStateChange`; when event is `PASSWORD_RECOVERY` (Supabase fires this after the user clicks the email link and the session is established), enable the form.
+   - Also call `supabase.auth.getSession()` to handle the case where the listener already fired before subscription.
+   - Form: new password + confirm password (min 8, must match, zod-validated).
+   - Submit calls `supabase.auth.updateUser({ password })`. On success, sign the user out (`supabase.auth.signOut()` — forces a clean re-login with the new password) and redirect to `/admin` with an `info` toast-style message via `navigate({ to: '/admin', search: { reset: '1' } })` OR just show success + a "Go to login" link. We'll use the latter to avoid adding search-param plumbing.
+   - If no recovery session is present (user opened the page directly), show: "This link is invalid or has expired. Request a new reset email." with a link back to `/admin`.
 
-1. **`src/routes/admin.waitlist.tsx`** — add a new "Nominations" section below the existing waitlist table:
-   - Stat card: total nominations count.
-   - Table with columns: Submitted, Place, Type, Address, Why, Contact, Linked to signup? (yes/no badge).
-   - Renders the full list of community stories (both matched and orphan), newest first.
-   - Filter input also searches nominations by place / contact / address.
-   - CSV export gets a second button: "Download nominations CSV".
+4. `/admin` reads `?reset=1`? — not needed; reset page handles its own success state.
 
-2. **`src/server/waitlist.functions.ts`** — extend `getWaitlistList` return shape:
-   - Add `nominations: Story[]` containing every row from `community_stories` (already fetched), each with a `linked: boolean` flag indicating whether its contact matches a waitlist signup.
-   - Keep existing `rows` / `byArea` / `orphanStories` untouched so nothing else breaks.
+## Files
+- **edit** `src/routes/admin.tsx` — add forgot-password UI + handler.
+- **create** `src/routes/admin.reset-password.tsx` — recovery session listener + update-password form.
 
-No DB schema or RLS changes. No new routes.
+No DB changes, no RLS changes, no new server functions, no edge functions. Uses Supabase Auth's built-in recovery email (already enabled).
+
+## Notes
+- Supabase will send the default password recovery email to the redirect URL. The redirect URL `https://<domain>/admin/reset-password` must be on the project's allow-list. If the user reports the link bouncing, they'll need to add it under Auth → URL Configuration; I'll mention this after implementation.
+- `isAdminEmail` check lives in `admin-config.server.ts` (server-only). For the client gate I'll reuse the same `ADMIN_EMAILS` array already mirrored at the top of `admin.tsx`.
