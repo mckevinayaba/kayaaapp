@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,13 +15,18 @@ export const Route = createFileRoute("/admin")({
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
-  component: AdminLoginPage,
+  component: AdminRouteShell,
 });
 
 const credsSchema = z.object({
   email: z.string().trim().email("Enter a valid email").max(255),
   password: z.string().min(8, "Password must be at least 8 characters").max(200),
 });
+
+function AdminRouteShell() {
+  const location = useLocation();
+  return location.pathname === "/admin" ? <AdminLoginPage /> : <Outlet />;
+}
 
 function AdminLoginPage() {
   const navigate = useNavigate();
