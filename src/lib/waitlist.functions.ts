@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { isAdminEmail } from "./admin-config.server";
+import { isAdminEmail } from "@/server/admin-config.server";
 
 const COUNTER_FLOOR = 200;
 
