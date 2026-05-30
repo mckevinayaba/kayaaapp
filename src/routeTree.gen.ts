@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminWaitlistv2RouteImport } from './routes/admin.waitlistv2'
 import { Route as AdminWaitlistRouteImport } from './routes/admin.waitlist'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 
@@ -42,6 +43,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminWaitlistv2Route = AdminWaitlistv2RouteImport.update({
+  id: '/waitlistv2',
+  path: '/waitlistv2',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminWaitlistRoute = AdminWaitlistRouteImport.update({
   id: '/waitlist',
   path: '/waitlist',
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/feed': typeof FeedRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/waitlist': typeof AdminWaitlistRoute
+  '/admin/waitlistv2': typeof AdminWaitlistv2Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/feed': typeof FeedRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/waitlist': typeof AdminWaitlistRoute
+  '/admin/waitlistv2': typeof AdminWaitlistv2Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/feed': typeof FeedRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/waitlist': typeof AdminWaitlistRoute
+  '/admin/waitlistv2': typeof AdminWaitlistv2Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/feed'
     | '/admin/reset-password'
     | '/admin/waitlist'
+    | '/admin/waitlistv2'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/feed'
     | '/admin/reset-password'
     | '/admin/waitlist'
+    | '/admin/waitlistv2'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/feed'
     | '/admin/reset-password'
     | '/admin/waitlist'
+    | '/admin/waitlistv2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -156,6 +168,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/waitlistv2': {
+      id: '/admin/waitlistv2'
+      path: '/waitlistv2'
+      fullPath: '/admin/waitlistv2'
+      preLoaderRoute: typeof AdminWaitlistv2RouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/waitlist': {
       id: '/admin/waitlist'
       path: '/waitlist'
@@ -176,11 +195,13 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminWaitlistRoute: typeof AdminWaitlistRoute
+  AdminWaitlistv2Route: typeof AdminWaitlistv2Route
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminWaitlistRoute: AdminWaitlistRoute,
+  AdminWaitlistv2Route: AdminWaitlistv2Route,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -195,13 +216,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
